@@ -9,8 +9,12 @@ export interface GameResultRecord {
   gameMode: GameMode;
   primaryTrait: TraitKey;
   stats: Record<StatKey, number>;
-  discoveredJobCount: number;
-  topJobTitles: string[];
+  discoveredJobIds: string[];
+  recommendedJobIds: string[];
+  /** @deprecated use discoveredJobIds.length */
+  discoveredJobCount?: number;
+  /** @deprecated use recommendedJobIds */
+  topJobTitles?: string[];
 }
 
 // ─── ユーザーセッション ───

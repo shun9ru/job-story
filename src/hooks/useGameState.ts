@@ -5,10 +5,11 @@ import { getPrimaryTrait } from '../data/diagnosis';
 import { jobs } from '../data/jobs/index';
 import { getRandomChildhoodEvents } from '../data/events-childhood';
 import { getRandomWorkingEvents } from '../data/events-working';
+import type { GameResultRecord } from '../utils/storage';
 import { getCurrentUserId, loginUser, logoutUser, saveGameResult, hasDiagnosisRecords } from '../utils/storage';
 
 /** ゲーム全体の画面遷移状態 */
-export type Screen = 'login' | 'top' | 'mode-select' | 'diagnosis-choice' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail';
+export type Screen = 'login' | 'top' | 'mode-select' | 'diagnosis-choice' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail' | 'game-result-detail';
 
 /** ゲーム状態を管理するカスタムフック */
 export function useGameState() {
@@ -16,6 +17,7 @@ export function useGameState() {
   const [screen, setScreen] = useState<Screen>(() => getCurrentUserId() ? 'top' : 'login');
   const [gameMode, setGameMode] = useState<GameMode>('childhood');
   const [viewingRecord, setViewingRecord] = useState<DiagnosisRecord | null>(null);
+  const [viewingGameResult, setViewingGameResult] = useState<GameResultRecord | null>(null);
   const [eventSeed, setEventSeed] = useState(() => Date.now());
 
   const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
@@ -215,8 +217,8 @@ export function useGameState() {
       gameMode,
       primaryTrait: player.primaryTrait,
       stats: { ...player.stats },
-      discoveredJobCount: player.discoveredJobIds.length,
-      topJobTitles: recommended.slice(0, 3).map((j) => j.title),
+      discoveredJobIds: [...player.discoveredJobIds],
+      recommendedJobIds: recommended.map((j) => j.id),
     });
     setScreen('result');
   }, [gameMode, player, getRecommendedJobs]);
@@ -249,6 +251,18 @@ export function useGameState() {
     setScreen('top');
   }, []);
 
+  /** ゲーム結果詳細を表示 */
+  const viewGameResult = useCallback((result: GameResultRecord) => {
+    setViewingGameResult(result);
+    setScreen('game-result-detail');
+  }, []);
+
+  /** ゲーム結果詳細から戻る */
+  const backFromGameResult = useCallback(() => {
+    setViewingGameResult(null);
+    setScreen('top');
+  }, []);
+
   /** ゲームをリセットして最初からやり直す */
   const resetGame = useCallback(() => {
     setPlayer(createInitialPlayer());
@@ -272,6 +286,7 @@ export function useGameState() {
     currentEventIndex,
     currentEvents,
     viewingRecord,
+    viewingGameResult,
     login,
     logout,
     applyDiagnosisAnswer,
@@ -286,6 +301,8 @@ export function useGameState() {
     switchMode,
     viewDiagnosisRecord,
     backFromDiagnosisDetail,
+    viewGameResult,
+    backFromGameResult,
   };
 }
 

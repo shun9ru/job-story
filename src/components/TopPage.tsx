@@ -1,4 +1,5 @@
 import { getDiagnosisRecords, getGameResults } from '../utils/storage';
+import type { GameResultRecord } from '../utils/storage';
 import { getDiagnosisType } from '../data/diagnosis';
 import type { DiagnosisRecord } from '../types';
 
@@ -6,11 +7,12 @@ interface TopPageProps {
   userId: string;
   onStart: () => void;
   onViewDiagnosis: (record: DiagnosisRecord) => void;
+  onViewGameResult: (result: GameResultRecord) => void;
   onLogout: () => void;
 }
 
 /** トップ画面 */
-export function TopPage({ userId, onStart, onViewDiagnosis, onLogout }: TopPageProps) {
+export function TopPage({ userId, onStart, onViewDiagnosis, onViewGameResult, onLogout }: TopPageProps) {
   const diagRecords = getDiagnosisRecords();
   const gameResults = getGameResults();
 
@@ -76,29 +78,31 @@ export function TopPage({ userId, onStart, onViewDiagnosis, onLogout }: TopPageP
               <div className="space-y-2">
                 {gameResults.slice(0, 3).map((result) => {
                   const type = getDiagnosisType(result.primaryTrait);
+                  const jobCount = result.discoveredJobIds?.length ?? result.discoveredJobCount ?? 0;
                   return (
-                    <div
+                    <button
                       key={result.id}
-                      className="flex items-center gap-3 p-3 bg-white/80 backdrop-blur rounded-xl border border-gray-100"
+                      onClick={() => onViewGameResult(result)}
+                      className="w-full flex items-center gap-3 p-3 bg-white/80 backdrop-blur rounded-xl border border-gray-100 hover:border-indigo-200 hover:bg-white transition-all cursor-pointer group"
                     >
-                      <span className="text-2xl">
+                      <span className="text-2xl group-hover:scale-110 transition-transform">
                         {result.gameMode === 'childhood' ? '🎒' : '💼'}
                       </span>
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 text-left">
                         <div className="text-sm font-semibold text-gray-700">
                           {type.emoji} {type.label}
                         </div>
                         <div className="text-xs text-gray-400 truncate">
-                          TOP: {result.topJobTitles.join('、')}
+                          {jobCount}職種発見
                         </div>
                       </div>
                       <div className="text-right shrink-0">
                         <div className="text-xs text-gray-400">{result.date}</div>
-                        <div className="text-xs text-indigo-400">
-                          {result.discoveredJobCount}職種発見
-                        </div>
+                        <span className="text-gray-300 text-sm group-hover:text-indigo-400 transition-colors">
+                          詳細 →
+                        </span>
                       </div>
-                    </div>
+                    </button>
                   );
                 })}
               </div>

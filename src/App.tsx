@@ -6,6 +6,7 @@ import { DiagnosisPage } from './components/DiagnosisPage';
 import { DiagnosisDetailPage } from './components/DiagnosisDetailPage';
 import { GamePage } from './components/GamePage';
 import { ResultPage } from './components/ResultPage';
+import { GameResultDetailPage } from './components/GameResultDetailPage';
 import { useGameState } from './hooks/useGameState';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     currentEventIndex,
     currentEvents,
     viewingRecord,
+    viewingGameResult,
     login,
     logout,
     applyDiagnosisAnswer,
@@ -32,6 +34,8 @@ function App() {
     switchMode,
     viewDiagnosisRecord,
     backFromDiagnosisDetail,
+    viewGameResult,
+    backFromGameResult,
   } = useGameState();
 
   switch (screen) {
@@ -44,6 +48,7 @@ function App() {
           userId={userId!}
           onStart={() => setScreen('mode-select')}
           onViewDiagnosis={viewDiagnosisRecord}
+          onViewGameResult={viewGameResult}
           onLogout={logout}
         />
       );
@@ -99,6 +104,14 @@ function App() {
           onSwitchMode={switchMode}
         />
       );
+
+    case 'game-result-detail':
+      return viewingGameResult ? (
+        <GameResultDetailPage
+          result={viewingGameResult}
+          onBack={backFromGameResult}
+        />
+      ) : null;
   }
 }
 
