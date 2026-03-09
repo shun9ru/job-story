@@ -18,11 +18,11 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
 
   const diagType = getDiagnosisType(result.primaryTrait);
 
-  const recommendedJobs = result.recommendedJobIds
+  const recommendedJobs = (result.recommendedJobIds ?? [])
     .map(getJobById)
     .filter((j): j is Job => j !== undefined);
 
-  const discoveredJobs = result.discoveredJobIds
+  const discoveredJobs = (result.discoveredJobIds ?? [])
     .map(getJobById)
     .filter((j): j is Job => j !== undefined);
 
