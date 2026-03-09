@@ -5,37 +5,40 @@ import { getPrimaryTrait } from '../data/diagnosis';
 import { jobs } from '../data/jobs/index';
 import { childhoodEvents } from '../data/events-childhood';
 import { workingEvents } from '../data/events-working';
+import { getCurrentUserId, loginUser, logoutUser, saveGameResult } from '../utils/storage';
 
 /** ゲーム全体の画面遷移状態 */
-export type Screen = 'top' | 'mode-select' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail';
+export type Screen = 'login' | 'top' | 'mode-select' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail';
 
 /** ゲーム状態を管理するカスタムフック */
 export function useGameState() {
-  const [screen, setScreen] = useState<Screen>('top');
+  const [userId, setUserId] = useState<string | null>(() => getCurrentUserId());
+  const [screen, setScreen] = useState<Screen>(() => getCurrentUserId() ? 'top' : 'login');
   const [gameMode, setGameMode] = useState<GameMode>('childhood');
   const [viewingRecord, setViewingRecord] = useState<DiagnosisRecord | null>(null);
 
-  const [player, setPlayer] = useState<PlayerState>({
-    stats: { ...initialStats },
-    discoveredJobIds: [],
-    selectedChoices: [],
-    diagnosisTraits: {
-      communication: 0,
-      planning: 0,
-      analysis: 0,
-      stability: 0,
-      challenge: 0,
-      creative: 0,
-      care: 0,
-      technical: 0,
-    },
-    primaryTrait: 'communication',
-  });
+  const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
 
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
 
   /** 現在のモードに応じたイベント一覧 */
   const currentEvents: GameEvent[] = gameMode === 'childhood' ? childhoodEvents : workingEvents;
+
+  /** ログイン */
+  const login = useCallback((id: string) => {
+    loginUser(id);
+    setUserId(id);
+    setScreen('top');
+  }, []);
+
+  /** ログアウト */
+  const logout = useCallback(() => {
+    logoutUser();
+    setUserId(null);
+    setPlayer(createInitialPlayer());
+    setCurrentEventIndex(0);
+    setScreen('login');
+  }, []);
 
   /** 診断の回答を反映 */
   const applyDiagnosisAnswer = useCallback(
@@ -173,6 +176,21 @@ export function useGameState() {
     return jobScores.slice(0, 5).map((s) => s.job);
   }, [player]);
 
+  /** 結果画面へ遷移（ゲーム結果を保存） */
+  const goToResult = useCallback(() => {
+    const recommended = getRecommendedJobs();
+    saveGameResult({
+      id: Date.now().toString(),
+      date: new Date().toLocaleDateString('ja-JP'),
+      gameMode,
+      primaryTrait: player.primaryTrait,
+      stats: { ...player.stats },
+      discoveredJobCount: player.discoveredJobIds.length,
+      topJobTitles: recommended.slice(0, 3).map((j) => j.title),
+    });
+    setScreen('result');
+  }, [gameMode, player, getRecommendedJobs]);
+
   /** モード選択 */
   const selectMode = useCallback((mode: GameMode) => {
     setGameMode(mode);
@@ -193,44 +211,14 @@ export function useGameState() {
 
   /** ゲームをリセットして最初からやり直す */
   const resetGame = useCallback(() => {
-    setPlayer({
-      stats: { ...initialStats },
-      discoveredJobIds: [],
-      selectedChoices: [],
-      diagnosisTraits: {
-        communication: 0,
-        planning: 0,
-        analysis: 0,
-        stability: 0,
-        challenge: 0,
-        creative: 0,
-        care: 0,
-        technical: 0,
-      },
-      primaryTrait: 'communication',
-    });
+    setPlayer(createInitialPlayer());
     setCurrentEventIndex(0);
     setScreen('top');
   }, []);
 
   /** 別モードで遊び直す */
   const switchMode = useCallback(() => {
-    setPlayer({
-      stats: { ...initialStats },
-      discoveredJobIds: [],
-      selectedChoices: [],
-      diagnosisTraits: {
-        communication: 0,
-        planning: 0,
-        analysis: 0,
-        stability: 0,
-        challenge: 0,
-        creative: 0,
-        care: 0,
-        technical: 0,
-      },
-      primaryTrait: 'communication',
-    });
+    setPlayer(createInitialPlayer());
     setCurrentEventIndex(0);
     setScreen('mode-select');
   }, []);
@@ -238,19 +226,42 @@ export function useGameState() {
   return {
     screen,
     setScreen,
+    userId,
     gameMode,
     player,
     currentEventIndex,
     currentEvents,
     viewingRecord,
+    login,
+    logout,
     applyDiagnosisAnswer,
     finishDiagnosis,
     selectChoice,
     getRecommendedJobs,
+    goToResult,
     selectMode,
     resetGame,
     switchMode,
     viewDiagnosisRecord,
     backFromDiagnosisDetail,
+  };
+}
+
+function createInitialPlayer(): PlayerState {
+  return {
+    stats: { ...initialStats },
+    discoveredJobIds: [],
+    selectedChoices: [],
+    diagnosisTraits: {
+      communication: 0,
+      planning: 0,
+      analysis: 0,
+      stability: 0,
+      challenge: 0,
+      creative: 0,
+      care: 0,
+      technical: 0,
+    },
+    primaryTrait: 'communication',
   };
 }

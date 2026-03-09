@@ -1,3 +1,4 @@
+import { LoginPage } from './components/LoginPage';
 import { TopPage } from './components/TopPage';
 import { ModeSelectPage } from './components/ModeSelectPage';
 import { DiagnosisPage } from './components/DiagnosisPage';
@@ -10,15 +11,19 @@ function App() {
   const {
     screen,
     setScreen,
+    userId,
     gameMode,
     player,
     currentEventIndex,
     currentEvents,
     viewingRecord,
+    login,
+    logout,
     applyDiagnosisAnswer,
     finishDiagnosis,
     selectChoice,
     getRecommendedJobs,
+    goToResult,
     selectMode,
     resetGame,
     switchMode,
@@ -27,11 +32,16 @@ function App() {
   } = useGameState();
 
   switch (screen) {
+    case 'login':
+      return <LoginPage onLogin={login} />;
+
     case 'top':
       return (
         <TopPage
+          userId={userId!}
           onStart={() => setScreen('mode-select')}
           onViewDiagnosis={viewDiagnosisRecord}
+          onLogout={logout}
         />
       );
 
@@ -63,7 +73,7 @@ function App() {
           events={currentEvents}
           currentEventIndex={currentEventIndex}
           onSelectChoice={selectChoice}
-          onFinish={() => setScreen('result')}
+          onFinish={goToResult}
         />
       );
 
