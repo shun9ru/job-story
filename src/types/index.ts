@@ -11,6 +11,7 @@ export interface Job {
   suitableFor: string[];
   skillsGained: string[];
   companyExamples: string[];
+  imageUrl?: string;
   tags: string[];
 }
 

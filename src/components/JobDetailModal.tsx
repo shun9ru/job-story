@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Job } from '../types';
+import { getJobImageUrl } from '../data/job-images';
 
 interface JobDetailModalProps {
   job: Job;
@@ -9,6 +10,8 @@ interface JobDetailModalProps {
 /** 職種詳細モーダル */
 export function JobDetailModal({ job, onClose }: JobDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'daily' | 'yearly' | 'career'>('daily');
+  const [imgError, setImgError] = useState(false);
+  const imageUrl = getJobImageUrl(job.id);
 
   return (
     <div
@@ -23,23 +26,53 @@ export function JobDetailModal({ job, onClose }: JobDetailModalProps) {
         className="relative bg-white w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl max-h-[85vh] overflow-y-auto shadow-2xl animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* ヘッダー */}
-        <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
-          <div>
-            <span className="text-xs bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded font-medium">
-              {job.industry}
-            </span>
-            <h2 className="text-xl font-bold text-gray-800 mt-1">
-              {job.title}
-            </h2>
+        {/* ヒーロー画像 */}
+        {imageUrl && !imgError && (
+          <div className="relative h-40 sm:h-48 overflow-hidden sm:rounded-t-2xl">
+            <img
+              src={imageUrl}
+              alt={job.title}
+              loading="lazy"
+              onError={() => setImgError(true)}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 w-8 h-8 bg-black/30 hover:bg-black/50 text-white rounded-full flex items-center justify-center text-lg leading-none cursor-pointer backdrop-blur-sm transition-colors"
+            >
+              ✕
+            </button>
+            <div className="absolute bottom-3 left-4">
+              <span className="text-xs bg-white/90 text-indigo-600 px-2 py-0.5 rounded font-medium">
+                {job.industry}
+              </span>
+              <h2 className="text-xl font-bold text-white mt-1 drop-shadow-lg">
+                {job.title}
+              </h2>
+            </div>
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer p-1"
-          >
-            ✕
-          </button>
-        </div>
+        )}
+
+        {/* テキストヘッダー（画像がない場合） */}
+        {(!imageUrl || imgError) && (
+          <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+            <div>
+              <span className="text-xs bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded font-medium">
+                {job.industry}
+              </span>
+              <h2 className="text-xl font-bold text-gray-800 mt-1">
+                {job.title}
+              </h2>
+            </div>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer p-1"
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
         <div className="px-6 py-5 space-y-6">
           {/* 一言説明 */}
