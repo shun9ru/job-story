@@ -100,7 +100,7 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
         </div>
 
         {/* 向いていそうな職種 TOP5 */}
-        {recommendedJobs.length > 0 && (
+        {recommendedJobs.length > 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
             <h3 className="text-base font-bold text-gray-800 mb-4">
               🏆 向いていそうな職種 TOP{recommendedJobs.length}
@@ -128,10 +128,28 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
               ))}
             </div>
           </div>
-        )}
+        ) : result.topJobTitles && result.topJobTitles.length > 0 ? (
+          <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
+            <h3 className="text-base font-bold text-gray-800 mb-4">
+              🏆 向いていそうな職種
+            </h3>
+            <div className="space-y-2">
+              {result.topJobTitles.map((title, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                  <span className={`text-lg font-bold w-6 text-center ${
+                    index === 0 ? 'text-yellow-500' : index === 1 ? 'text-gray-400' : 'text-amber-600'
+                  }`}>
+                    {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                  </span>
+                  <span className="text-sm font-semibold text-gray-700">{title}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
         {/* 発見した職種一覧 */}
-        {discoveredJobs.length > 0 && (
+        {discoveredJobs.length > 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
             <h3 className="text-base font-bold text-gray-800 mb-4">
               💡 発見した職種（{discoveredJobs.length}件）
@@ -147,7 +165,16 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
               ))}
             </div>
           </div>
-        )}
+        ) : (result.discoveredJobCount ?? 0) > 0 ? (
+          <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
+            <h3 className="text-base font-bold text-gray-800 mb-4">
+              💡 発見した職種
+            </h3>
+            <p className="text-sm text-gray-400 text-center py-2">
+              {result.discoveredJobCount}職種を発見しました（詳細データは次回プレイから保存されます）
+            </p>
+          </div>
+        ) : null}
       </main>
 
       {/* 職種詳細モーダル */}
