@@ -1,14 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import type { PlayerState, StatKey, TraitKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
 import { initialStats } from '../data/stats';
 import { getPrimaryTrait } from '../data/diagnosis';
 import { jobs } from '../data/jobs/index';
-import { childhoodEvents } from '../data/events-childhood';
-import { workingEvents } from '../data/events-working';
-import { getCurrentUserId, loginUser, logoutUser, saveGameResult } from '../utils/storage';
+import { getRandomChildhoodEvents } from '../data/events-childhood';
+import { getRandomWorkingEvents } from '../data/events-working';
+import { getCurrentUserId, loginUser, logoutUser, saveGameResult, hasDiagnosisRecords } from '../utils/storage';
 
 /** ゲーム全体の画面遷移状態 */
-export type Screen = 'login' | 'top' | 'mode-select' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail';
+export type Screen = 'login' | 'top' | 'mode-select' | 'diagnosis-choice' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail';
 
 /** ゲーム状態を管理するカスタムフック */
 export function useGameState() {
@@ -16,13 +16,18 @@ export function useGameState() {
   const [screen, setScreen] = useState<Screen>(() => getCurrentUserId() ? 'top' : 'login');
   const [gameMode, setGameMode] = useState<GameMode>('childhood');
   const [viewingRecord, setViewingRecord] = useState<DiagnosisRecord | null>(null);
+  const [eventSeed, setEventSeed] = useState(() => Date.now());
 
   const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
 
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
 
-  /** 現在のモードに応じたイベント一覧 */
-  const currentEvents: GameEvent[] = gameMode === 'childhood' ? childhoodEvents : workingEvents;
+  /** 現在のモードに応じたイベント一覧（ランダム選出） */
+  const currentEvents: GameEvent[] = useMemo(() => {
+    // eventSeedが変わるたびに再選出される
+    void eventSeed;
+    return gameMode === 'childhood' ? getRandomChildhoodEvents() : getRandomWorkingEvents();
+  }, [gameMode, eventSeed]);
 
   /** ログイン */
   const login = useCallback((id: string) => {
@@ -71,6 +76,31 @@ export function useGameState() {
       };
       boostedStats[traitToStat[primary]] += 2;
       return { ...prev, primaryTrait: primary, stats: boostedStats };
+    });
+    setScreen('game');
+  }, []);
+
+  /** 過去の診断結果を再利用してゲーム開始 */
+  const reuseDiagnosis = useCallback((record: DiagnosisRecord) => {
+    setPlayer((prev) => {
+      const boostedStats = { ...prev.stats };
+      const traitToStat: Record<TraitKey, StatKey> = {
+        communication: 'communication',
+        planning: 'planning',
+        analysis: 'analysis',
+        stability: 'stability',
+        challenge: 'growth',
+        creative: 'creative',
+        care: 'care',
+        technical: 'technical',
+      };
+      boostedStats[traitToStat[record.primaryTrait]] += 2;
+      return {
+        ...prev,
+        diagnosisTraits: { ...record.traits },
+        primaryTrait: record.primaryTrait,
+        stats: boostedStats,
+      };
     });
     setScreen('game');
   }, []);
@@ -191,9 +221,19 @@ export function useGameState() {
     setScreen('result');
   }, [gameMode, player, getRecommendedJobs]);
 
-  /** モード選択 */
+  /** モード選択 → 診断選択or診断画面 */
   const selectMode = useCallback((mode: GameMode) => {
     setGameMode(mode);
+    setEventSeed(Date.now());
+    if (hasDiagnosisRecords()) {
+      setScreen('diagnosis-choice');
+    } else {
+      setScreen('diagnosis');
+    }
+  }, []);
+
+  /** 診断選択で「やり直す」を選んだ場合 */
+  const goToDiagnosis = useCallback(() => {
     setScreen('diagnosis');
   }, []);
 
@@ -236,9 +276,11 @@ export function useGameState() {
     logout,
     applyDiagnosisAnswer,
     finishDiagnosis,
+    reuseDiagnosis,
     selectChoice,
     getRecommendedJobs,
     goToResult,
+    goToDiagnosis,
     selectMode,
     resetGame,
     switchMode,

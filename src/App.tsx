@@ -1,6 +1,7 @@
 import { LoginPage } from './components/LoginPage';
 import { TopPage } from './components/TopPage';
 import { ModeSelectPage } from './components/ModeSelectPage';
+import { DiagnosisChoicePage } from './components/DiagnosisChoicePage';
 import { DiagnosisPage } from './components/DiagnosisPage';
 import { DiagnosisDetailPage } from './components/DiagnosisDetailPage';
 import { GamePage } from './components/GamePage';
@@ -21,9 +22,11 @@ function App() {
     logout,
     applyDiagnosisAnswer,
     finishDiagnosis,
+    reuseDiagnosis,
     selectChoice,
     getRecommendedJobs,
     goToResult,
+    goToDiagnosis,
     selectMode,
     resetGame,
     switchMode,
@@ -47,6 +50,15 @@ function App() {
 
     case 'mode-select':
       return <ModeSelectPage onSelect={selectMode} />;
+
+    case 'diagnosis-choice':
+      return (
+        <DiagnosisChoicePage
+          gameMode={gameMode}
+          onReuse={reuseDiagnosis}
+          onRedo={goToDiagnosis}
+        />
+      );
 
     case 'diagnosis':
       return (
