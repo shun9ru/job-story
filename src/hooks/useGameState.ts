@@ -1,15 +1,23 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { PlayerState, StatKey, TraitKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
 import { initialStats } from '../data/stats';
-import { getPrimaryTrait } from '../data/diagnosis';
 import { jobs } from '../data/jobs/index';
 import { getRandomChildhoodEvents } from '../data/events-childhood';
 import { getRandomWorkingEvents } from '../data/events-working';
-import type { GameResultRecord } from '../utils/storage';
-import { getCurrentUserId, loginUser, logoutUser, saveGameResult, hasDiagnosisRecords } from '../utils/storage';
+import type { GameResultRecord, ExperienceReflection } from '../utils/storage';
+import {
+  getCurrentUserId,
+  loginUser as storageLogin,
+  logoutUser,
+  saveGameResult,
+  saveDiagnosisRecord,
+  getDiagnosisRecords,
+  getGameResults,
+  getExperienceReflections,
+} from '../utils/storage';
 
 /** ゲーム全体の画面遷移状態 */
-export type Screen = 'login' | 'top' | 'mode-select' | 'diagnosis-choice' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail' | 'game-result-detail';
+export type Screen = 'login' | 'top' | 'mode-select' | 'diagnosis-choice' | 'diagnosis' | 'game' | 'result' | 'diagnosis-detail' | 'game-result-detail' | 'encyclopedia';
 
 /** ゲーム状態を管理するカスタムフック */
 export function useGameState() {
@@ -20,20 +28,45 @@ export function useGameState() {
   const [viewingGameResult, setViewingGameResult] = useState<GameResultRecord | null>(null);
   const [eventSeed, setEventSeed] = useState(() => Date.now());
 
-  const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
+  // Supabaseから取得したデータをstateに保持
+  const [diagnosisRecords, setDiagnosisRecords] = useState<DiagnosisRecord[]>([]);
+  const [gameResults, setGameResults] = useState<GameResultRecord[]>([]);
+  const [experienceReflections, setExperienceReflections] = useState<ExperienceReflection[]>([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
+  const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
 
   /** 現在のモードに応じたイベント一覧（ランダム選出） */
   const currentEvents: GameEvent[] = useMemo(() => {
-    // eventSeedが変わるたびに再選出される
     void eventSeed;
     return gameMode === 'childhood' ? getRandomChildhoodEvents() : getRandomWorkingEvents();
   }, [gameMode, eventSeed]);
 
+  /** ユーザーデータをSupabaseから読み込み */
+  const loadUserData = useCallback(async () => {
+    setDataLoaded(false);
+    const [diag, results, reflections] = await Promise.all([
+      getDiagnosisRecords(),
+      getGameResults(),
+      getExperienceReflections(),
+    ]);
+    setDiagnosisRecords(diag);
+    setGameResults(results);
+    setExperienceReflections(reflections);
+    setDataLoaded(true);
+  }, []);
+
+  // ログイン済みの場合、初回マウント時にデータ読み込み
+  useEffect(() => {
+    if (userId) {
+      loadUserData();
+    }
+  }, [userId, loadUserData]);
+
   /** ログイン */
-  const login = useCallback((id: string) => {
-    loginUser(id);
+  const login = useCallback(async (id: string) => {
+    await storageLogin(id);
     setUserId(id);
     setScreen('top');
   }, []);
@@ -44,6 +77,10 @@ export function useGameState() {
     setUserId(null);
     setPlayer(createInitialPlayer());
     setCurrentEventIndex(0);
+    setDiagnosisRecords([]);
+    setGameResults([]);
+    setExperienceReflections([]);
+    setDataLoaded(false);
     setScreen('login');
   }, []);
 
@@ -61,10 +98,22 @@ export function useGameState() {
     [],
   );
 
-  /** 診断完了 → ゲーム開始 */
-  const finishDiagnosis = useCallback(() => {
+  /** 診断完了 → ゲーム開始（結果をSupabaseに保存） */
+  const finishDiagnosis = useCallback(async (traits: Record<TraitKey, number>, primaryKey: TraitKey, secondaryKey: TraitKey) => {
+    // 診断結果を保存
+    const record: DiagnosisRecord = {
+      id: Date.now().toString(),
+      date: new Date().toLocaleDateString('ja-JP'),
+      primaryTrait: primaryKey,
+      secondaryTrait: secondaryKey,
+      traits,
+      gameMode,
+    };
+    await saveDiagnosisRecord(record);
+    setDiagnosisRecords((prev) => [record, ...prev]);
+
+    // プレイヤーステータスを更新
     setPlayer((prev) => {
-      const primary = getPrimaryTrait(prev.diagnosisTraits);
       const boostedStats = { ...prev.stats };
       const traitToStat: Record<TraitKey, StatKey> = {
         communication: 'communication',
@@ -76,11 +125,11 @@ export function useGameState() {
         care: 'care',
         technical: 'technical',
       };
-      boostedStats[traitToStat[primary]] += 2;
-      return { ...prev, primaryTrait: primary, stats: boostedStats };
+      boostedStats[traitToStat[primaryKey]] += 2;
+      return { ...prev, diagnosisTraits: traits, primaryTrait: primaryKey, stats: boostedStats };
     });
     setScreen('game');
-  }, []);
+  }, [gameMode]);
 
   /** 過去の診断結果を再利用してゲーム開始 */
   const reuseDiagnosis = useCallback((record: DiagnosisRecord) => {
@@ -192,7 +241,6 @@ export function useGameState() {
     const jobScores = jobs.map((job) => {
       let score = 0;
       if (discoveredJobIds.includes(job.id)) score += 5;
-
       for (const tag of job.tags) {
         const relevantStats = tagMap[tag];
         if (relevantStats) {
@@ -209,9 +257,9 @@ export function useGameState() {
   }, [player]);
 
   /** 結果画面へ遷移（ゲーム結果を保存） */
-  const goToResult = useCallback(() => {
+  const goToResult = useCallback(async () => {
     const recommended = getRecommendedJobs();
-    saveGameResult({
+    const result: GameResultRecord = {
       id: Date.now().toString(),
       date: new Date().toLocaleDateString('ja-JP'),
       gameMode,
@@ -219,7 +267,9 @@ export function useGameState() {
       stats: { ...player.stats },
       discoveredJobIds: [...player.discoveredJobIds],
       recommendedJobIds: recommended.map((j) => j.id),
-    });
+    };
+    await saveGameResult(result);
+    setGameResults((prev) => [result, ...prev]);
     setScreen('result');
   }, [gameMode, player, getRecommendedJobs]);
 
@@ -227,12 +277,12 @@ export function useGameState() {
   const selectMode = useCallback((mode: GameMode) => {
     setGameMode(mode);
     setEventSeed(Date.now());
-    if (hasDiagnosisRecords()) {
+    if (diagnosisRecords.length > 0) {
       setScreen('diagnosis-choice');
     } else {
       setScreen('diagnosis');
     }
-  }, []);
+  }, [diagnosisRecords]);
 
   /** 診断選択で「やり直す」を選んだ場合 */
   const goToDiagnosis = useCallback(() => {
@@ -263,6 +313,32 @@ export function useGameState() {
     setScreen('top');
   }, []);
 
+  /** 全ゲーム結果から発見済み職種IDを集約 */
+  const allDiscoveredJobIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const result of gameResults) {
+      for (const id of result.discoveredJobIds) {
+        ids.add(id);
+      }
+    }
+    return [...ids];
+  }, [gameResults]);
+
+  /** 体験振り返りを楽観的にステートに追加 */
+  const addReflection = useCallback((reflection: ExperienceReflection) => {
+    setExperienceReflections((prev) => [reflection, ...prev]);
+  }, []);
+
+  /** 職種図鑑を開く */
+  const goToEncyclopedia = useCallback(() => {
+    setScreen('encyclopedia');
+  }, []);
+
+  /** 職種図鑑から戻る */
+  const backFromEncyclopedia = useCallback(() => {
+    setScreen('top');
+  }, []);
+
   /** ゲームをリセットして最初からやり直す */
   const resetGame = useCallback(() => {
     setPlayer(createInitialPlayer());
@@ -287,6 +363,9 @@ export function useGameState() {
     currentEvents,
     viewingRecord,
     viewingGameResult,
+    diagnosisRecords,
+    gameResults,
+    dataLoaded,
     login,
     logout,
     applyDiagnosisAnswer,
@@ -303,6 +382,11 @@ export function useGameState() {
     backFromDiagnosisDetail,
     viewGameResult,
     backFromGameResult,
+    allDiscoveredJobIds,
+    experienceReflections,
+    goToEncyclopedia,
+    backFromEncyclopedia,
+    addReflection,
   };
 }
 

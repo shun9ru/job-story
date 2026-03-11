@@ -1,17 +1,33 @@
 import { useState } from 'react';
 import type { Job } from '../types';
+import type { ExperienceReflection } from '../utils/storage';
 import { getJobImageUrl } from '../data/job-images';
+import { MangaJobViewer } from './MangaJobViewer';
+import { JobExperienceGame } from './JobExperienceGame';
+import { getJobExperience } from '../data/job-experiences';
 
 interface JobDetailModalProps {
   job: Job;
   onClose: () => void;
+  onReflectionSaved?: (reflection: ExperienceReflection) => void;
 }
 
 /** 職種詳細モーダル */
-export function JobDetailModal({ job, onClose }: JobDetailModalProps) {
+export function JobDetailModal({ job, onClose, onReflectionSaved }: JobDetailModalProps) {
   const [activeTab, setActiveTab] = useState<'daily' | 'yearly' | 'career'>('daily');
   const [imgError, setImgError] = useState(false);
+  const [showManga, setShowManga] = useState(false);
+  const [showExperience, setShowExperience] = useState(false);
   const imageUrl = getJobImageUrl(job.id);
+  const experience = getJobExperience(job.id);
+
+  if (showExperience && experience) {
+    return <JobExperienceGame experience={experience} onClose={() => setShowExperience(false)} onReflectionSaved={onReflectionSaved} />;
+  }
+
+  if (showManga) {
+    return <MangaJobViewer job={job} onClose={() => setShowManga(false)} />;
+  }
 
   return (
     <div
@@ -79,6 +95,28 @@ export function JobDetailModal({ job, onClose }: JobDetailModalProps) {
           <p className="text-gray-600 leading-relaxed font-medium">
             {job.shortDescription}
           </p>
+
+          {/* 職業体験ボタン */}
+          {experience && (
+            <button
+              onClick={() => setShowExperience(true)}
+              className="w-full flex items-center justify-center gap-2 py-3.5 bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-300 rounded-xl transition-all active:scale-[0.98] cursor-pointer group"
+            >
+              <span className="text-xl group-hover:scale-110 transition-transform">🎮</span>
+              <span className="text-sm font-bold text-indigo-700">この仕事を体験する！</span>
+              <span className="text-xs text-indigo-400">（5〜10分）</span>
+            </button>
+          )}
+
+          {/* マンガで読むボタン */}
+          <button
+            onClick={() => setShowManga(true)}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-amber-50 hover:bg-amber-100 border-2 border-amber-300 rounded-xl transition-all active:scale-[0.98] cursor-pointer group"
+          >
+            <span className="text-xl group-hover:scale-110 transition-transform">📖</span>
+            <span className="text-sm font-bold text-amber-700">マンガで読む！</span>
+            <span className="text-xs text-amber-500">（約5分）</span>
+          </button>
 
           {/* 主な仕事内容 */}
           <Section title="📋 主な仕事内容">

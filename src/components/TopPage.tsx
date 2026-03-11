@@ -1,20 +1,21 @@
-import { getDiagnosisRecords, getGameResults } from '../utils/storage';
 import type { GameResultRecord } from '../utils/storage';
 import { getDiagnosisType } from '../data/diagnosis';
 import type { DiagnosisRecord } from '../types';
 
 interface TopPageProps {
   userId: string;
+  diagRecords: DiagnosisRecord[];
+  gameResults: GameResultRecord[];
+  dataLoaded: boolean;
   onStart: () => void;
   onViewDiagnosis: (record: DiagnosisRecord) => void;
   onViewGameResult: (result: GameResultRecord) => void;
+  onEncyclopedia: () => void;
   onLogout: () => void;
 }
 
 /** トップ画面 */
-export function TopPage({ userId, onStart, onViewDiagnosis, onViewGameResult, onLogout }: TopPageProps) {
-  const diagRecords = getDiagnosisRecords();
-  const gameResults = getGameResults();
+export function TopPage({ userId, diagRecords, gameResults, dataLoaded, onStart, onViewDiagnosis, onViewGameResult, onEncyclopedia, onLogout }: TopPageProps) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-amber-50">
@@ -60,6 +61,14 @@ export function TopPage({ userId, onStart, onViewDiagnosis, onViewGameResult, on
           はじめる
         </button>
 
+        {/* 職種図鑑ボタン */}
+        <button
+          onClick={onEncyclopedia}
+          className="mt-4 px-8 py-3 bg-white hover:bg-indigo-50 text-indigo-600 text-sm font-semibold rounded-full border-2 border-indigo-200 hover:border-indigo-400 shadow-sm hover:shadow transition-all duration-200 active:scale-95 cursor-pointer"
+        >
+          📖 職種図鑑
+        </button>
+
         {/* 補足テキスト */}
         <p className="mt-6 text-xs text-gray-400">
           所要時間：約5〜10分
@@ -67,7 +76,10 @@ export function TopPage({ userId, onStart, onViewDiagnosis, onViewGameResult, on
       </div>
 
       {/* 履歴セクション */}
-      {(gameResults.length > 0 || diagRecords.length > 0) && (
+      {!dataLoaded && (
+        <div className="mt-10 text-sm text-gray-400 animate-pulse">データを読み込み中...</div>
+      )}
+      {dataLoaded && (gameResults.length > 0 || diagRecords.length > 0) && (
         <div className="mt-10 w-full max-w-sm space-y-6 animate-slide-up">
           {/* ゲーム結果履歴 */}
           {gameResults.length > 0 && (

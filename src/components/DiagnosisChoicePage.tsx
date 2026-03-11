@@ -1,17 +1,14 @@
-import { getDiagnosisRecords } from '../utils/storage';
 import { getDiagnosisType } from '../data/diagnosis';
-import type { DiagnosisRecord, GameMode } from '../types';
+import type { DiagnosisRecord } from '../types';
 
 interface DiagnosisChoicePageProps {
-  gameMode: GameMode;
+  records: DiagnosisRecord[];
   onReuse: (record: DiagnosisRecord) => void;
   onRedo: () => void;
 }
 
 /** 過去の診断結果を使うか、やり直すかの選択画面 */
-export function DiagnosisChoicePage({ onReuse, onRedo }: DiagnosisChoicePageProps) {
-  const records = getDiagnosisRecords();
-
+export function DiagnosisChoicePage({ records, onReuse, onRedo }: DiagnosisChoicePageProps) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <div className="w-full max-w-md animate-fade-in">

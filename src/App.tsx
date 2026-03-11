@@ -7,6 +7,7 @@ import { DiagnosisDetailPage } from './components/DiagnosisDetailPage';
 import { GamePage } from './components/GamePage';
 import { ResultPage } from './components/ResultPage';
 import { GameResultDetailPage } from './components/GameResultDetailPage';
+import { JobEncyclopediaPage } from './components/JobEncyclopediaPage';
 import { useGameState } from './hooks/useGameState';
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
     currentEvents,
     viewingRecord,
     viewingGameResult,
+    diagnosisRecords,
+    gameResults,
+    dataLoaded,
     login,
     logout,
     applyDiagnosisAnswer,
@@ -36,6 +40,11 @@ function App() {
     backFromDiagnosisDetail,
     viewGameResult,
     backFromGameResult,
+    allDiscoveredJobIds,
+    experienceReflections,
+    goToEncyclopedia,
+    backFromEncyclopedia,
+    addReflection,
   } = useGameState();
 
   switch (screen) {
@@ -46,9 +55,13 @@ function App() {
       return (
         <TopPage
           userId={userId!}
+          diagRecords={diagnosisRecords}
+          gameResults={gameResults}
+          dataLoaded={dataLoaded}
           onStart={() => setScreen('mode-select')}
           onViewDiagnosis={viewDiagnosisRecord}
           onViewGameResult={viewGameResult}
+          onEncyclopedia={goToEncyclopedia}
           onLogout={logout}
         />
       );
@@ -59,7 +72,7 @@ function App() {
     case 'diagnosis-choice':
       return (
         <DiagnosisChoicePage
-          gameMode={gameMode}
+          records={diagnosisRecords}
           onReuse={reuseDiagnosis}
           onRedo={goToDiagnosis}
         />
@@ -112,6 +125,16 @@ function App() {
           onBack={backFromGameResult}
         />
       ) : null;
+
+    case 'encyclopedia':
+      return (
+        <JobEncyclopediaPage
+          allDiscoveredJobIds={allDiscoveredJobIds}
+          reflections={experienceReflections}
+          onBack={backFromEncyclopedia}
+          onReflectionSaved={addReflection}
+        />
+      );
   }
 }
 

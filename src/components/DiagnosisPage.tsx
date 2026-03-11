@@ -1,12 +1,11 @@
 import { useState, useMemo } from 'react';
 import { getRandomQuestions, getDiagnosisType, getSecondaryTrait } from '../data/diagnosis';
-import { saveDiagnosisRecord } from '../utils/storage';
 import type { TraitKey, GameMode } from '../types';
 
 interface DiagnosisPageProps {
   gameMode: GameMode;
   onAnswer: (effects: Partial<Record<TraitKey, number>>) => void;
-  onComplete: () => void;
+  onComplete: (traits: Record<TraitKey, number>, primaryKey: TraitKey, secondaryKey: TraitKey) => void;
 }
 
 /** 簡易性格診断画面（ランダム出題） */
@@ -39,18 +38,6 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
     onAnswer(effects);
 
     if (currentIndex + 1 >= totalQuestions) {
-      // 結果をlocalStorageに保存
-      const primaryKey = (Object.entries(newTraits) as [TraitKey, number][])
-        .sort((a, b) => b[1] - a[1])[0][0];
-      const secondaryKey = getSecondaryTrait(newTraits);
-      saveDiagnosisRecord({
-        id: Date.now().toString(),
-        date: new Date().toLocaleDateString('ja-JP'),
-        primaryTrait: primaryKey,
-        secondaryTrait: secondaryKey,
-        traits: newTraits,
-        gameMode,
-      });
       setShowResult(true);
     } else {
       setCurrentIndex((prev) => prev + 1);
@@ -109,7 +96,7 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
           </p>
 
           <button
-            onClick={onComplete}
+            onClick={() => onComplete(traits, primaryKey, secondaryKey)}
             className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-full shadow transition-all duration-200 active:scale-95 cursor-pointer"
           >
             {gameMode === 'childhood'

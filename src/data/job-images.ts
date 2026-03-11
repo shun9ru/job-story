@@ -25,7 +25,7 @@ export const jobImageMap: Record<string, string> = {
   'ux-designer': u('photo-1586717791821-3f44a563fa4c'),      // UX wireframe
   'video-creator': u('photo-1574717024653-61fd2cf4d44d'),    // video editing
   'photographer': u('photo-1452587925148-ce544e77e70d'),     // photographer
-  'sound-creator': u('photo-1598488035139-bdbb2231cb64'),    // music studio
+  'sound-creator': u('photo-1598653222000-6b7b7a552625'),    // music studio
   'game-designer': u('photo-1556438064-2d7646166914'),       // game design
   'interior-designer': u('photo-1618221195710-dd6b41faaea6'), // interior
   'copywriter': u('photo-1455390582262-044cdead277a'),       // writing
@@ -46,7 +46,7 @@ export const jobImageMap: Record<string, string> = {
   'pr': u('photo-1557804506-669a67965ba0'),                  // PR event
   'marketing': u('photo-1460925895917-afdab827c52f'),        // marketing
   'digital-marketer': u('photo-1432888622747-4eb9a8efeb07'),  // digital marketing
-  'media-planner': u('photo-1504711434969-e33886168d6c'),    // media
+  'media-planner': u('photo-1611162616475-46b635cb6868'),    // media
   'sns-marketer': u('photo-1611162617474-5b21e879e113'),     // social media
   'market-researcher': u('photo-1460925895917-afdab827c52f'), // research data
 
@@ -68,7 +68,7 @@ export const jobImageMap: Record<string, string> = {
   'general-affairs': u('photo-1497366811353-6870744d04b2'),   // office
   'secretary': u('photo-1573496359142-b8d87734a5a2'),        // secretary
   'procurement': u('photo-1586528116311-ad8dd3c8310d'),      // supply chain
-  'internal-audit': u('photo-1450101499163-c8848e968838'),   // audit
+  'internal-audit': u('photo-1554224154-26032ffc0d07'),      // audit
 
   // ── メーカー・製造 ──
   'product-planner': u('photo-1559136555-9303baea8ebd'),     // product planning
@@ -76,7 +76,7 @@ export const jobImageMap: Record<string, string> = {
   'quality-control': u('photo-1581092160562-40aa08e78837'),  // quality check
   'production-engineer': u('photo-1565043666747-69f6646db940'), // engineering
   'researcher': u('photo-1532094349884-543bc11b234d'),       // research lab
-  'patent-ip': u('photo-1450101499163-c8848e968838'),        // patent
+  'patent-ip': u('photo-1521587760476-6c12a4b040da'),        // patent
 
   // ── 医療・福祉 ──
   'doctor': u('photo-1579684385127-1ef15d508118'),           // doctor
@@ -93,10 +93,10 @@ export const jobImageMap: Record<string, string> = {
   'school-teacher': u('photo-1509062522246-3755977927d7'),   // classroom
   'university-researcher': u('photo-1532094349884-543bc11b234d'), // research
   'cram-school-teacher': u('photo-1580582932707-520aed937b7b'), // tutoring
-  'nursery-teacher': u('photo-1587654780291-39c9404d7cf0'),  // nursery
+  'nursery-teacher': u('photo-1503454537195-1dcabb73ffb9'),  // nursery
   'lawyer': u('photo-1589829545856-d10d557cf95f'),           // law
   'tax-accountant': u('photo-1554224155-3a58922a22c3'),      // tax
-  'judicial-scrivener': u('photo-1450101499163-c8848e968838'), // legal docs
+  'judicial-scrivener': u('photo-1521587760476-6c12a4b040da'), // legal docs
   'social-insurance-labor': u('photo-1554224154-22dec7ec8818'), // documents
   'national-civil-servant': u('photo-1523292562811-8fa7962a78c8'), // government
   'local-civil-servant': u('photo-1517245386807-bb43f82c33c4'), // city hall
@@ -107,13 +107,13 @@ export const jobImageMap: Record<string, string> = {
   'hotel-staff': u('photo-1566073771259-6a8506099945'),      // hotel lobby
   'travel-planner': u('photo-1488646953014-85cb44e25828'),   // travel
   'chef': u('photo-1556910103-1c02745aae4d'),                // chef cooking
-  'patissier': u('photo-1486427944544-d2c246c4df14'),        // pastry
+  'patissier': u('photo-1517433670267-08bbd4be890f'),        // pastry
   'restaurant-manager': u('photo-1517248135467-4c7edcad34c4'), // restaurant
   'hairdresser': u('photo-1560066984-138dadb4c035'),         // hair salon
-  'fashion-designer': u('photo-1558618666-fcd25c85f82e'),    // fashion
+  'fashion-designer': u('photo-1558769132-cb1aea458c5e'),    // fashion
   'beauty-advisor': u('photo-1596462502278-27bfdc403348'),   // beauty
   'sports-trainer': u('photo-1534438327276-14e5300c3a48'),   // gym trainer
-  'event-producer': u('photo-1540575467063-178a50e2fd60'),   // event
+  'event-producer': u('photo-1501281668745-f7f57925c3b4'),   // event stage
   'entertainment-manager': u('photo-1514525253161-7a46d19cd819'), // entertainment
 
   // ── インフラ・その他 ──
@@ -122,9 +122,9 @@ export const jobImageMap: Record<string, string> = {
   'real-estate-developer': u('photo-1486325212027-8081e485255e'), // development
   'surveyor': u('photo-1581092918056-0c4c3acd3789'),         // surveying
   'logistics-manager': u('photo-1586528116311-ad8dd3c8310d'), // logistics
-  'trade-admin': u('photo-1494412574643-ff11b0a5eb95'),      // shipping
-  'customs-broker': u('photo-1494412574643-ff11b0a5eb95'),   // customs
-  'journalist': u('photo-1504711434969-e33886168d6c'),       // journalism
+  'trade-admin': u('photo-1578575437130-527eed3abbec'),      // shipping
+  'customs-broker': u('photo-1494961104209-3c223057bd26'),   // customs
+  'journalist': u('photo-1585829365295-ab7cd400c167'),       // journalism
   'editor': u('photo-1457369804613-52c61a468e7d'),           // editing
   'translator': u('photo-1456513080510-7bf3a84b82f8'),       // translation
   'librarian': u('photo-1507842217343-583bb7270b66'),        // library
@@ -132,7 +132,7 @@ export const jobImageMap: Record<string, string> = {
   'farmer': u('photo-1500937386664-56d1dfef3854'),           // farming
   'environmental-consultant': u('photo-1473448912268-2022ce9509d8'), // environment
   'energy-engineer': u('photo-1509391366360-2e959784a276'),  // energy
-  'pilot': u('photo-1436491865332-7a61a109db05'),            // cockpit
+  'pilot': u('photo-1540962351504-03099e0a754b'),            // cockpit
   'sdf': u('photo-1579912437766-7896df6d3cd3'),              // military
   'trading-company': u('photo-1526304640581-d334cdbbf45e'),  // trading
   'pharmacist-industry': u('photo-1532094349884-543bc11b234d'), // pharma research
