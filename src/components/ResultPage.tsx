@@ -12,6 +12,7 @@ interface ResultPageProps {
   gameMode: GameMode;
   player: PlayerState;
   recommendedJobs: Job[];
+  educationPath?: 'university' | 'vocational' | 'work';
   onRestart: () => void;
   onSwitchMode: () => void;
 }
@@ -21,6 +22,7 @@ export function ResultPage({
   gameMode,
   player,
   recommendedJobs,
+  educationPath,
   onRestart,
   onSwitchMode,
 }: ResultPageProps) {
@@ -76,13 +78,7 @@ export function ResultPage({
           </SectionTitle>
           {gameMode === 'childhood' ? (
             <div className="flex items-center justify-center gap-2 py-4">
-              {[
-                { emoji: '🎒', label: '小学校' },
-                { emoji: '📖', label: '中学校' },
-                { emoji: '🏫', label: '高校' },
-                { emoji: '🎓', label: '大学' },
-                { emoji: '💼', label: '就活' },
-              ].map((stage, i) => (
+              {getChildhoodTimeline(educationPath).map((stage, i) => (
                 <div key={i} className="flex items-center">
                   {i > 0 && <div className="w-4 sm:w-8 h-0.5 bg-indigo-300 mx-1" />}
                   <div className="flex flex-col items-center">
@@ -322,4 +318,22 @@ function generateSummary(player: PlayerState, gameMode: GameMode, stats: Record<
   }
 
   return `社会人として歩む中で、あなたは${jobCount}種類の職種に出会いました。\n\n${descriptions[highest[0]]}\n\nこの経験を通じて、あなたの中にある「働く上で大事にしたいこと」が少しずつ見えてきたのではないでしょうか。`;
+}
+
+/** 進路に応じた結果画面タイムライン */
+function getChildhoodTimeline(path?: 'university' | 'vocational' | 'work') {
+  const base = [
+    { emoji: '🎒', label: '小学校' },
+    { emoji: '📖', label: '中学校' },
+    { emoji: '🏫', label: '高校' },
+  ];
+  switch (path) {
+    case 'vocational':
+      return [...base, { emoji: '🔧', label: '専門学校' }, { emoji: '💼', label: '就活' }];
+    case 'work':
+      return [...base, { emoji: '💪', label: '就職' }];
+    case 'university':
+    default:
+      return [...base, { emoji: '🎓', label: '大学' }, { emoji: '💼', label: '就活' }];
+  }
 }

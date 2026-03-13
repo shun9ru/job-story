@@ -55,6 +55,7 @@ function App() {
     gameResults,
     dataLoaded,
     diagnosisOnly,
+    educationPath,
     login,
     logout,
     applyDiagnosisAnswer,
@@ -151,6 +152,7 @@ function App() {
             gameMode={gameMode}
             player={player}
             recommendedJobs={getRecommendedJobs()}
+            educationPath={educationPath}
             onRestart={resetGame}
             onSwitchMode={switchMode}
           />

@@ -2,7 +2,8 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { PlayerState, StatKey, TraitKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
 import { initialStats, valueStatKeys } from '../data/stats';
 import { jobs } from '../data/jobs/index';
-import { getRandomChildhoodEvents } from '../data/events-childhood';
+import { getBaseChildhoodEvents, getPathEvents, PATH_CHOICE_EVENT_ID } from '../data/events-childhood';
+import type { EducationPath } from '../data/events-childhood';
 import { getRandomWorkingEvents } from '../data/events-working';
 import type { GameResultRecord, ExperienceReflection } from '../utils/storage';
 import {
@@ -37,12 +38,23 @@ export function useGameState() {
   const [diagnosisOnly, setDiagnosisOnly] = useState(false);
   const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
+  const [educationPath, setEducationPath] = useState<EducationPath | undefined>(undefined);
 
-  /** 現在のモードに応じたイベント一覧（ランダム選出） */
+  /** 子供時代モード：高校まで＋進路選択イベント（分岐前の固定部分） */
+  const childBaseEvents: GameEvent[] = useMemo(() => {
+    void eventSeed;
+    return gameMode === 'childhood' ? getBaseChildhoodEvents() : [];
+  }, [gameMode, eventSeed]);
+
+  /** 現在のモードに応じたイベント一覧 */
   const currentEvents: GameEvent[] = useMemo(() => {
     void eventSeed;
-    return gameMode === 'childhood' ? getRandomChildhoodEvents() : getRandomWorkingEvents();
-  }, [gameMode, eventSeed]);
+    if (gameMode !== 'childhood') return getRandomWorkingEvents();
+    // 進路未選択：分岐前のイベントのみ返す
+    if (!educationPath) return childBaseEvents;
+    // 進路選択済み：分岐前 + 進路に応じた後半イベント
+    return [...childBaseEvents, ...getPathEvents(educationPath)];
+  }, [gameMode, eventSeed, educationPath, childBaseEvents]);
 
   /** ユーザーデータをSupabaseから読み込み */
   const loadUserData = useCallback(async () => {
@@ -150,6 +162,19 @@ export function useGameState() {
   /** 選択肢を選んだ時の処理（価値観系ステータスはスキップ） */
   const selectChoice = useCallback(
     (eventId: string, choice: Choice) => {
+      // 進路選択イベントの分岐処理
+      if (eventId === PATH_CHOICE_EVENT_ID) {
+        const pathMap: Record<string, EducationPath> = {
+          'path-university': 'university',
+          'path-vocational': 'vocational',
+          'path-work': 'work',
+        };
+        const selectedPath = pathMap[choice.id];
+        if (selectedPath) {
+          setEducationPath(selectedPath);
+        }
+      }
+
       setPlayer((prev) => {
         const newStats = { ...prev.stats };
         for (const [key, value] of Object.entries(choice.effects)) {
@@ -366,6 +391,7 @@ export function useGameState() {
   const resetGame = useCallback(() => {
     setPlayer(createInitialPlayer());
     setCurrentEventIndex(0);
+    setEducationPath(undefined);
     setScreen('top');
   }, []);
 
@@ -373,6 +399,7 @@ export function useGameState() {
   const switchMode = useCallback(() => {
     setPlayer(createInitialPlayer());
     setCurrentEventIndex(0);
+    setEducationPath(undefined);
     setScreen('mode-select');
   }, []);
 
@@ -390,6 +417,7 @@ export function useGameState() {
     gameResults,
     dataLoaded,
     diagnosisOnly,
+    educationPath,
     login,
     logout,
     applyDiagnosisAnswer,

@@ -24,6 +24,13 @@ export const lifeStages: LifeStageInfo[] = [
     bgGradient: 'from-sky-50 via-blue-50 to-cyan-50',
   },
   {
+    key: 'vocational',
+    label: '専門学校',
+    emoji: '🔧',
+    color: 'text-teal-600',
+    bgGradient: 'from-teal-50 via-cyan-50 to-sky-50',
+  },
+  {
     key: 'university',
     label: '大学',
     emoji: '🎓',

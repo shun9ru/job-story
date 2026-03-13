@@ -1327,13 +1327,322 @@ const slot10Pool: GameEvent[] = [
   },
 ];
 
+// === 進路選択イベント（高校卒業時の分岐） ===
+
+/** 進路選択の分岐イベントID */
+export const PATH_CHOICE_EVENT_ID = 'c-path-choice';
+
+const pathChoiceEvent: GameEvent = {
+  id: PATH_CHOICE_EVENT_ID,
+  step: 7,
+  stage: 'high-school',
+  title: '卒業後の進路、どうする？',
+  description: '高校卒業が近づいてきた。これからの人生を左右する大きな選択の時。あなたはどの道を選ぶ？',
+  relatedJobIds: [],
+  choices: [
+    {
+      id: 'path-university',
+      text: '大学に進学する',
+      emoji: '🎓',
+      description: '4年間じっくり学問を深めて、幅広い知識と経験を得たい',
+      effects: { analysis: 1, planning: 1 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'path-vocational',
+      text: '専門学校で手に職をつける',
+      emoji: '🔧',
+      description: '実践的なスキルを短期間で集中して身につけたい',
+      effects: { technical: 2 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'path-work',
+      text: '進学せずに社会に出て働く',
+      emoji: '💪',
+      description: '早く現場で経験を積んで、自分の力で生きていきたい',
+      effects: { growth: 2 },
+      unlockJobIds: [],
+    },
+  ],
+};
+
+// === 専門学校イベントプール ===
+
+const slotVocational1Pool: GameEvent[] = [
+  {
+    id: 'c-voc1a',
+    step: 8,
+    stage: 'vocational',
+    title: '専門学校で何を学ぶ？',
+    description: '2年間で即戦力を目指す。どの分野のプロになりたい？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc1a-1',
+        text: 'IT・プログラミング系',
+        emoji: '💻',
+        description: 'Webサイトやアプリの開発スキルを実践的に学ぶ',
+        effects: { technical: 3, analysis: 1 },
+        unlockJobIds: ['web-engineer', 'game-programmer', 'se', 'infra-engineer'],
+      },
+      {
+        id: 'voc1a-2',
+        text: 'デザイン・クリエイティブ系',
+        emoji: '🎨',
+        description: 'グラフィック、Web、映像…表現のプロを目指す',
+        effects: { creative: 3, planning: 1 },
+        unlockJobIds: ['graphic-designer', 'web-designer', 'video-creator', 'animator'],
+      },
+      {
+        id: 'voc1a-3',
+        text: '医療・福祉系',
+        emoji: '🏥',
+        description: '看護、介護、リハビリ…人を支える専門職へ',
+        effects: { care: 3, stability: 1 },
+        unlockJobIds: ['nurse', 'care-worker', 'physical-therapist', 'dental-hygienist'],
+      },
+      {
+        id: 'voc1a-4',
+        text: '調理・製菓・美容系',
+        emoji: '👨‍🍳',
+        description: '技術を磨いて、人を笑顔にするプロになる',
+        effects: { creative: 2, care: 2 },
+        unlockJobIds: ['chef', 'patissier', 'hairdresser', 'beauty-advisor'],
+      },
+    ],
+  },
+  {
+    id: 'c-voc1b',
+    step: 8,
+    stage: 'vocational',
+    title: '専門学校、どんな分野に進む？',
+    description: '高校を卒業して専門学校へ。将来の仕事に直結するスキルを選ぼう。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc1b-1',
+        text: 'ビジネス・会計系',
+        emoji: '📊',
+        description: '簿記や経理のスキルを身につけて、堅実なキャリアへ',
+        effects: { analysis: 2, stability: 2 },
+        unlockJobIds: ['accounting', 'tax-accountant', 'fp', 'bank-staff'],
+      },
+      {
+        id: 'voc1b-2',
+        text: '建築・土木・インテリア系',
+        emoji: '🏗️',
+        description: '図面を引いて、空間を作るプロフェッショナルへ',
+        effects: { technical: 2, creative: 2 },
+        unlockJobIds: ['architect', 'interior-designer', 'construction-manager', 'surveyor'],
+      },
+      {
+        id: 'voc1b-3',
+        text: '語学・観光・ホテル系',
+        emoji: '🌍',
+        description: '語学力と接客力で、世界と繋がる仕事を目指す',
+        effects: { communication: 3, growth: 1 },
+        unlockJobIds: ['hotel-staff', 'travel-planner', 'translator', 'overseas-sales'],
+      },
+      {
+        id: 'voc1b-4',
+        text: '動物・農業・環境系',
+        emoji: '🐾',
+        description: '生き物や自然と関わるスペシャリストへ',
+        effects: { care: 2, technical: 1, stability: 1 },
+        unlockJobIds: ['farmer', 'environmental-consultant', 'dietitian'],
+      },
+    ],
+  },
+];
+
+const slotVocational2Pool: GameEvent[] = [
+  {
+    id: 'c-voc2a',
+    step: 9,
+    stage: 'vocational',
+    title: '専門学校での実習、一番成長を感じた経験は？',
+    description: '座学だけじゃない、現場での実践が大きな力になる。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc2a-1',
+        text: '企業インターンで本物の現場を経験',
+        emoji: '🏢',
+        description: 'プロの仕事を間近で見て、実践力が一気に上がった',
+        effects: { growth: 2, planning: 1, communication: 1 },
+        unlockJobIds: ['production-manager', 'logistics-manager', 'general-admin'],
+      },
+      {
+        id: 'voc2a-2',
+        text: '資格試験に合格して自信がついた',
+        emoji: '📝',
+        description: '国家資格や業界資格を取得。努力が形になった瞬間',
+        effects: { technical: 2, stability: 2 },
+        unlockJobIds: ['clinical-technologist', 'pharmacist', 'customs-broker'],
+      },
+      {
+        id: 'voc2a-3',
+        text: '卒業制作・卒業研究で全力を出し切った',
+        emoji: '🏆',
+        description: '2年間の学びの集大成。先生やクラスメイトに認められた',
+        effects: { creative: 2, analysis: 1, growth: 1 },
+        unlockJobIds: ['game-designer', 'fashion-designer', 'sound-creator'],
+      },
+      {
+        id: 'voc2a-4',
+        text: 'クラスメイトと支え合って乗り越えた日々',
+        emoji: '🤝',
+        description: '同じ夢を持つ仲間との絆が一生の財産に',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['nursery-teacher', 'sports-trainer', 'social-worker'],
+      },
+    ],
+  },
+  {
+    id: 'c-voc2b',
+    step: 9,
+    stage: 'vocational',
+    title: '卒業が近づいてきた。就職活動の手応えは？',
+    description: '専門学校で培ったスキルを武器に、いよいよ社会へ。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc2b-1',
+        text: '学校推薦で内定先が決まった！',
+        emoji: '🎉',
+        description: '真面目に取り組んできた成果。先生のお墨付き',
+        effects: { stability: 2, technical: 2 },
+        unlockJobIds: ['quality-control', 'production-engineer', 'general-admin'],
+      },
+      {
+        id: 'voc2b-2',
+        text: '自分で探して、やりたい仕事を見つけた',
+        emoji: '🔍',
+        description: '求人を調べ尽くして、自分にぴったりの会社に出会えた',
+        effects: { planning: 2, growth: 2 },
+        unlockJobIds: ['digital-marketer', 'sns-marketer', 'customer-success'],
+      },
+      {
+        id: 'voc2b-3',
+        text: 'ポートフォリオが評価されて複数内定！',
+        emoji: '✨',
+        description: '作品集が面接官の目に留まった。努力が報われた',
+        effects: { creative: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['photographer', 'ui-ux-designer', 'copywriter'],
+      },
+      {
+        id: 'voc2b-4',
+        text: '実習先からそのまま正社員のオファー',
+        emoji: '🤝',
+        description: '実習中の頑張りが認められて、即戦力として迎えられた',
+        effects: { communication: 2, care: 1, stability: 1 },
+        unlockJobIds: ['restaurant-manager', 'retail-sales', 'hotel-staff'],
+      },
+    ],
+  },
+];
+
+// === 高卒就職イベントプール ===
+
+const slotEarlyWorkPool: GameEvent[] = [
+  {
+    id: 'c-ework1a',
+    step: 8,
+    stage: 'shukatsu',
+    title: '高校卒業後、どんな仕事に就いた？',
+    description: '進学せずに社会へ飛び出す道を選んだあなた。最初の仕事は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ework1a-1',
+        text: '地元の製造業・工場で働き始めた',
+        emoji: '🏭',
+        description: 'ものづくりの現場で、手を動かして技術を磨く',
+        effects: { technical: 2, stability: 2 },
+        unlockJobIds: ['production-engineer', 'quality-control', 'production-manager'],
+      },
+      {
+        id: 'ework1a-2',
+        text: '接客・販売の仕事でコミュ力を鍛えた',
+        emoji: '🏪',
+        description: 'お客さんと直接向き合う仕事で人間力がアップ',
+        effects: { communication: 3, care: 1 },
+        unlockJobIds: ['retail-sales', 'hotel-staff', 'beauty-advisor', 'restaurant-manager'],
+      },
+      {
+        id: 'ework1a-3',
+        text: '建設・土木の仕事で体を張って働いた',
+        emoji: '🔨',
+        description: '体力と根性が鍛えられる。チームで大きなものを作る充実感',
+        effects: { growth: 2, stability: 1, planning: 1 },
+        unlockJobIds: ['construction-manager', 'surveyor', 'police-fire', 'sdf'],
+      },
+      {
+        id: 'ework1a-4',
+        text: '介護・福祉の仕事で人を支え始めた',
+        emoji: '🤲',
+        description: '高齢者や障がいのある方を支える、やりがいのある仕事',
+        effects: { care: 3, communication: 1 },
+        unlockJobIds: ['care-worker', 'social-worker', 'nursery-teacher', 'dietitian'],
+      },
+    ],
+  },
+  {
+    id: 'c-ework1b',
+    step: 8,
+    stage: 'shukatsu',
+    title: '社会に出て最初に学んだことは？',
+    description: '学校では教わらなかった「社会のリアル」に直面。一番の学びは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ework1b-1',
+        text: '先輩に鍛えられて、仕事の基本を叩き込まれた',
+        emoji: '💪',
+        description: '厳しいけど愛のある指導。基礎力が一気についた',
+        effects: { growth: 2, stability: 2 },
+        unlockJobIds: ['chef', 'hairdresser', 'sports-trainer'],
+      },
+      {
+        id: 'ework1b-2',
+        text: 'お金を稼ぐ大変さと、使い方を学んだ',
+        emoji: '💰',
+        description: '自分で稼いだお金の重みを知って、計画性が身についた',
+        effects: { planning: 2, analysis: 2 },
+        unlockJobIds: ['fp', 'insurance-sales', 'bank-staff'],
+      },
+      {
+        id: 'ework1b-3',
+        text: '年上の人とのコミュニケーション力がついた',
+        emoji: '🗣️',
+        description: '世代の違う人と毎日話すことで、人間関係力が爆上がり',
+        effects: { communication: 3, care: 1 },
+        unlockJobIds: ['personal-sales', 'corporate-sales', 'hr-sales'],
+      },
+      {
+        id: 'ework1b-4',
+        text: '独学で資格を取って、スキルアップした',
+        emoji: '📚',
+        description: '働きながら勉強。周りと差をつけるために努力を続けた',
+        effects: { technical: 2, growth: 2 },
+        unlockJobIds: ['se', 'web-engineer', 'customs-broker', 'judicial-scrivener'],
+      },
+    ],
+  },
+];
+
 // === Helper & exports ===
 
 function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export function getRandomChildhoodEvents(): GameEvent[] {
+/** 進路選択 */
+export type EducationPath = 'university' | 'vocational' | 'work';
+
+/** 高校まで + 進路選択イベント（分岐前） */
+export function getBaseChildhoodEvents(): GameEvent[] {
   return [
     pickRandom(slot1Pool),
     pickRandom(slot2Pool),
@@ -1341,11 +1650,40 @@ export function getRandomChildhoodEvents(): GameEvent[] {
     pickRandom(slot4Pool),
     pickRandom(slot5Pool),
     pickRandom(slot6Pool),
-    pickRandom(slot7Pool),
-    pickRandom(slot8Pool),
-    pickRandom(slot9Pool),
-    pickRandom(slot10Pool),
+    pathChoiceEvent,
   ];
+}
+
+/** 進路に応じた後半イベント */
+export function getPathEvents(path: EducationPath): GameEvent[] {
+  switch (path) {
+    case 'vocational':
+      return [
+        pickRandom(slotVocational1Pool),
+        pickRandom(slotVocational2Pool),
+        pickRandom(slot9Pool),
+        pickRandom(slot10Pool),
+      ];
+    case 'work':
+      return [
+        pickRandom(slotEarlyWorkPool),
+        pickRandom(slot9Pool),
+        pickRandom(slot10Pool),
+      ];
+    case 'university':
+    default:
+      return [
+        pickRandom(slot7Pool),
+        pickRandom(slot8Pool),
+        pickRandom(slot9Pool),
+        pickRandom(slot10Pool),
+      ];
+  }
+}
+
+/** 互換用：デフォルトで大学進学パスの全イベントを返す */
+export function getRandomChildhoodEvents(): GameEvent[] {
+  return [...getBaseChildhoodEvents(), ...getPathEvents('university')];
 }
 
 // backward compat

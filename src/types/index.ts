@@ -76,7 +76,7 @@ export interface DiagnosisRecord {
 export type GameMode = 'childhood' | 'working';
 
 /** ライフステージ */
-export type LifeStage = 'elementary' | 'middle-school' | 'high-school' | 'university' | 'shukatsu' | 'early-career' | 'mid-career' | 'future';
+export type LifeStage = 'elementary' | 'middle-school' | 'high-school' | 'vocational' | 'university' | 'shukatsu' | 'early-career' | 'mid-career' | 'future';
 
 /** ライフステージの表示情報 */
 export interface LifeStageInfo {

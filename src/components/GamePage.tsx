@@ -264,6 +264,7 @@ function getStageSubtitle(stage: LifeStage, mode: GameMode): string {
       'elementary': 'いろんなことに挑戦できる、好奇心いっぱいの時期',
       'middle-school': '部活や勉強で「自分の得意」が見えてくる時期',
       'high-school': '進路を決める、人生の大きな分かれ道',
+      'vocational': '実践的なスキルを磨いて、即戦力を目指す時期',
       'university': '自由な時間を使って、自分を深める時期',
       'shukatsu': 'いよいよ社会へ。今までの全てが武器になる',
     };
