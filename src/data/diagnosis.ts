@@ -1,4 +1,4 @@
-import type { DiagnosisQuestion, DiagnosisType, TraitKey, StatKey } from '../types';
+import type { DiagnosisQuestion, DiagnosisType, TraitKey } from '../types';
 
 // ============================================================
 // 質問プール（60問）— 毎回ランダムに20問を出題

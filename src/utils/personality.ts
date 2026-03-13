@@ -232,7 +232,7 @@ function getStrengths(top1: StatKey, top2: StatKey, stats: Record<StatKey, numbe
   return lines.join('\n');
 }
 
-function getGrowthArea(bottom1: StatKey, bottom2: StatKey, top1: StatKey): string {
+function getGrowthArea(bottom1: StatKey, _bottom2: StatKey, top1: StatKey): string {
   const adviceMap: Record<StatKey, string> = {
     satisfaction: '効率や成果を追い求めるあまり、「自分は本当にこれがやりたいのか？」と立ち止まる時間を忘れがち。定期的に自分の心の声に耳を傾けてみて。',
     income: '「お金のためだけに働きたくない」という気持ちは素敵。ただし、経済的な余裕は選択肢の幅を広げてくれるもの。自分の価値を正当に主張する力も大切にしよう。',
@@ -249,7 +249,7 @@ function getGrowthArea(bottom1: StatKey, bottom2: StatKey, top1: StatKey): strin
   return `${STAT_LABELS[bottom1]}が控えめなのは弱みではなく、${STAT_LABELS[top1]}に全力を注いできた証拠。\n\n${adviceMap[bottom1]}`;
 }
 
-function getBalanceDiagnosis(spread: number, avg: number, count: number): string {
+function getBalanceDiagnosis(spread: number, _avg: number, _count: number): string {
   if (spread <= 4) {
     return 'ステータスが全体的にバランス良く伸びている「オールラウンダー型」。どんな環境にも適応できる柔軟性が最大の武器。特定の職種に縛られず、様々なキャリアパスの可能性を秘めています。一方で「何でもできるけど、これが一番」という軸を見つけると、さらにキャリアが加速するかも。';
   }

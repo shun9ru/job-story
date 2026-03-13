@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { PlayerState, Job, StatKey, GameMode } from '../types';
 import { getDiagnosisType } from '../data/diagnosis';
 import { getJobById } from '../data/jobs/index';
-import { statDefinitions, skillStatDefinitions } from '../data/stats';
+import { skillStatDefinitions } from '../data/stats';
 import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
 import { SkillMapSection } from './SkillRadarChart';

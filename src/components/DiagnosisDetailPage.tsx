@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { DiagnosisType, TraitKey, StatKey, DiagnosisRecord } from '../types';
+import type { DiagnosisType, TraitKey, DiagnosisRecord } from '../types';
 import { diagnosisTypes, getDiagnosisType } from '../data/diagnosis';
 import { statDefinitions } from '../data/stats';
 import { DiagnosisAIReviewSection } from './DiagnosisAIReview';
