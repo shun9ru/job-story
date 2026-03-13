@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { PlayerState, Job, StatKey, GameMode } from '../types';
 import { getDiagnosisType } from '../data/diagnosis';
 import { getJobById } from '../data/jobs/index';
@@ -32,13 +32,24 @@ export function ResultPage({
     .map(getJobById)
     .filter((j): j is Job => j !== undefined);
 
+  // ストーリー + 診断を統合したステータス（スキルマップ・パーソナリティ分析用）
+  const combinedStats = useMemo(() => {
+    const merged = { ...player.stats };
+    if (player.diagnosisStats) {
+      for (const [key, value] of Object.entries(player.diagnosisStats)) {
+        merged[key as StatKey] = Math.min(20, merged[key as StatKey] + value);
+      }
+    }
+    return merged;
+  }, [player.stats, player.diagnosisStats]);
+
   // スキル系ステータスのうち上位3つを抽出
   const topStats = [...skillStatDefinitions]
-    .sort((a, b) => player.stats[b.key] - player.stats[a.key])
+    .sort((a, b) => combinedStats[b.key] - combinedStats[a.key])
     .slice(0, 3);
 
   // キャリアサマリーテキストを生成
-  const summaryText = generateSummary(player, gameMode);
+  const summaryText = generateSummary(player, gameMode, combinedStats);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-amber-50">
@@ -152,7 +163,7 @@ export function ResultPage({
                     <div className="text-2xl">{stat.emoji}</div>
                     <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
                     <div className="text-lg font-bold text-gray-800">
-                      {player.stats[stat.key]}
+                      {combinedStats[stat.key]}
                     </div>
                   </div>
                   {isActive && (
@@ -167,11 +178,11 @@ export function ResultPage({
         </div>
 
         {/* パーソナリティ分析 */}
-        <PersonalityAnalysis stats={player.stats} />
+        <PersonalityAnalysis stats={combinedStats} />
 
         {/* スキルマップ（レーダーチャート＋全職業ランキング） */}
         <SkillMapSection
-          playerStats={player.stats}
+          playerStats={combinedStats}
           discoveredJobs={[...recommendedJobs, ...discoveredJobs]
             .filter((j, i, arr) => arr.findIndex((x) => x.id === j.id) === i)
             .map((j) => ({
@@ -285,9 +296,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 }
 
 /** キャリアサマリーのテキスト生成 */
-function generateSummary(player: PlayerState, gameMode: GameMode): string {
-  const { stats } = player;
-
+function generateSummary(player: PlayerState, gameMode: GameMode, stats: Record<StatKey, number>): string {
   // スキル系ステータスのみから最も高いものを抽出
   const skillEntries = (Object.entries(stats) as [StatKey, number][])
     .filter(([key]) => key !== 'satisfaction' && key !== 'income');

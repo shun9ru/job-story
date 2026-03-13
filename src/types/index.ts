@@ -125,6 +125,8 @@ export type StatKey =
 /** プレイヤーの状態 */
 export interface PlayerState {
   stats: Record<StatKey, number>;
+  /** 診断から得られたステータス（ストーリーとは別管理） */
+  diagnosisStats?: Record<StatKey, number>;
   discoveredJobIds: string[];
   selectedChoices: { eventId: string; choiceId: string }[];
   diagnosisTraits: Record<TraitKey, number>;

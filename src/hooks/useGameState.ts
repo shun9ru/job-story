@@ -125,55 +125,25 @@ export function useGameState() {
       setScreen('diagnosis-detail');
       setDiagnosisOnly(false);
     } else {
-      // ストーリーモード → ゲーム開始（診断ステータスを初期値に加算）
-      setPlayer((prev) => {
-        const boostedStats = { ...prev.stats };
-        if (diagStats) {
-          for (const [key, value] of Object.entries(diagStats)) {
-            boostedStats[key as StatKey] += value;
-          }
-        } else {
-          // フォールバック: diagStatsがない場合は従来通りprimaryTraitを+2
-          const traitToStat: Record<TraitKey, StatKey> = {
-            communication: 'communication',
-            planning: 'planning',
-            analysis: 'analysis',
-            stability: 'stability',
-            challenge: 'growth',
-            creative: 'creative',
-            care: 'care',
-            technical: 'technical',
-          };
-          boostedStats[traitToStat[primaryKey]] += 2;
-        }
-        return { ...prev, diagnosisTraits: traits, primaryTrait: primaryKey, stats: boostedStats };
-      });
+      // ストーリーモード → ゲーム開始（診断ステータスは別管理、ストーリーの初期値には加算しない）
+      setPlayer((prev) => ({
+        ...prev,
+        diagnosisTraits: traits,
+        primaryTrait: primaryKey,
+        diagnosisStats: diagStats,
+      }));
       setScreen('game');
     }
   }, [gameMode, diagnosisOnly]);
 
-  /** 過去の診断結果を再利用してゲーム開始 */
+  /** 過去の診断結果を再利用してゲーム開始（診断ステータスは別管理） */
   const reuseDiagnosis = useCallback((record: DiagnosisRecord) => {
-    setPlayer((prev) => {
-      const boostedStats = { ...prev.stats };
-      const traitToStat: Record<TraitKey, StatKey> = {
-        communication: 'communication',
-        planning: 'planning',
-        analysis: 'analysis',
-        stability: 'stability',
-        challenge: 'growth',
-        creative: 'creative',
-        care: 'care',
-        technical: 'technical',
-      };
-      boostedStats[traitToStat[record.primaryTrait]] += 2;
-      return {
-        ...prev,
-        diagnosisTraits: { ...record.traits },
-        primaryTrait: record.primaryTrait,
-        stats: boostedStats,
-      };
-    });
+    setPlayer((prev) => ({
+      ...prev,
+      diagnosisTraits: { ...record.traits },
+      primaryTrait: record.primaryTrait,
+      diagnosisStats: record.stats,
+    }));
     setScreen('game');
   }, []);
 
@@ -206,9 +176,16 @@ export function useGameState() {
     [],
   );
 
-  /** 結果画面で向いてそうな職種TOP5を計算 */
+  /** 結果画面で向いてそうな職種TOP5を計算（診断+ストーリー統合値を使用） */
   const getRecommendedJobs = useCallback(() => {
-    const { stats, discoveredJobIds } = player;
+    const { discoveredJobIds } = player;
+    // 診断statsとストーリーstatsを統合して使用
+    const stats = { ...player.stats };
+    if (player.diagnosisStats) {
+      for (const [key, value] of Object.entries(player.diagnosisStats)) {
+        stats[key as StatKey] = Math.min(20, stats[key as StatKey] + value);
+      }
+    }
 
     const tagMap: Record<string, StatKey[]> = {
       '対人': ['communication'],
@@ -289,15 +266,22 @@ export function useGameState() {
     return jobScores.slice(0, 5).map((s) => s.job);
   }, [player]);
 
-  /** 結果画面へ遷移（ゲーム結果を保存） */
+  /** 結果画面へ遷移（ゲーム結果を保存、診断+ストーリーの統合値） */
   const goToResult = useCallback(async () => {
     const recommended = getRecommendedJobs();
+    // 保存用に診断statsとストーリーstatsを統合
+    const combinedStats = { ...player.stats };
+    if (player.diagnosisStats) {
+      for (const [key, value] of Object.entries(player.diagnosisStats)) {
+        combinedStats[key as StatKey] = Math.min(20, combinedStats[key as StatKey] + value);
+      }
+    }
     const result: GameResultRecord = {
       id: Date.now().toString(),
       date: new Date().toLocaleDateString('ja-JP'),
       gameMode,
       primaryTrait: player.primaryTrait,
-      stats: { ...player.stats },
+      stats: combinedStats,
       discoveredJobIds: [...player.discoveredJobIds],
       recommendedJobIds: recommended.map((j) => j.id),
     };
