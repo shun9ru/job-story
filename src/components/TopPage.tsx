@@ -7,7 +7,8 @@ interface TopPageProps {
   diagRecords: DiagnosisRecord[];
   gameResults: GameResultRecord[];
   dataLoaded: boolean;
-  onStart: () => void;
+  onStartStory: () => void;
+  onStartDiagnosis: () => void;
   onViewDiagnosis: (record: DiagnosisRecord) => void;
   onViewGameResult: (result: GameResultRecord) => void;
   onEncyclopedia: () => void;
@@ -15,7 +16,7 @@ interface TopPageProps {
 }
 
 /** トップ画面 */
-export function TopPage({ userId, diagRecords, gameResults, dataLoaded, onStart, onViewDiagnosis, onViewGameResult, onEncyclopedia, onLogout }: TopPageProps) {
+export function TopPage({ userId, diagRecords, gameResults, dataLoaded, onStartStory, onStartDiagnosis, onViewDiagnosis, onViewGameResult, onEncyclopedia, onLogout }: TopPageProps) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-amber-50">
@@ -53,13 +54,21 @@ export function TopPage({ userId, diagRecords, gameResults, dataLoaded, onStart,
           選択であなただけのストーリーが生まれる。
         </p>
 
-        {/* はじめるボタン */}
-        <button
-          onClick={onStart}
-          className="px-10 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 cursor-pointer"
-        >
-          はじめる
-        </button>
+        {/* メインボタン2つ */}
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <button
+            onClick={onStartStory}
+            className="px-8 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 cursor-pointer"
+          >
+            🎒 ストーリーで探す
+          </button>
+          <button
+            onClick={onStartDiagnosis}
+            className="px-8 py-4 bg-purple-500 hover:bg-purple-600 text-white text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 cursor-pointer"
+          >
+            🔮 性格診断だけ
+          </button>
+        </div>
 
         {/* 職種図鑑ボタン */}
         <button
@@ -70,9 +79,10 @@ export function TopPage({ userId, diagRecords, gameResults, dataLoaded, onStart,
         </button>
 
         {/* 補足テキスト */}
-        <p className="mt-6 text-xs text-gray-400">
-          所要時間：約5〜10分
-        </p>
+        <div className="mt-6 text-xs text-gray-400 space-y-1">
+          <p>ストーリー：診断＋シミュレーション（約5〜10分）</p>
+          <p>性格診断：10問の質問で性格タイプを分析（約2分）</p>
+        </div>
       </div>
 
       {/* 履歴セクション */}

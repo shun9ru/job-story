@@ -24,6 +24,8 @@ export interface DiagnosisQuestion {
     text: string;
     emoji?: string;
     effects: Partial<Record<TraitKey, number>>;
+    /** 10軸ステータスへの効果（satisfaction, income など TraitKey に含まれない軸用） */
+    statEffects?: Partial<Record<StatKey, number>>;
   }[];
 }
 
@@ -65,6 +67,8 @@ export interface DiagnosisRecord {
   primaryTrait: TraitKey;
   secondaryTrait: TraitKey;
   traits: Record<TraitKey, number>;
+  /** 診断から得られた10軸ステータス */
+  stats?: Record<StatKey, number>;
   gameMode?: GameMode;
 }
 
@@ -133,4 +137,5 @@ export interface StatInfo {
   label: string;
   emoji: string;
   color: string;
+  description: string;
 }

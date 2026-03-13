@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { PlayerState, StatKey, TraitKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
-import { initialStats } from '../data/stats';
+import { initialStats, valueStatKeys } from '../data/stats';
 import { jobs } from '../data/jobs/index';
 import { getRandomChildhoodEvents } from '../data/events-childhood';
 import { getRandomWorkingEvents } from '../data/events-working';
@@ -34,6 +34,7 @@ export function useGameState() {
   const [experienceReflections, setExperienceReflections] = useState<ExperienceReflection[]>([]);
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  const [diagnosisOnly, setDiagnosisOnly] = useState(false);
   const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
 
@@ -98,8 +99,13 @@ export function useGameState() {
     [],
   );
 
-  /** 診断完了 → ゲーム開始（結果をSupabaseに保存） */
-  const finishDiagnosis = useCallback(async (traits: Record<TraitKey, number>, primaryKey: TraitKey, secondaryKey: TraitKey) => {
+  /** 診断完了（結果をSupabaseに保存） */
+  const finishDiagnosis = useCallback(async (
+    traits: Record<TraitKey, number>,
+    primaryKey: TraitKey,
+    secondaryKey: TraitKey,
+    diagStats?: Record<StatKey, number>,
+  ) => {
     // 診断結果を保存
     const record: DiagnosisRecord = {
       id: Date.now().toString(),
@@ -107,29 +113,44 @@ export function useGameState() {
       primaryTrait: primaryKey,
       secondaryTrait: secondaryKey,
       traits,
+      stats: diagStats,
       gameMode,
     };
     await saveDiagnosisRecord(record);
     setDiagnosisRecords((prev) => [record, ...prev]);
 
-    // プレイヤーステータスを更新
-    setPlayer((prev) => {
-      const boostedStats = { ...prev.stats };
-      const traitToStat: Record<TraitKey, StatKey> = {
-        communication: 'communication',
-        planning: 'planning',
-        analysis: 'analysis',
-        stability: 'stability',
-        challenge: 'growth',
-        creative: 'creative',
-        care: 'care',
-        technical: 'technical',
-      };
-      boostedStats[traitToStat[primaryKey]] += 2;
-      return { ...prev, diagnosisTraits: traits, primaryTrait: primaryKey, stats: boostedStats };
-    });
-    setScreen('game');
-  }, [gameMode]);
+    if (diagnosisOnly) {
+      // 診断単体モード → 診断詳細を表示
+      setViewingRecord(record);
+      setScreen('diagnosis-detail');
+      setDiagnosisOnly(false);
+    } else {
+      // ストーリーモード → ゲーム開始（診断ステータスを初期値に加算）
+      setPlayer((prev) => {
+        const boostedStats = { ...prev.stats };
+        if (diagStats) {
+          for (const [key, value] of Object.entries(diagStats)) {
+            boostedStats[key as StatKey] += value;
+          }
+        } else {
+          // フォールバック: diagStatsがない場合は従来通りprimaryTraitを+2
+          const traitToStat: Record<TraitKey, StatKey> = {
+            communication: 'communication',
+            planning: 'planning',
+            analysis: 'analysis',
+            stability: 'stability',
+            challenge: 'growth',
+            creative: 'creative',
+            care: 'care',
+            technical: 'technical',
+          };
+          boostedStats[traitToStat[primaryKey]] += 2;
+        }
+        return { ...prev, diagnosisTraits: traits, primaryTrait: primaryKey, stats: boostedStats };
+      });
+      setScreen('game');
+    }
+  }, [gameMode, diagnosisOnly]);
 
   /** 過去の診断結果を再利用してゲーム開始 */
   const reuseDiagnosis = useCallback((record: DiagnosisRecord) => {
@@ -156,12 +177,14 @@ export function useGameState() {
     setScreen('game');
   }, []);
 
-  /** 選択肢を選んだ時の処理 */
+  /** 選択肢を選んだ時の処理（価値観系ステータスはスキップ） */
   const selectChoice = useCallback(
     (eventId: string, choice: Choice) => {
       setPlayer((prev) => {
         const newStats = { ...prev.stats };
         for (const [key, value] of Object.entries(choice.effects)) {
+          // 価値観系（satisfaction, income）はストーリーでは変動させない
+          if (valueStatKeys.includes(key as StatKey)) continue;
           newStats[key as StatKey] = Math.min(
             20,
             Math.max(0, newStats[key as StatKey] + value!),
@@ -232,6 +255,16 @@ export function useGameState() {
       'ゲーム': ['creative', 'technical'],
       'マネジメント': ['communication', 'planning'],
       '管理': ['stability', 'planning'],
+      '挑戦': ['communication', 'planning'],
+      'スポーツ': ['communication', 'care'],
+      'リーダーシップ': ['communication', 'planning'],
+      '起業': ['planning', 'analysis'],
+      '防衛': ['stability', 'care'],
+      '公務': ['stability'],
+      '品質': ['stability', 'analysis'],
+      '法務': ['stability', 'analysis'],
+      '堅実': ['stability'],
+      '資格': ['stability', 'technical'],
       'マーケティング': ['analysis', 'planning'],
       'SNS': ['creative', 'communication'],
       '高収入': ['analysis'],
@@ -283,6 +316,12 @@ export function useGameState() {
       setScreen('diagnosis');
     }
   }, [diagnosisRecords]);
+
+  /** 診断単体モードで診断を開始 */
+  const startDiagnosisOnly = useCallback(() => {
+    setDiagnosisOnly(true);
+    setScreen('diagnosis');
+  }, []);
 
   /** 診断選択で「やり直す」を選んだ場合 */
   const goToDiagnosis = useCallback(() => {
@@ -366,11 +405,13 @@ export function useGameState() {
     diagnosisRecords,
     gameResults,
     dataLoaded,
+    diagnosisOnly,
     login,
     logout,
     applyDiagnosisAnswer,
     finishDiagnosis,
     reuseDiagnosis,
+    startDiagnosisOnly,
     selectChoice,
     getRecommendedJobs,
     goToResult,

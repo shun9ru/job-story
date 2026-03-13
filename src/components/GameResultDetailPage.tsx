@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import type { Job } from '../types';
+import type { Job, StatKey } from '../types';
 import type { GameResultRecord } from '../utils/storage';
 import { getDiagnosisType } from '../data/diagnosis';
 import { getJobById } from '../data/jobs/index';
-import { statDefinitions } from '../data/stats';
+import { statDefinitions, skillStatDefinitions } from '../data/stats';
 import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
+import { SkillMapSection } from './SkillRadarChart';
+import { PersonalityAnalysis } from './PersonalityAnalysis';
 
 interface GameResultDetailPageProps {
   result: GameResultRecord;
@@ -15,6 +17,7 @@ interface GameResultDetailPageProps {
 /** 過去のプレイ結果詳細ページ */
 export function GameResultDetailPage({ result, onBack }: GameResultDetailPageProps) {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [tappedStatKey, setTappedStatKey] = useState<StatKey | null>(null);
 
   const diagType = getDiagnosisType(result.primaryTrait);
 
@@ -26,7 +29,7 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
     .map(getJobById)
     .filter((j): j is Job => j !== undefined);
 
-  const topStats = [...statDefinitions]
+  const topStats = [...skillStatDefinitions]
     .sort((a, b) => result.stats[b.key] - result.stats[a.key])
     .slice(0, 3);
 
@@ -75,29 +78,101 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
           </div>
         </div>
 
-        {/* 全ステータス */}
+        {/* スキルステータス */}
         <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
-          <h3 className="text-base font-bold text-gray-800 mb-4">📊 ステータス一覧</h3>
-          <div className="space-y-2">
-            {statDefinitions.map((stat) => {
+          <h3 className="text-base font-bold text-gray-800 mb-4">📊 スキルステータス</h3>
+          <div className="space-y-1">
+            {skillStatDefinitions.map((stat) => {
               const value = result.stats[stat.key];
               const maxValue = 20;
+              const isOpen = tappedStatKey === stat.key;
               return (
-                <div key={stat.key} className="flex items-center gap-3">
-                  <span className="text-lg w-8 text-center">{stat.emoji}</span>
-                  <span className="text-xs text-gray-600 w-20">{stat.label}</span>
-                  <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden">
-                    <div
-                      className="bg-indigo-400 h-full rounded-full transition-all duration-500"
-                      style={{ width: `${(value / maxValue) * 100}%` }}
-                    />
+                <div key={stat.key}>
+                  <div
+                    onClick={() => setTappedStatKey(isOpen ? null : stat.key)}
+                    className={`flex items-center gap-3 px-2 py-1.5 rounded-lg cursor-pointer transition-all ${
+                      isOpen ? 'bg-indigo-50 ring-1 ring-indigo-200' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="text-lg w-8 text-center">{stat.emoji}</span>
+                    <span className="text-xs text-gray-600 w-20">{stat.label}</span>
+                    <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden">
+                      <div
+                        className="bg-indigo-400 h-full rounded-full transition-all duration-500"
+                        style={{ width: `${(value / maxValue) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-xs font-bold text-gray-700 w-6 text-right">{value}</span>
                   </div>
-                  <span className="text-xs font-bold text-gray-700 w-6 text-right">{value}</span>
+                  {isOpen && (
+                    <div className="ml-12 mr-2 mt-1 mb-2 bg-white rounded-lg shadow border border-gray-100 p-3 animate-fade-in">
+                      <p className="text-xs text-gray-600 leading-relaxed">{stat.description}</p>
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
         </div>
+
+        {/* 価値観ステータス（診断由来） */}
+        {(result.stats.satisfaction > 0 || result.stats.income > 0) && (
+          <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
+            <h3 className="text-base font-bold text-gray-800 mb-1">💭 価値観の傾向</h3>
+            <p className="text-xs text-gray-400 mb-4">性格診断で判明したあなたの仕事に対する志向</p>
+            <div className="space-y-1">
+              {statDefinitions.filter((s) => s.key === 'satisfaction' || s.key === 'income').map((stat) => {
+                const value = result.stats[stat.key];
+                const maxValue = 20;
+                const isOpen = tappedStatKey === stat.key;
+                return (
+                  <div key={stat.key}>
+                    <div
+                      onClick={() => setTappedStatKey(isOpen ? null : stat.key)}
+                      className={`flex items-center gap-3 px-2 py-1.5 rounded-lg cursor-pointer transition-all ${
+                        isOpen ? 'bg-purple-50 ring-1 ring-purple-200' : 'hover:bg-gray-50'
+                      }`}
+                    >
+                      <span className="text-lg w-8 text-center">{stat.emoji}</span>
+                      <span className="text-xs text-gray-600 w-20">{stat.label}</span>
+                      <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-purple-400 h-full rounded-full transition-all duration-500"
+                          style={{ width: `${(value / maxValue) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-xs font-bold text-gray-700 w-6 text-right">{value}</span>
+                    </div>
+                    {isOpen && (
+                      <div className="ml-12 mr-2 mt-1 mb-2 bg-white rounded-lg shadow border border-gray-100 p-3 animate-fade-in">
+                        <p className="text-xs text-gray-600 leading-relaxed">{stat.description}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* パーソナリティ分析 */}
+        <PersonalityAnalysis stats={result.stats} />
+
+        {/* スキルマップ（レーダーチャート＋全職業ランキング） */}
+        {(recommendedJobs.length > 0 || discoveredJobs.length > 0) && (
+          <SkillMapSection
+            playerStats={result.stats}
+            discoveredJobs={[...recommendedJobs, ...discoveredJobs]
+              .filter((j, i, arr) => arr.findIndex((x) => x.id === j.id) === i)
+              .map((j) => ({
+                id: j.id,
+                title: j.title,
+                tags: j.tags,
+                skillsGained: j.skillsGained,
+                suitableFor: j.suitableFor,
+              }))}
+          />
+        )}
 
         {/* 向いていそうな職種 TOP5 */}
         {recommendedJobs.length > 0 ? (

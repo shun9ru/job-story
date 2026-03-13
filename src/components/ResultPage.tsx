@@ -2,9 +2,11 @@ import { useState } from 'react';
 import type { PlayerState, Job, StatKey, GameMode } from '../types';
 import { getDiagnosisType } from '../data/diagnosis';
 import { getJobById } from '../data/jobs/index';
-import { statDefinitions } from '../data/stats';
+import { statDefinitions, skillStatDefinitions } from '../data/stats';
 import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
+import { SkillMapSection } from './SkillRadarChart';
+import { PersonalityAnalysis } from './PersonalityAnalysis';
 
 interface ResultPageProps {
   gameMode: GameMode;
@@ -23,14 +25,15 @@ export function ResultPage({
   onSwitchMode,
 }: ResultPageProps) {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [tappedStatKey, setTappedStatKey] = useState<StatKey | null>(null);
 
   const diagType = getDiagnosisType(player.primaryTrait);
   const discoveredJobs = player.discoveredJobIds
     .map(getJobById)
     .filter((j): j is Job => j !== undefined);
 
-  // ステータスのうち上位3つを抽出
-  const topStats = [...statDefinitions]
+  // スキル系ステータスのうち上位3つを抽出
+  const topStats = [...skillStatDefinitions]
     .sort((a, b) => player.stats[b.key] - player.stats[a.key])
     .slice(0, 3);
 
@@ -136,17 +139,49 @@ export function ResultPage({
 
           {/* 強みステータス */}
           <div className="mt-4 flex justify-center gap-4">
-            {topStats.map((stat) => (
-              <div key={stat.key} className="text-center">
-                <div className="text-2xl">{stat.emoji}</div>
-                <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
-                <div className="text-lg font-bold text-gray-800">
-                  {player.stats[stat.key]}
+            {topStats.map((stat) => {
+              const isActive = tappedStatKey === stat.key;
+              return (
+                <div key={stat.key} className="flex flex-col items-center">
+                  <div
+                    onClick={() => setTappedStatKey(isActive ? null : stat.key)}
+                    className={`text-center px-3 py-2 rounded-xl cursor-pointer transition-all ${
+                      isActive ? 'bg-indigo-50 ring-1 ring-indigo-200' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="text-2xl">{stat.emoji}</div>
+                    <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+                    <div className="text-lg font-bold text-gray-800">
+                      {player.stats[stat.key]}
+                    </div>
+                  </div>
+                  {isActive && (
+                    <div className="mt-1 bg-white rounded-lg shadow border border-gray-100 p-3 animate-fade-in max-w-48">
+                      <p className="text-xs text-gray-600 leading-relaxed">{stat.description}</p>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
+
+        {/* パーソナリティ分析 */}
+        <PersonalityAnalysis stats={player.stats} />
+
+        {/* スキルマップ（レーダーチャート＋全職業ランキング） */}
+        <SkillMapSection
+          playerStats={player.stats}
+          discoveredJobs={[...recommendedJobs, ...discoveredJobs]
+            .filter((j, i, arr) => arr.findIndex((x) => x.id === j.id) === i)
+            .map((j) => ({
+              id: j.id,
+              title: j.title,
+              tags: j.tags,
+              skillsGained: j.skillsGained,
+              suitableFor: j.suitableFor,
+            }))}
+        />
 
         {/* 向いてそうな職種 TOP5 */}
         <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
@@ -253,13 +288,14 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 function generateSummary(player: PlayerState, gameMode: GameMode): string {
   const { stats } = player;
 
-  const highest = (Object.entries(stats) as [StatKey, number][]).sort(
-    (a, b) => b[1] - a[1],
-  )[0];
+  // スキル系ステータスのみから最も高いものを抽出
+  const skillEntries = (Object.entries(stats) as [StatKey, number][])
+    .filter(([key]) => key !== 'satisfaction' && key !== 'income');
+  const highest = skillEntries.sort((a, b) => b[1] - a[1])[0];
 
   const descriptions: Record<StatKey, string> = {
-    satisfaction: '自分のやりがいを大切にしながら、充実した道を歩みました。',
-    income: '着実に収入を伸ばし、経済的な安定を手に入れる方向へ進みました。',
+    satisfaction: '',
+    income: '',
     growth: '常に成長を求め、スキルアップし続ける道を歩みました。',
     stability: '安定した基盤を築き、堅実に歩む道を選びました。',
     communication: '人との繋がりを大切にし、チームで成果を出す道を歩みました。',

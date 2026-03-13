@@ -1,7 +1,7 @@
-import type { DiagnosisQuestion, DiagnosisType, TraitKey } from '../types';
+import type { DiagnosisQuestion, DiagnosisType, TraitKey, StatKey } from '../types';
 
 // ============================================================
-// 質問プール（40問）— 毎回ランダムに10問を出題
+// 質問プール（60問）— 毎回ランダムに20問を出題
 // ============================================================
 const allQuestions: DiagnosisQuestion[] = [
   // --- 対人・コミュニケーション系 ---
@@ -42,7 +42,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: 'まず声をかけて話を聞く', emoji: '👂', effects: { care: 3, communication: 1 } },
       { text: '原因を分析して解決策を一緒に考える', emoji: '🧠', effects: { analysis: 2, technical: 2 } },
-      { text: '気分転換に楽しいことに誘う', emoji: '🎈', effects: { communication: 2, creative: 2 } },
+      { text: '気分転換に楽しいことに誘う', emoji: '🎈', effects: { challenge: 2, creative: 2 } },
     ],
   },
   {
@@ -94,7 +94,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: '謎解き！ロジックで攻略するのが快感', emoji: '🧩', effects: { analysis: 3, technical: 1 } },
       { text: 'クリエイティブ！自由に世界を作りたい', emoji: '🎨', effects: { creative: 3, challenge: 1 } },
-      { text: '協力プレイ！仲間と一緒にクリアしたい', emoji: '🎯', effects: { communication: 2, care: 2 } },
+      { text: '協力プレイ！仲間と一緒にクリアしたい', emoji: '🎯', effects: { stability: 2, care: 2 } },
     ],
   },
   {
@@ -114,9 +114,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '将来の働き方で一番理想に近いのは？',
     emoji: '💭',
     options: [
-      { text: '毎日違うことができてワクワクする環境', emoji: '🌈', effects: { challenge: 3, creative: 1 } },
-      { text: '自分のアイデアを形にできる環境', emoji: '🎨', effects: { creative: 2, planning: 2 } },
-      { text: '安定して長く働ける環境', emoji: '🏠', effects: { stability: 3, care: 1 } },
+      { text: '毎日違うことができてワクワクする環境', emoji: '🌈', effects: { challenge: 3, creative: 1 }, statEffects: { satisfaction: 2, growth: 2 } },
+      { text: '自分のアイデアを形にできる環境', emoji: '🎨', effects: { creative: 2, planning: 2 }, statEffects: { satisfaction: 2, growth: 1 } },
+      { text: '安定して長く働ける環境', emoji: '🏠', effects: { stability: 3, care: 1 }, statEffects: { income: 1, satisfaction: 1 } },
     ],
   },
   {
@@ -124,9 +124,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'アルバイトを選ぶとき、一番大事にすることは？',
     emoji: '💼',
     options: [
-      { text: '人とたくさん関われること', emoji: '👫', effects: { communication: 3, care: 1 } },
-      { text: '自分のスキルが身につくこと', emoji: '📈', effects: { technical: 2, challenge: 2 } },
-      { text: '安定したシフトと給料', emoji: '💰', effects: { stability: 3, planning: 1 } },
+      { text: '人とたくさん関われること', emoji: '👫', effects: { communication: 3, care: 1 }, statEffects: { satisfaction: 2 } },
+      { text: '自分のスキルが身につくこと', emoji: '📈', effects: { technical: 2, challenge: 2 }, statEffects: { growth: 2 } },
+      { text: '安定したシフトと給料', emoji: '💰', effects: { stability: 3, planning: 1 }, statEffects: { income: 2 } },
     ],
   },
   {
@@ -134,9 +134,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '10年後の自分、どんなイメージが一番嬉しい？',
     emoji: '🔮',
     options: [
-      { text: '専門家として頼られる存在', emoji: '🏅', effects: { technical: 3, analysis: 1 } },
-      { text: '新しい事業を立ち上げた起業家', emoji: '🚀', effects: { challenge: 2, planning: 2 } },
-      { text: '人を支え、感謝される仕事をしている人', emoji: '❤️', effects: { care: 3, communication: 1 } },
+      { text: '専門家として頼られる存在', emoji: '🏅', effects: { technical: 3, analysis: 1 }, statEffects: { income: 1, growth: 1 } },
+      { text: '新しい事業を立ち上げた起業家', emoji: '🚀', effects: { challenge: 2, planning: 2 }, statEffects: { income: 2, growth: 1 } },
+      { text: '人を支え、感謝される仕事をしている人', emoji: '❤️', effects: { care: 2, stability: 1, communication: 1 }, statEffects: { satisfaction: 3 } },
     ],
   },
   {
@@ -144,9 +144,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「すごい！」と言われたいのは何？',
     emoji: '🌟',
     options: [
-      { text: '面白いアイデアや企画を生み出すこと', emoji: '💡', effects: { creative: 2, planning: 2 } },
-      { text: '難しい問題を解決すること', emoji: '🔧', effects: { technical: 2, analysis: 2 } },
-      { text: '人をまとめてチームを成功に導くこと', emoji: '👔', effects: { communication: 2, challenge: 2 } },
+      { text: '面白いアイデアや企画を生み出すこと', emoji: '💡', effects: { creative: 2, planning: 2 }, statEffects: { satisfaction: 1, growth: 1 } },
+      { text: '難しい問題を解決すること', emoji: '🔧', effects: { technical: 2, analysis: 2 }, statEffects: { growth: 2 } },
+      { text: '人をまとめてチームを成功に導くこと', emoji: '👔', effects: { communication: 2, challenge: 2 }, statEffects: { income: 1, satisfaction: 1 } },
     ],
   },
   {
@@ -154,9 +154,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'お金がたくさんあったら何に使う？',
     emoji: '💎',
     options: [
-      { text: '世界中を旅して新しい経験をしたい', emoji: '✈️', effects: { challenge: 3, creative: 1 } },
-      { text: '投資して資産をさらに増やしたい', emoji: '📈', effects: { analysis: 2, stability: 2 } },
-      { text: '困っている人や社会のために使いたい', emoji: '🤲', effects: { care: 3, communication: 1 } },
+      { text: '世界中を旅して新しい経験をしたい', emoji: '✈️', effects: { challenge: 3, creative: 1 }, statEffects: { satisfaction: 2, growth: 1 } },
+      { text: '投資して資産をさらに増やしたい', emoji: '📈', effects: { analysis: 2, stability: 2 }, statEffects: { income: 3 } },
+      { text: '困っている人や社会のために使いたい', emoji: '🤲', effects: { care: 3, communication: 1 }, statEffects: { satisfaction: 3 } },
     ],
   },
 
@@ -166,7 +166,7 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '休日の過ごし方、一番リラックスできるのは？',
     emoji: '☀️',
     options: [
-      { text: '友達とカフェや遊びに出かける', emoji: '☕', effects: { communication: 3, challenge: 1 } },
+      { text: '友達とカフェや遊びに出かける', emoji: '☕', effects: { communication: 2, challenge: 2 } },
       { text: '一人で本を読んだり映画を観る', emoji: '📖', effects: { analysis: 2, stability: 2 } },
       { text: '趣味のモノづくりや創作活動に没頭', emoji: '🎨', effects: { creative: 3, technical: 1 } },
     ],
@@ -230,7 +230,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: '自分からどんどん発信する派', emoji: '📢', effects: { creative: 2, communication: 2 } },
       { text: '気になる情報を集めるのがメイン', emoji: '🔍', effects: { analysis: 2, technical: 2 } },
-      { text: '友達とのやり取りがメイン', emoji: '💌', effects: { care: 2, communication: 2 } },
+      { text: '友達とのやり取りがメイン', emoji: '💌', effects: { stability: 2, communication: 2 } },
     ],
   },
   {
@@ -240,7 +240,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: 'SF・ファンタジー・アクション', emoji: '🚀', effects: { challenge: 2, creative: 2 } },
       { text: 'ミステリー・サスペンス・推理もの', emoji: '🔎', effects: { analysis: 3, technical: 1 } },
-      { text: 'ヒューマンドラマ・恋愛もの', emoji: '💕', effects: { care: 2, communication: 2 } },
+      { text: 'ヒューマンドラマ・恋愛もの', emoji: '💕', effects: { care: 1, stability: 1, communication: 2 } },
     ],
   },
   {
@@ -248,7 +248,7 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'ペットを飼うとしたら？',
     emoji: '🐕',
     options: [
-      { text: '犬！一緒に外で遊びたい', emoji: '🐶', effects: { communication: 2, challenge: 2 } },
+      { text: '犬！一緒に外で遊びたい', emoji: '🐶', effects: { challenge: 3, stability: 1 } },
       { text: '猫！マイペースに癒されたい', emoji: '🐱', effects: { creative: 2, stability: 2 } },
       { text: '熱帯魚や爬虫類！観察して楽しみたい', emoji: '🐠', effects: { analysis: 2, technical: 2 } },
     ],
@@ -260,7 +260,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: '実行委員長として全体を統括', emoji: '📢', effects: { planning: 2, communication: 2 } },
       { text: 'ステージや装飾のデザイン担当', emoji: '🎨', effects: { creative: 3, technical: 1 } },
-      { text: '裏方でみんなをサポート', emoji: '🫶', effects: { care: 3, stability: 1 } },
+      { text: '裏方でみんなをサポート', emoji: '🫶', effects: { care: 2, stability: 2 } },
     ],
   },
 
@@ -280,7 +280,7 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'ストレスがたまったときの発散方法は？',
     emoji: '😤',
     options: [
-      { text: '友達に会って話を聞いてもらう', emoji: '💬', effects: { communication: 3, care: 1 } },
+      { text: '友達に会って話を聞いてもらう', emoji: '💬', effects: { communication: 2, stability: 1, care: 1 } },
       { text: '一人で没頭できる趣味に集中', emoji: '🎧', effects: { creative: 2, technical: 2 } },
       { text: '運動やアウトドアで体を動かす', emoji: '🏃', effects: { challenge: 2, stability: 2 } },
     ],
@@ -346,7 +346,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: 'みんなでアイデアを出し合うブレスト', emoji: '💡', effects: { communication: 2, creative: 2 } },
       { text: '計画通りに物事が進んでいる瞬間', emoji: '📋', effects: { planning: 3, stability: 1 } },
-      { text: '完成した作品をみんなで見る瞬間', emoji: '🎉', effects: { care: 2, creative: 2 } },
+      { text: '完成した作品をみんなで見る瞬間', emoji: '🎉', effects: { stability: 2, creative: 2 } },
     ],
   },
   {
@@ -354,7 +354,7 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'リーダーシップについてどう思う？',
     emoji: '👑',
     options: [
-      { text: '自分がリーダーになるのが好き', emoji: '🙋', effects: { communication: 2, challenge: 2 } },
+      { text: '自分がリーダーになるのが好き', emoji: '🙋', effects: { challenge: 3, stability: 1 } },
       { text: '参謀としてリーダーを支えたい', emoji: '🧠', effects: { analysis: 2, planning: 2 } },
       { text: 'メンバーとして自分の専門で貢献したい', emoji: '🔧', effects: { technical: 2, stability: 2 } },
     ],
@@ -364,7 +364,7 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '後輩に何かを教えるのは好き？',
     emoji: '👨‍🏫',
     options: [
-      { text: '好き！成長を見るのが嬉しい', emoji: '😊', effects: { care: 3, communication: 1 } },
+      { text: '好き！成長を見るのが嬉しい', emoji: '😊', effects: { care: 2, challenge: 1, communication: 1 } },
       { text: '教えるのは苦手だけどマニュアルを作るのは得意', emoji: '📄', effects: { planning: 2, analysis: 2 } },
       { text: '自分がもっと上達することに集中したい', emoji: '🎯', effects: { technical: 2, challenge: 2 } },
     ],
@@ -378,7 +378,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: 'インテリアや雰囲気のデザイン', emoji: '🪴', effects: { creative: 3, analysis: 1 } },
       { text: 'メニューのコスパや口コミ評価', emoji: '📊', effects: { analysis: 2, stability: 2 } },
-      { text: '店員さんの接客やお客さんの雰囲気', emoji: '👋', effects: { communication: 2, care: 2 } },
+      { text: '店員さんの接客やお客さんの雰囲気', emoji: '👋', effects: { stability: 1, care: 2, communication: 1 } },
     ],
   },
   {
@@ -408,7 +408,7 @@ const allQuestions: DiagnosisQuestion[] = [
     options: [
       { text: '口コミやスペックを比較して慎重に', emoji: '📊', effects: { analysis: 3, stability: 1 } },
       { text: 'ビビッときたら即決！', emoji: '⚡', effects: { challenge: 2, creative: 2 } },
-      { text: '友達のおすすめや流行りを参考に', emoji: '👫', effects: { communication: 2, care: 2 } },
+      { text: '友達のおすすめや流行りを参考に', emoji: '👫', effects: { stability: 2, care: 2 } },
     ],
   },
   {
@@ -421,10 +421,212 @@ const allQuestions: DiagnosisQuestion[] = [
       { text: '和気あいあいで助け合える温かいチーム', emoji: '🌸', effects: { care: 2, stability: 2 } },
     ],
   },
+
+  // --- 価値観・マインドセット系 ---
+  {
+    id: 'q41',
+    text: '仕事を選ぶとき一番重視するのは？',
+    emoji: '⚖️',
+    options: [
+      { text: '自分が心からやりがいを感じられること', emoji: '❤️‍🔥', effects: { challenge: 2, creative: 2 }, statEffects: { satisfaction: 3, growth: 1 } },
+      { text: '安定した収入と生活が得られること', emoji: '🏠', effects: { stability: 3, planning: 1 }, statEffects: { income: 3, satisfaction: 1 } },
+      { text: '社会や誰かの役に立てること', emoji: '🌏', effects: { care: 3, communication: 1 }, statEffects: { satisfaction: 2, growth: 1 } },
+    ],
+  },
+  {
+    id: 'q42',
+    text: 'ワークライフバランスについてどう思う？',
+    emoji: '🔄',
+    options: [
+      { text: '仕事もプライベートも全力！メリハリが大事', emoji: '⚡', effects: { planning: 2, stability: 2 }, statEffects: { satisfaction: 2, income: 1 } },
+      { text: '好きな仕事なら仕事=人生でもいい', emoji: '🔥', effects: { challenge: 3, technical: 1 }, statEffects: { growth: 3 } },
+      { text: '家族や友人との時間が最優先', emoji: '👨‍👩‍👧', effects: { care: 2, stability: 2 }, statEffects: { satisfaction: 3 } },
+    ],
+  },
+  {
+    id: 'q43',
+    text: '「成功」と聞いて真っ先にイメージするのは？',
+    emoji: '🏆',
+    options: [
+      { text: '自分の名前が広く知られること', emoji: '🌟', effects: { communication: 2, challenge: 2 }, statEffects: { income: 2, growth: 1 } },
+      { text: '経済的に自由になること', emoji: '💰', effects: { analysis: 2, stability: 2 }, statEffects: { income: 3 } },
+      { text: '自分の好きなことで生きていけること', emoji: '🎵', effects: { creative: 3, care: 1 }, statEffects: { satisfaction: 3 } },
+    ],
+  },
+  {
+    id: 'q44',
+    text: '自分の強みを伸ばすか、弱みを克服するか？',
+    emoji: '💪',
+    options: [
+      { text: '強みを徹底的に伸ばして武器にしたい', emoji: '🗡️', effects: { technical: 2, challenge: 2 }, statEffects: { growth: 2, income: 1 } },
+      { text: '弱みを克服してバランスよくなりたい', emoji: '📐', effects: { stability: 2, planning: 2 }, statEffects: { satisfaction: 1, growth: 1 } },
+      { text: '仲間と補い合えればどちらでもいい', emoji: '🤝', effects: { communication: 2, care: 2 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q45',
+    text: '「お金」と「やりがい」、究極の選択なら？',
+    emoji: '💸',
+    options: [
+      { text: 'やりがいのある仕事で年収そこそこ', emoji: '✨', effects: { creative: 2, care: 2 }, statEffects: { satisfaction: 3 } },
+      { text: '好きじゃなくても高年収の仕事', emoji: '💎', effects: { analysis: 2, stability: 2 }, statEffects: { income: 3 } },
+      { text: '両方追いたい。妥協したくない！', emoji: '🔥', effects: { challenge: 3, planning: 1 }, statEffects: { income: 1, growth: 2 } },
+    ],
+  },
+  {
+    id: 'q46',
+    text: '組織のルールが理不尽だと感じたら？',
+    emoji: '📜',
+    options: [
+      { text: '声を上げて改善を提案する', emoji: '📢', effects: { challenge: 2, communication: 2 }, statEffects: { growth: 2 } },
+      { text: 'まずは理由を調べて合理性を検証する', emoji: '🔍', effects: { analysis: 3, technical: 1 }, statEffects: { growth: 1 } },
+      { text: '周りと相談して穏便に対処する', emoji: '🕊️', effects: { stability: 2, care: 2 }, statEffects: { satisfaction: 1 } },
+    ],
+  },
+  {
+    id: 'q47',
+    text: 'リスクをどう捉える？',
+    emoji: '🎲',
+    options: [
+      { text: 'リスクを取らない方がリスク。攻めるべき', emoji: '⚔️', effects: { challenge: 3, creative: 1 }, statEffects: { income: 2, growth: 2 } },
+      { text: 'リスクを計算した上で合理的に判断する', emoji: '📊', effects: { analysis: 2, planning: 2 }, statEffects: { income: 1, satisfaction: 1 } },
+      { text: 'できるだけリスクは避けて堅実にいきたい', emoji: '🛡️', effects: { stability: 3, care: 1 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q48',
+    text: '理想の上司や先輩はどんな人？',
+    emoji: '👔',
+    options: [
+      { text: 'ビジョンを持って引っ張ってくれるカリスマ型', emoji: '🦁', effects: { challenge: 2, planning: 2 }, statEffects: { growth: 2 } },
+      { text: '丁寧に教えてくれて成長を見守る師匠型', emoji: '🧙', effects: { care: 2, technical: 2 }, statEffects: { satisfaction: 1, growth: 1 } },
+      { text: '対等に意見を言い合えるフラットな関係', emoji: '🤜', effects: { communication: 2, creative: 2 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q49',
+    text: '大きなプロジェクトに関わるなら、どのポジション？',
+    emoji: '🏗️',
+    options: [
+      { text: '全体を統括するプロジェクトリーダー', emoji: '🎖️', effects: { planning: 2, communication: 2 }, statEffects: { income: 2, growth: 1 } },
+      { text: '核心技術を担うスペシャリスト', emoji: '⚙️', effects: { technical: 3, analysis: 1 }, statEffects: { income: 1, growth: 2 } },
+      { text: 'メンバーの連携をつなぐ調整役', emoji: '🔗', effects: { care: 2, stability: 2 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q50',
+    text: '「自分らしさ」って何だと思う？',
+    emoji: '🪞',
+    options: [
+      { text: '誰にも真似できない個性や表現力', emoji: '🎭', effects: { creative: 3, challenge: 1 }, statEffects: { satisfaction: 2, growth: 1 } },
+      { text: '信念を貫いてブレないこと', emoji: '🗿', effects: { stability: 2, technical: 2 }, statEffects: { satisfaction: 2 } },
+      { text: '周りの人と築いてきた関係性そのもの', emoji: '🫂', effects: { communication: 2, care: 2 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q51',
+    text: '転職するきっかけになりそうなのは？',
+    emoji: '🚪',
+    options: [
+      { text: '成長できない環境にいると感じた時', emoji: '📉', effects: { challenge: 2, technical: 2 }, statEffects: { growth: 3 } },
+      { text: '人間関係が辛くなった時', emoji: '😣', effects: { care: 2, stability: 2 }, statEffects: { satisfaction: 2 } },
+      { text: 'もっと面白い仕事のチャンスを見つけた時', emoji: '🌈', effects: { creative: 2, planning: 2 }, statEffects: { growth: 1, income: 1 } },
+    ],
+  },
+  {
+    id: 'q52',
+    text: '社会問題を解決するなら、どうアプローチする？',
+    emoji: '🌱',
+    options: [
+      { text: 'テクノロジーで仕組みを変える', emoji: '🤖', effects: { technical: 2, analysis: 2 }, statEffects: { growth: 2, income: 1 } },
+      { text: '現場で直接人を支援する', emoji: '🤲', effects: { care: 3, communication: 1 }, statEffects: { satisfaction: 3 } },
+      { text: '発信力で世論を動かす', emoji: '📡', effects: { creative: 2, challenge: 2 }, statEffects: { growth: 2 } },
+    ],
+  },
+  {
+    id: 'q53',
+    text: '「理想の働き方」に一番近いのは？',
+    emoji: '🌐',
+    options: [
+      { text: 'フリーランスで自由に場所や時間を選びたい', emoji: '🏖️', effects: { creative: 2, challenge: 2 }, statEffects: { satisfaction: 2, growth: 1 } },
+      { text: '大企業で安定した基盤のもと挑戦したい', emoji: '🏢', effects: { stability: 2, planning: 2 }, statEffects: { income: 2, satisfaction: 1 } },
+      { text: 'チームで一体感を持って何かを成し遂げたい', emoji: '🏋️', effects: { communication: 2, care: 2 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q54',
+    text: '自分が一番「没頭」できるのはどんな時？',
+    emoji: '🔥',
+    options: [
+      { text: '難しい課題を解いている時', emoji: '🧩', effects: { analysis: 2, technical: 2 }, statEffects: { growth: 2 } },
+      { text: '何かを一から作り上げている時', emoji: '🛠️', effects: { creative: 2, planning: 2 }, statEffects: { satisfaction: 2 } },
+      { text: '人と深い対話をしている時', emoji: '💬', effects: { communication: 2, care: 2 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q55',
+    text: '100年後に残したいものは？',
+    emoji: '🏛️',
+    options: [
+      { text: '革新的な発明や作品', emoji: '💡', effects: { creative: 2, technical: 2 }, statEffects: { growth: 2, income: 1 } },
+      { text: '多くの人を育てた実績', emoji: '🌳', effects: { care: 3, communication: 1 }, statEffects: { satisfaction: 3 } },
+      { text: '世の中の仕組みを変えたという事実', emoji: '⚡', effects: { challenge: 2, planning: 2 }, statEffects: { growth: 2, income: 1 } },
+    ],
+  },
+  {
+    id: 'q56',
+    text: '「多様性」のある環境で働きたい？',
+    emoji: '🌈',
+    options: [
+      { text: 'ぜひ！色んな視点から刺激を受けたい', emoji: '🌍', effects: { communication: 2, creative: 2 }, statEffects: { growth: 2, satisfaction: 1 } },
+      { text: '大事だけど、まずは専門性を磨きたい', emoji: '🎯', effects: { technical: 2, analysis: 2 }, statEffects: { income: 1, growth: 1 } },
+      { text: '気が合う仲間と深い関係を築く方が好き', emoji: '🫶', effects: { care: 2, stability: 2 }, statEffects: { satisfaction: 2 } },
+    ],
+  },
+  {
+    id: 'q57',
+    text: '5年後、どんな自分でいたい？',
+    emoji: '🔭',
+    options: [
+      { text: '業界で名前が通る専門家になりたい', emoji: '🏅', effects: { technical: 2, challenge: 2 }, statEffects: { income: 2, growth: 2 } },
+      { text: '信頼される仲間に囲まれていたい', emoji: '👨‍👩‍👧‍👦', effects: { care: 2, communication: 2 }, statEffects: { satisfaction: 3 } },
+      { text: '自分のビジョンを形にしていたい', emoji: '🚀', effects: { planning: 2, creative: 2 }, statEffects: { satisfaction: 1, growth: 2 } },
+    ],
+  },
+  {
+    id: 'q58',
+    text: '「正解がない問題」にどう向き合う？',
+    emoji: '❓',
+    options: [
+      { text: 'データと論理で最善解を導く', emoji: '📊', effects: { analysis: 3, planning: 1 }, statEffects: { growth: 1, income: 1 } },
+      { text: '直感を信じて自分なりの答えを出す', emoji: '🌟', effects: { creative: 2, challenge: 2 }, statEffects: { satisfaction: 1, growth: 1 } },
+      { text: 'いろんな人の意見を聞いて総合的に判断', emoji: '👂', effects: { communication: 2, care: 2 }, statEffects: { satisfaction: 1 } },
+    ],
+  },
+  {
+    id: 'q59',
+    text: '「競争」と「協調」、どちらが自分を伸ばす？',
+    emoji: '🤼',
+    options: [
+      { text: '競争！ライバルがいると燃える', emoji: '🔥', effects: { challenge: 3, analysis: 1 }, statEffects: { income: 2, growth: 2 } },
+      { text: '協調！仲間と高め合いたい', emoji: '🤝', effects: { care: 2, communication: 2 }, statEffects: { satisfaction: 2, growth: 1 } },
+      { text: '一人で黙々と自分のペースで伸びたい', emoji: '🧘', effects: { technical: 2, stability: 2 }, statEffects: { satisfaction: 1, growth: 1 } },
+    ],
+  },
+  {
+    id: 'q60',
+    text: '仕事で「これだけは譲れない」と思うことは？',
+    emoji: '🔑',
+    options: [
+      { text: '自分の成長を実感できること', emoji: '📈', effects: { challenge: 2, technical: 2 }, statEffects: { growth: 3 } },
+      { text: '人から感謝されること', emoji: '🙏', effects: { care: 3, communication: 1 }, statEffects: { satisfaction: 3 } },
+      { text: '自分のアイデアや工夫を活かせること', emoji: '💡', effects: { creative: 2, planning: 2 }, statEffects: { satisfaction: 2, growth: 1 } },
+    ],
+  },
 ];
 
-/** 質問プールからランダムに10問を選出 */
-export function getRandomQuestions(count = 10): DiagnosisQuestion[] {
+/** 質問プールからランダムに20問を選出 */
+export function getRandomQuestions(count = 20): DiagnosisQuestion[] {
   const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }

@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import type { DiagnosisType, TraitKey, DiagnosisRecord } from '../types';
+import type { DiagnosisType, TraitKey, StatKey, DiagnosisRecord } from '../types';
 import { diagnosisTypes, getDiagnosisType } from '../data/diagnosis';
+import { statDefinitions } from '../data/stats';
+import { DiagnosisAIReviewSection } from './DiagnosisAIReview';
 
 interface DiagnosisDetailPageProps {
   record: DiagnosisRecord;
@@ -86,6 +88,51 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
             })}
           </div>
         </div>
+
+        {/* 10軸ステータス */}
+        {record.stats && (
+          <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
+            <h3 className="text-base font-bold text-gray-800 mb-1">📈 あなたのステータス</h3>
+            <p className="text-xs text-gray-400 mb-4">診断結果から算出された10軸の傾向値</p>
+            <div className="space-y-3">
+              {(() => {
+                const stats = record.stats!;
+                const sortedStats = statDefinitions
+                  .map((def) => ({ ...def, value: stats[def.key] ?? 0 }))
+                  .sort((a, b) => b.value - a.value);
+                const maxVal = Math.max(...sortedStats.map((s) => s.value), 1);
+                return sortedStats.map((stat) => {
+                  const percentage = Math.max(5, (stat.value / maxVal) * 100);
+                  return (
+                    <div key={stat.key} className="flex items-center gap-3">
+                      <span className="text-lg w-8 text-center">{stat.emoji}</span>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs font-medium text-gray-600">{stat.label}</span>
+                          <span className="text-xs text-gray-400 font-mono">{stat.value}</span>
+                        </div>
+                        <div className="w-full bg-gray-100 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full transition-all duration-700 ${stat.color}`}
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+          </div>
+        )}
+
+        {/* AIレビュー */}
+        <DiagnosisAIReviewSection
+          primaryTrait={record.primaryTrait}
+          secondaryTrait={record.secondaryTrait}
+          traits={record.traits}
+          stats={record.stats}
+        />
 
         {/* タブ切り替え */}
         <div className="flex gap-1 bg-gray-100 rounded-xl p-1">

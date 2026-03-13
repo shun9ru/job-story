@@ -1,17 +1,38 @@
 import { useState, useMemo } from 'react';
 import { getRandomQuestions, getDiagnosisType, getSecondaryTrait } from '../data/diagnosis';
-import type { TraitKey, GameMode } from '../types';
+import type { TraitKey, StatKey, GameMode } from '../types';
 
 interface DiagnosisPageProps {
   gameMode: GameMode;
+  diagnosisOnly?: boolean;
   onAnswer: (effects: Partial<Record<TraitKey, number>>) => void;
-  onComplete: (traits: Record<TraitKey, number>, primaryKey: TraitKey, secondaryKey: TraitKey) => void;
+  onComplete: (
+    traits: Record<TraitKey, number>,
+    primaryKey: TraitKey,
+    secondaryKey: TraitKey,
+    stats: Record<StatKey, number>,
+  ) => void;
+}
+
+/** トレイトスコアからベースのステータスを算出 */
+function traitsToBaseStats(traits: Record<TraitKey, number>): Record<StatKey, number> {
+  return {
+    satisfaction: 0,
+    income: 0,
+    growth: traits.challenge,
+    stability: traits.stability,
+    communication: traits.communication,
+    planning: traits.planning,
+    analysis: traits.analysis,
+    creative: traits.creative,
+    care: traits.care,
+    technical: traits.technical,
+  };
 }
 
 /** 簡易性格診断画面（ランダム出題） */
-export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageProps) {
-  // 初回マウント時にランダム10問を決定（再レンダリングでは変わらない）
-  const questions = useMemo(() => getRandomQuestions(10), []);
+export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }: DiagnosisPageProps) {
+  const questions = useMemo(() => getRandomQuestions(20), []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -25,16 +46,43 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
     care: 0,
     technical: 0,
   });
+  // satisfaction / income / growth の追加ステータス蓄積
+  const [extraStats, setExtraStats] = useState<Record<StatKey, number>>({
+    satisfaction: 0,
+    income: 0,
+    growth: 0,
+    stability: 0,
+    communication: 0,
+    planning: 0,
+    analysis: 0,
+    creative: 0,
+    care: 0,
+    technical: 0,
+  });
 
   const totalQuestions = questions.length;
   const question = currentIndex < totalQuestions ? questions[currentIndex] : null;
 
-  const handleSelect = (effects: Partial<Record<TraitKey, number>>) => {
+  const handleSelect = (
+    effects: Partial<Record<TraitKey, number>>,
+    statEffects?: Partial<Record<StatKey, number>>,
+  ) => {
     const newTraits = { ...traits };
     for (const [key, value] of Object.entries(effects)) {
       newTraits[key as TraitKey] += value!;
     }
     setTraits(newTraits);
+
+    if (statEffects) {
+      setExtraStats((prev) => {
+        const next = { ...prev };
+        for (const [key, value] of Object.entries(statEffects)) {
+          next[key as StatKey] += value!;
+        }
+        return next;
+      });
+    }
+
     onAnswer(effects);
 
     if (currentIndex + 1 >= totalQuestions) {
@@ -42,6 +90,16 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
     } else {
       setCurrentIndex((prev) => prev + 1);
     }
+  };
+
+  /** トレイト + 追加statEffects を合算した最終ステータス */
+  const computeFinalStats = (): Record<StatKey, number> => {
+    const base = traitsToBaseStats(traits);
+    const final = { ...base };
+    for (const [key, value] of Object.entries(extraStats)) {
+      final[key as StatKey] += value;
+    }
+    return final;
   };
 
   // 結果表示
@@ -52,6 +110,7 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
     const diagType = getDiagnosisType(primaryKey);
     const secondaryKey = getSecondaryTrait(traits);
     const subType = getDiagnosisType(secondaryKey);
+    const finalStats = computeFinalStats();
 
     return (
       <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
@@ -96,12 +155,14 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
           </p>
 
           <button
-            onClick={() => onComplete(traits, primaryKey, secondaryKey)}
+            onClick={() => onComplete(traits, primaryKey, secondaryKey, finalStats)}
             className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-full shadow transition-all duration-200 active:scale-95 cursor-pointer"
           >
-            {gameMode === 'childhood'
-              ? '人生ストーリーを始める 🎒'
-              : 'キャリアシミュレーションを始める 💼'}
+            {diagnosisOnly
+              ? '詳しい結果を見る 🔮'
+              : gameMode === 'childhood'
+                ? '人生ストーリーを始める 🎒'
+                : 'キャリアシミュレーションを始める 💼'}
           </button>
         </div>
       </div>
@@ -114,7 +175,7 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
         {/* モードバッジ */}
         <div className="text-center mb-4">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/80 rounded-full text-xs font-medium text-gray-500 shadow-sm">
-            {gameMode === 'childhood' ? '🎒 子供時代→就活コース' : '💼 社会人編'}
+            {diagnosisOnly ? '🔮 性格診断' : gameMode === 'childhood' ? '🎒 子供時代→就活コース' : '💼 社会人編'}
           </span>
         </div>
 
@@ -147,7 +208,7 @@ export function DiagnosisPage({ gameMode, onAnswer, onComplete }: DiagnosisPageP
             {question!.options.map((option, i) => (
               <button
                 key={i}
-                onClick={() => handleSelect(option.effects)}
+                onClick={() => handleSelect(option.effects, option.statEffects)}
                 className="w-full text-left p-4 border-2 border-gray-100 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 active:scale-[0.98] cursor-pointer group"
               >
                 <div className="flex items-center gap-3">
