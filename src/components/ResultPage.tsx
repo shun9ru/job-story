@@ -45,9 +45,10 @@ export function ResultPage({
     return merged;
   }, [player.stats, player.diagnosisStats]);
 
-  // スキル系ステータスのうち上位3つを抽出
+  // タイプセクション用：診断由来のステータスのみで上位3つを抽出
+  const diagStats = player.diagnosisStats ?? combinedStats;
   const topStats = [...skillStatDefinitions]
-    .sort((a, b) => combinedStats[b.key] - combinedStats[a.key])
+    .sort((a, b) => diagStats[b.key] - diagStats[a.key])
     .slice(0, 3);
 
   // キャリアサマリーテキストを生成
@@ -159,7 +160,7 @@ export function ResultPage({
                     <div className="text-2xl">{stat.emoji}</div>
                     <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
                     <div className="text-lg font-bold text-gray-800">
-                      {combinedStats[stat.key]}
+                      {diagStats[stat.key]}
                     </div>
                   </div>
                   {isActive && (

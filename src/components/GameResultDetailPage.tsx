@@ -29,8 +29,10 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
     .map(getJobById)
     .filter((j): j is Job => j !== undefined);
 
+  // タイプセクション用：診断由来のステータスがあればそれを使用、なければ統合値にフォールバック
+  const diagStats = result.diagnosisStats ?? result.stats;
   const topStats = [...skillStatDefinitions]
-    .sort((a, b) => result.stats[b.key] - result.stats[a.key])
+    .sort((a, b) => diagStats[b.key] - diagStats[a.key])
     .slice(0, 3);
 
   return (
@@ -64,14 +66,14 @@ export function GameResultDetailPage({ result, onBack }: GameResultDetailPagePro
             {diagType.tagline}
           </p>
 
-          {/* 強みステータス */}
+          {/* 強みステータス（診断由来） */}
           <div className="mt-4 flex justify-center gap-4">
             {topStats.map((stat) => (
               <div key={stat.key} className="text-center">
                 <div className="text-2xl">{stat.emoji}</div>
                 <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
                 <div className="text-lg font-bold text-gray-800">
-                  {result.stats[stat.key]}
+                  {diagStats[stat.key]}
                 </div>
               </div>
             ))}

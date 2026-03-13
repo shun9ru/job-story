@@ -353,6 +353,7 @@ export function useGameState() {
       gameMode,
       primaryTrait: player.primaryTrait,
       stats: combinedStats,
+      diagnosisStats: player.diagnosisStats,
       discoveredJobIds: [...player.discoveredJobIds],
       recommendedJobIds: recommended.map((j) => j.id),
     };

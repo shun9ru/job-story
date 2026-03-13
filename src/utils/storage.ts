@@ -39,6 +39,8 @@ export interface GameResultRecord {
   gameMode: GameMode;
   primaryTrait: TraitKey;
   stats: Record<StatKey, number>;
+  /** 診断由来のステータス（タイプセクション表示用） */
+  diagnosisStats?: Record<StatKey, number>;
   discoveredJobIds: string[];
   recommendedJobIds: string[];
   /** @deprecated */
@@ -148,6 +150,7 @@ export async function saveGameResult(result: GameResultRecord): Promise<void> {
       game_mode: result.gameMode,
       primary_trait: result.primaryTrait,
       stats: result.stats,
+      diagnosis_stats: result.diagnosisStats ?? null,
       discovered_job_ids: result.discoveredJobIds,
       recommended_job_ids: result.recommendedJobIds,
     });
@@ -178,6 +181,7 @@ export async function getGameResults(): Promise<GameResultRecord[]> {
       gameMode: r.game_mode as GameMode,
       primaryTrait: r.primary_trait as TraitKey,
       stats: r.stats as Record<StatKey, number>,
+      diagnosisStats: r.diagnosis_stats as Record<StatKey, number> | undefined,
       discoveredJobIds: r.discovered_job_ids ?? [],
       recommendedJobIds: r.recommended_job_ids ?? [],
     }));
