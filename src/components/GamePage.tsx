@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { getJobById } from '../data/jobs/index';
 import { getStageInfo } from '../data/stages';
-import type { PlayerState, Choice, Job, GameMode, GameEvent, LifeStage } from '../types';
+import type { PlayerState, Choice, Job, GameMode, GameEvent, LifeStage, StatKey } from '../types';
 import { StatusBar } from './StatusBar';
 import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
@@ -26,6 +26,17 @@ export function GamePage({
 }: GamePageProps) {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isChoiceAnimating, setIsChoiceAnimating] = useState(false);
+
+  // ストーリー + 診断を統合したステータス
+  const combinedStats = useMemo(() => {
+    const merged = { ...player.stats };
+    if (player.diagnosisStats) {
+      for (const [key, value] of Object.entries(player.diagnosisStats)) {
+        merged[key as StatKey] = Math.min(20, merged[key as StatKey] + value);
+      }
+    }
+    return merged;
+  }, [player.stats, player.diagnosisStats]);
 
   const totalEvents = events.length;
   const isFinished = currentEventIndex >= totalEvents;
@@ -166,8 +177,8 @@ export function GamePage({
       </header>
 
       <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        {/* ステータスバー */}
-        <StatusBar stats={player.stats} />
+        {/* ステータスバー（診断+ストーリー統合値） */}
+        <StatusBar stats={combinedStats} />
 
         {/* ステージバナー */}
         <div className={`flex items-center gap-3 px-4 py-2 rounded-xl bg-white/60 backdrop-blur`}>

@@ -2,8 +2,8 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { PlayerState, StatKey, TraitKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
 import { initialStats, valueStatKeys } from '../data/stats';
 import { jobs } from '../data/jobs/index';
-import { getBaseChildhoodEvents, getPathEvents, PATH_CHOICE_EVENT_ID } from '../data/events-childhood';
-import type { EducationPath } from '../data/events-childhood';
+import { getPreHighSchoolEvents, getHighSchoolEvents, getPathEvents, getVocationalEvents, PATH_CHOICE_EVENT_ID, HIGHSCHOOL_CHOICE_EVENT_ID, VOCATIONAL_CHOICE_EVENT_ID } from '../data/events-childhood';
+import type { EducationPath, HighSchoolPath, VocationalPath } from '../data/events-childhood';
 import { getRandomWorkingEvents } from '../data/events-working';
 import type { GameResultRecord, ExperienceReflection } from '../utils/storage';
 import {
@@ -38,23 +38,38 @@ export function useGameState() {
   const [diagnosisOnly, setDiagnosisOnly] = useState(false);
   const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
+  const [highSchoolPath, setHighSchoolPath] = useState<HighSchoolPath | undefined>(undefined);
   const [educationPath, setEducationPath] = useState<EducationPath | undefined>(undefined);
+  const [vocationalPath, setVocationalPath] = useState<VocationalPath | undefined>(undefined);
 
-  /** 子供時代モード：高校まで＋進路選択イベント（分岐前の固定部分） */
-  const childBaseEvents: GameEvent[] = useMemo(() => {
+  /** 子供時代モード：小学校＋中学校＋高校選択イベント（第一分岐前） */
+  const preHSEvents: GameEvent[] = useMemo(() => {
     void eventSeed;
-    return gameMode === 'childhood' ? getBaseChildhoodEvents() : [];
+    return gameMode === 'childhood' ? getPreHighSchoolEvents() : [];
   }, [gameMode, eventSeed]);
 
-  /** 現在のモードに応じたイベント一覧 */
+  /** 現在のモードに応じたイベント一覧（多段階分岐） */
   const currentEvents: GameEvent[] = useMemo(() => {
     void eventSeed;
     if (gameMode !== 'childhood') return getRandomWorkingEvents();
-    // 進路未選択：分岐前のイベントのみ返す
-    if (!educationPath) return childBaseEvents;
-    // 進路選択済み：分岐前 + 進路に応じた後半イベント
-    return [...childBaseEvents, ...getPathEvents(educationPath)];
-  }, [gameMode, eventSeed, educationPath, childBaseEvents]);
+    // 高校未選択：中学までのイベント + 高校選択イベント
+    if (!highSchoolPath) return preHSEvents;
+    // 高校選択済み：+ 高校イベント + 進路選択イベント
+    const hsEvents = getHighSchoolEvents(highSchoolPath);
+    if (!educationPath) return [...preHSEvents, ...hsEvents];
+    // 進路選択済み：パスイベントを追加
+    const pathEvents = getPathEvents(educationPath);
+    // 専門学校で種類未選択：種類選択イベントまで
+    if (educationPath === 'vocational' && !vocationalPath) {
+      return [...preHSEvents, ...hsEvents, ...pathEvents];
+    }
+    // 専門学校で種類選択済み：専門学校イベントを追加
+    if (educationPath === 'vocational' && vocationalPath) {
+      return [...preHSEvents, ...hsEvents, ...pathEvents, ...getVocationalEvents(vocationalPath)];
+    }
+    // 大学・就職：全イベント
+    return [...preHSEvents, ...hsEvents, ...pathEvents];
+  }, [gameMode, eventSeed, highSchoolPath, educationPath, vocationalPath, preHSEvents]);
 
   /** ユーザーデータをSupabaseから読み込み */
   const loadUserData = useCallback(async () => {
@@ -162,6 +177,21 @@ export function useGameState() {
   /** 選択肢を選んだ時の処理（価値観系ステータスはスキップ） */
   const selectChoice = useCallback(
     (eventId: string, choice: Choice) => {
+      // 高校選択イベントの分岐処理
+      if (eventId === HIGHSCHOOL_CHOICE_EVENT_ID) {
+        const hsMap: Record<string, HighSchoolPath> = {
+          'hs-general': 'general',
+          'hs-technical': 'technical',
+          'hs-commercial': 'commercial',
+          'hs-agricultural': 'agricultural',
+          'hs-sports': 'sports',
+        };
+        const selectedHS = hsMap[choice.id];
+        if (selectedHS) {
+          setHighSchoolPath(selectedHS);
+        }
+      }
+
       // 進路選択イベントの分岐処理
       if (eventId === PATH_CHOICE_EVENT_ID) {
         const pathMap: Record<string, EducationPath> = {
@@ -172,6 +202,22 @@ export function useGameState() {
         const selectedPath = pathMap[choice.id];
         if (selectedPath) {
           setEducationPath(selectedPath);
+        }
+      }
+
+      // 専門学校種類選択イベントの分岐処理
+      if (eventId === VOCATIONAL_CHOICE_EVENT_ID) {
+        const vocMap: Record<string, VocationalPath> = {
+          'voc-it-design': 'it-design',
+          'voc-medical': 'medical',
+          'voc-culinary': 'culinary',
+          'voc-beauty': 'beauty',
+          'voc-entertainment': 'entertainment',
+          'voc-business': 'business',
+        };
+        const selectedVoc = vocMap[choice.id];
+        if (selectedVoc) {
+          setVocationalPath(selectedVoc);
         }
       }
 
@@ -391,7 +437,9 @@ export function useGameState() {
   const resetGame = useCallback(() => {
     setPlayer(createInitialPlayer());
     setCurrentEventIndex(0);
+    setHighSchoolPath(undefined);
     setEducationPath(undefined);
+    setVocationalPath(undefined);
     setScreen('top');
   }, []);
 
@@ -399,7 +447,9 @@ export function useGameState() {
   const switchMode = useCallback(() => {
     setPlayer(createInitialPlayer());
     setCurrentEventIndex(0);
+    setHighSchoolPath(undefined);
     setEducationPath(undefined);
+    setVocationalPath(undefined);
     setScreen('mode-select');
   }, []);
 
@@ -417,6 +467,7 @@ export function useGameState() {
     gameResults,
     dataLoaded,
     diagnosisOnly,
+    highSchoolPath,
     educationPath,
     login,
     logout,

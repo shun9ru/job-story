@@ -279,6 +279,399 @@ const slot2Pool: GameEvent[] = [
   },
 ];
 
+// === Elementary Slot 3: 遠足・校外学習系 ===
+
+const elemSlot3Pool: GameEvent[] = [
+  {
+    id: 'c-elem3a',
+    step: 3,
+    stage: 'elementary',
+    title: '遠足の日、キミはどう過ごす？',
+    description: '待ちに待った遠足の日！学校の外で過ごす一日、キミらしさが出るよ。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce3a-1',
+        text: '班長として班をまとめる',
+        emoji: '🗺️',
+        description: '「次はあっちに行こう！」とみんなを引っ張る',
+        effects: { planning: 2, communication: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3a-2',
+        text: '珍しい虫や花を見つけてメモする',
+        emoji: '🔍',
+        description: '自然の中に発見がいっぱい！図鑑と見比べるのが楽しい',
+        effects: { analysis: 2, care: 1, growth: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3a-3',
+        text: 'みんなにおやつを配って仲良くなる',
+        emoji: '🍬',
+        description: 'お菓子交換で友達の輪が広がる！',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3a-4',
+        text: 'スケッチブックに風景を描く',
+        emoji: '🖼️',
+        description: 'きれいな景色を自分の手で残したい',
+        effects: { creative: 3, stability: 1 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+  {
+    id: 'c-elem3b',
+    step: 3,
+    stage: 'elementary',
+    title: '社会科見学で工場へ！何に注目する？',
+    description: '社会科見学で大きな工場を見学。いろんなものが作られる現場にドキドキ！',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce3b-1',
+        text: '機械の仕組みに興味津々',
+        emoji: '⚙️',
+        description: 'ベルトコンベアや大きな機械、どう動いてるの？',
+        effects: { technical: 2, analysis: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3b-2',
+        text: '働いている人にたくさん質問する',
+        emoji: '🎤',
+        description: '「大変なことは何ですか？」インタビューが止まらない',
+        effects: { communication: 3, growth: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3b-3',
+        text: 'メモをしっかり取ってレポートにまとめる',
+        emoji: '📝',
+        description: '見たことを丁寧に記録して、後でまとめるのが得意',
+        effects: { planning: 2, stability: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3b-4',
+        text: '製品のデザインやパッケージに注目',
+        emoji: '🎁',
+        description: 'どうしてこの形？この色？デザインの理由が気になる',
+        effects: { creative: 2, analysis: 1, care: 1 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+  {
+    id: 'c-elem3c',
+    step: 3,
+    stage: 'elementary',
+    title: '林間学校でのキャンプ、どう楽しむ？',
+    description: '自然の中で過ごす林間学校。いつもと違う環境でのキミの行動は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce3c-1',
+        text: '火起こしやテント設営をリードする',
+        emoji: '🔥',
+        description: '「任せて！」率先して準備を進める',
+        effects: { growth: 2, technical: 1, planning: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3c-2',
+        text: 'キャンプファイヤーでみんなを盛り上げる',
+        emoji: '🎶',
+        description: '歌やゲームで最高の夜を演出！',
+        effects: { communication: 2, creative: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3c-3',
+        text: '夜の星空を観察してスケッチする',
+        emoji: '🌟',
+        description: '満天の星に感動。星座を探して描き留める',
+        effects: { analysis: 2, creative: 1, care: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce3c-4',
+        text: 'ホームシックの友達に付き添う',
+        emoji: '🤗',
+        description: '泣いている子のそばにいてあげる優しさ',
+        effects: { care: 3, stability: 1 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+];
+
+// === Elementary Slot 4: 得意なこと・苦手なこと系 ===
+
+const elemSlot4Pool: GameEvent[] = [
+  {
+    id: 'c-elem4a',
+    step: 4,
+    stage: 'elementary',
+    title: 'テストが返ってきた！キミの反応は？',
+    description: '得意な教科と苦手な教科、点数の差にドキドキ。キミならどうする？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce4a-1',
+        text: '得意な算数をもっと伸ばしたい！',
+        emoji: '🔢',
+        description: '好きな教科をとことん極めるのがキミ流',
+        effects: { analysis: 2, growth: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4a-2',
+        text: '苦手な国語を克服するぞ',
+        emoji: '📕',
+        description: '悔しいからこそ頑張れる。弱点に正面から向き合う',
+        effects: { stability: 2, planning: 1, growth: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4a-3',
+        text: '友達に教えてもらいながら一緒に勉強',
+        emoji: '👫',
+        description: 'わからないことは聞く！助け合いで乗り越える',
+        effects: { communication: 2, care: 1, technical: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4a-4',
+        text: '自分なりのノートまとめ術を編み出す',
+        emoji: '📓',
+        description: 'カラフルに整理して、わかりやすいノートを作る',
+        effects: { creative: 2, planning: 2 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+  {
+    id: 'c-elem4b',
+    step: 4,
+    stage: 'elementary',
+    title: '体育の時間、キミはどんなタイプ？',
+    description: '運動が得意な子も苦手な子もいるクラス。キミの過ごし方は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce4b-1',
+        text: 'チームの作戦を考えるのが好き',
+        emoji: '🧠',
+        description: '「こう攻めよう！」戦略を練るのが得意',
+        effects: { planning: 2, analysis: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4b-2',
+        text: '苦手でも全力で頑張る！',
+        emoji: '💪',
+        description: '結果より一生懸命やることが大事',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4b-3',
+        text: 'できない子に教えてあげる',
+        emoji: '🙌',
+        description: '「こうするとうまくいくよ！」アドバイスが自然に出る',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4b-4',
+        text: 'フォームや技術を細かく研究する',
+        emoji: '📐',
+        description: '動画を見て正しいフォームを分析するのが好き',
+        effects: { technical: 2, analysis: 1, growth: 1 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+  {
+    id: 'c-elem4c',
+    step: 4,
+    stage: 'elementary',
+    title: '学習発表会、どんな役割をやりたい？',
+    description: 'クラスの学習発表会。得意なことを活かして何を担当する？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce4c-1',
+        text: '舞台の上で堂々と発表する',
+        emoji: '🎙️',
+        description: '人前で話すのが得意！注目を浴びるのが好き',
+        effects: { communication: 2, growth: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4c-2',
+        text: '裏方で音響や照明を担当する',
+        emoji: '🎛️',
+        description: '機材をいじるのが好き。裏から支えるのがカッコいい',
+        effects: { technical: 2, stability: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4c-3',
+        text: '背景の絵や小道具を作る',
+        emoji: '🎨',
+        description: '大きな背景画を描いたり、衣装を工夫したり',
+        effects: { creative: 3, care: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce4c-4',
+        text: '台本を書いて全体の構成を考える',
+        emoji: '📜',
+        description: 'ストーリーの流れを作るのが楽しい',
+        effects: { planning: 2, creative: 1, analysis: 1 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+];
+
+// === Elementary Slot 5: 将来の夢・憧れ系 ===
+
+const elemSlot5Pool: GameEvent[] = [
+  {
+    id: 'c-elem5a',
+    step: 5,
+    stage: 'elementary',
+    title: '「将来の夢」作文、何を書く？',
+    description: '先生に「将来の夢を書きましょう」と言われた。キミの夢は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce5a-1',
+        text: '困っている人を助ける仕事がしたい',
+        emoji: '🏥',
+        description: 'お医者さん、消防士、警察官…誰かの役に立ちたい',
+        effects: { care: 2, growth: 1, stability: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5a-2',
+        text: 'すごいものを発明したい！',
+        emoji: '🚀',
+        description: 'ロケットやロボット、世界を変えるものを作りたい',
+        effects: { technical: 2, creative: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5a-3',
+        text: 'テレビや舞台で活躍する人になりたい',
+        emoji: '🌟',
+        description: 'みんなを笑顔にできるエンターテイナーに憧れる',
+        effects: { communication: 2, creative: 1, growth: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5a-4',
+        text: '会社を作ってお金持ちになりたい！',
+        emoji: '💼',
+        description: '社長になって大きなことをしたい',
+        effects: { planning: 2, growth: 2 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+  {
+    id: 'c-elem5b',
+    step: 5,
+    stage: 'elementary',
+    title: '憧れの大人は誰？',
+    description: 'テレビや身の回りで「カッコいい！」と思う大人。キミが憧れるのは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce5b-1',
+        text: 'スポーツ選手の努力と根性',
+        emoji: '🏆',
+        description: '最後まで諦めない姿がカッコいい',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5b-2',
+        text: '科学者や研究者の探求心',
+        emoji: '🔬',
+        description: '世界の謎を解き明かす知の冒険者に憧れる',
+        effects: { analysis: 3, technical: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5b-3',
+        text: '先生や保育士さんの優しさ',
+        emoji: '👩‍🏫',
+        description: 'いつも寄り添ってくれる温かさが素敵',
+        effects: { care: 2, communication: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5b-4',
+        text: 'アーティストやクリエイターの個性',
+        emoji: '🎸',
+        description: '自分だけの世界を持っている人がカッコいい',
+        effects: { creative: 2, growth: 1, analysis: 1 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+  {
+    id: 'c-elem5c',
+    step: 5,
+    stage: 'elementary',
+    title: 'タイムカプセルに未来の自分への手紙を入れるなら？',
+    description: '卒業のとき開けるタイムカプセル。未来の自分に何を伝える？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ce5c-1',
+        text: '「たくさんの人と出会ってね」',
+        emoji: '🌍',
+        description: '広い世界でいろんな人とつながりたい',
+        effects: { communication: 2, growth: 1, care: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5c-2',
+        text: '「好きなことをずっと続けてね」',
+        emoji: '✨',
+        description: '夢中になれるものを大事にしたい',
+        effects: { creative: 2, stability: 2 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5c-3',
+        text: '「もっと強くなっていてね」',
+        emoji: '🛡️',
+        description: '困難に負けない強さを身につけたい',
+        effects: { growth: 2, planning: 1, stability: 1 },
+        unlockJobIds: [],
+      },
+      {
+        id: 'ce5c-4',
+        text: '「世の中の仕組みをもっと知りたい」',
+        emoji: '📊',
+        description: '社会や技術のことをもっと深く理解したい',
+        effects: { analysis: 2, technical: 2 },
+        unlockJobIds: [],
+      },
+    ],
+  },
+];
+
 // === Slot 3: 中学校 — 部活系 ===
 
 const slot3Pool: GameEvent[] = [
@@ -536,6 +929,273 @@ const slot4Pool: GameEvent[] = [
         description: '病気の人、弱い立場の人を守りたい',
         effects: { care: 3, growth: 1 },
         unlockJobIds: ['doctor', 'nurse', 'lawyer', 'social-worker'],
+      },
+    ],
+  },
+];
+
+// === Mid Slot 5: 中学校 — 文化祭・学校行事系 ===
+
+const midSlot5Pool: GameEvent[] = [
+  {
+    id: 'c-mid5a',
+    step: 4,
+    stage: 'middle-school',
+    title: '文化祭で、キミはどんな役割をやりたい？',
+    description: '中学校の文化祭。クラスで出し物を準備することになった。あなたはどのポジションに手を挙げる？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cm5a-1',
+        text: 'ステージで司会や発表をする',
+        emoji: '🎤',
+        description: '人前に立って場を盛り上げるのが好き',
+        effects: { communication: 3, growth: 1 },
+        unlockJobIds: ['announcer', 'pr', 'event-planner'],
+      },
+      {
+        id: 'cm5a-2',
+        text: '装飾やポスターのデザインを担当する',
+        emoji: '🎨',
+        description: 'クラスの看板やチラシを作るのは任せて！',
+        effects: { creative: 3, care: 1 },
+        unlockJobIds: ['graphic-designer', 'web-designer', 'interior-designer'],
+      },
+      {
+        id: 'cm5a-3',
+        text: 'スケジュール管理や役割分担をまとめる',
+        emoji: '📋',
+        description: '全体の計画を立てて、みんなが動きやすいようにする',
+        effects: { planning: 3, communication: 1 },
+        unlockJobIds: ['project-manager', 'management-consultant', 'hr-staff'],
+      },
+      {
+        id: 'cm5a-4',
+        text: '裏方で黙々と準備を進める',
+        emoji: '🔧',
+        description: '目立たなくても、大事な作業をきっちりやる',
+        effects: { stability: 2, technical: 2 },
+        unlockJobIds: ['production-engineer', 'infra-engineer', 'logistics-staff'],
+      },
+    ],
+  },
+  {
+    id: 'c-mid5b',
+    step: 4,
+    stage: 'middle-school',
+    title: '体育祭で一番テンションが上がるのは？',
+    description: '年に一度の体育祭。キミが最も輝く瞬間はどこ？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cm5b-1',
+        text: 'リレーのアンカーで最後を決める！',
+        emoji: '🏃',
+        description: 'プレッシャーの中でこそ力を発揮したい',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: ['securities-sales', 'investment-banker', 'overseas-sales'],
+      },
+      {
+        id: 'cm5b-2',
+        text: '応援団を率いてみんなを鼓舞する',
+        emoji: '📣',
+        description: '声を出して仲間を一つにまとめたい',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['school-teacher', 'hr-consultant', 'event-planner'],
+      },
+      {
+        id: 'cm5b-3',
+        text: '作戦を練って団体戦で勝つ',
+        emoji: '🧠',
+        description: '頭を使って戦略的に勝利をつかむのが楽しい',
+        effects: { analysis: 2, planning: 2 },
+        unlockJobIds: ['management-consultant', 'marketing-planner', 'data-analyst'],
+      },
+      {
+        id: 'cm5b-4',
+        text: '得点係やアナウンスなど運営を支える',
+        emoji: '📝',
+        description: 'イベントが円滑に進むよう縁の下の力持ちになる',
+        effects: { planning: 2, stability: 2 },
+        unlockJobIds: ['accountant', 'logistics-staff', 'public-affairs'],
+      },
+    ],
+  },
+];
+
+// === Mid Slot 6: 中学校 — 将来の夢系 ===
+
+const midSlot6Pool: GameEvent[] = [
+  {
+    id: 'c-mid6a',
+    step: 4,
+    stage: 'middle-school',
+    title: 'どんな大人になりたい？',
+    description: '中学生のキミが思い描く将来像。どんな大人に憧れる？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cm6a-1',
+        text: '世界を飛び回るカッコいい大人',
+        emoji: '✈️',
+        description: '海外で活躍して、いろんな文化を体験したい',
+        effects: { communication: 2, growth: 2 },
+        unlockJobIds: ['trading-company', 'overseas-sales', 'translator', 'pilot'],
+      },
+      {
+        id: 'cm6a-2',
+        text: '新しい技術で社会を変える大人',
+        emoji: '💡',
+        description: 'まだ誰も見たことないものを作り出したい',
+        effects: { technical: 2, creative: 2 },
+        unlockJobIds: ['ai-engineer', 'web-engineer', 'game-designer', 'startup-founder'],
+      },
+      {
+        id: 'cm6a-3',
+        text: '人に感謝される優しい大人',
+        emoji: '🌸',
+        description: '周りの人を助けて「ありがとう」と言われる人になりたい',
+        effects: { care: 3, stability: 1 },
+        unlockJobIds: ['doctor', 'nurse', 'social-worker', 'school-teacher'],
+      },
+      {
+        id: 'cm6a-4',
+        text: '自分の好きなことで食べていける大人',
+        emoji: '🎯',
+        description: '趣味や好きなことを仕事にして、楽しく生きたい',
+        effects: { creative: 2, growth: 2 },
+        unlockJobIds: ['youtuber', 'musician', 'illustrator', 'game-designer'],
+      },
+    ],
+  },
+  {
+    id: 'c-mid6b',
+    step: 4,
+    stage: 'middle-school',
+    title: '将来の夢を作文に書くとしたら？',
+    description: '中学の授業で「将来の夢」を書くことに。キミが書くテーマは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cm6b-1',
+        text: '大きな組織のリーダーになりたい',
+        emoji: '👔',
+        description: '会社の社長や政治家のように、人を導く存在に',
+        effects: { planning: 2, communication: 2 },
+        unlockJobIds: ['management-consultant', 'national-civil-servant', 'startup-founder'],
+      },
+      {
+        id: 'cm6b-2',
+        text: '専門スキルを極めたプロになりたい',
+        emoji: '🔬',
+        description: '一つの道を突き詰めて、その分野のトップに',
+        effects: { technical: 2, analysis: 2 },
+        unlockJobIds: ['doctor', 'architect', 'data-analyst', 'tax-accountant'],
+      },
+      {
+        id: 'cm6b-3',
+        text: '人の暮らしを豊かにする仕事がしたい',
+        emoji: '🏠',
+        description: 'みんなの日常を便利で快適にするものを届けたい',
+        effects: { care: 2, creative: 2 },
+        unlockJobIds: ['interior-designer', 'real-estate-developer', 'retail-sales', 'fp'],
+      },
+      {
+        id: 'cm6b-4',
+        text: '世界の不公平をなくしたい',
+        emoji: '⚖️',
+        description: '貧困や差別をなくして公正な社会を実現したい',
+        effects: { care: 2, growth: 2 },
+        unlockJobIds: ['lawyer', 'social-worker', 'journalist', 'npo-staff'],
+      },
+    ],
+  },
+];
+
+// === Mid Slot 7: 中学校 — 学校外の活動系 ===
+
+const midSlot7Pool: GameEvent[] = [
+  {
+    id: 'c-mid7a',
+    step: 4,
+    stage: 'middle-school',
+    title: '休日、自分の時間をどう使う？',
+    description: '中学生の週末。学校以外の時間に何をするかで、キミの個性が見えてくる。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cm7a-1',
+        text: '友達と街に出かけてショッピングやカフェへ',
+        emoji: '🛍️',
+        description: '流行をチェックしたり、友達とワイワイ過ごす',
+        effects: { communication: 2, creative: 2 },
+        unlockJobIds: ['beauty-advisor', 'retail-sales', 'marketing-planner', 'pr'],
+      },
+      {
+        id: 'cm7a-2',
+        text: '家でプログラミングや動画編集に没頭',
+        emoji: '💻',
+        description: 'パソコンに向かって自分の世界を作り上げる',
+        effects: { technical: 3, creative: 1 },
+        unlockJobIds: ['web-engineer', 'ai-engineer', 'youtuber', 'game-designer'],
+      },
+      {
+        id: 'cm7a-3',
+        text: '図書館で本を読みまくる',
+        emoji: '📖',
+        description: '小説、科学、歴史…知識をどんどん吸収するのが楽しい',
+        effects: { analysis: 2, planning: 2 },
+        unlockJobIds: ['editor', 'journalist', 'data-analyst', 'lawyer'],
+      },
+      {
+        id: 'cm7a-4',
+        text: 'ボランティアや地域のイベントに参加する',
+        emoji: '🤝',
+        description: '地域の清掃やお祭りの手伝いなど人の役に立ちたい',
+        effects: { care: 2, communication: 2 },
+        unlockJobIds: ['social-worker', 'npo-staff', 'public-affairs', 'school-teacher'],
+      },
+    ],
+  },
+  {
+    id: 'c-mid7b',
+    step: 4,
+    stage: 'middle-school',
+    title: '学校外で夢中になっていることは？',
+    description: '塾、習い事、趣味…学校の外にもキミの世界は広がっている。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cm7b-1',
+        text: '塾で受験勉強をバリバリ頑張る',
+        emoji: '✏️',
+        description: '目標の高校に向けて、計画的にコツコツ勉強',
+        effects: { planning: 2, stability: 2 },
+        unlockJobIds: ['accountant', 'bank-staff', 'national-civil-servant', 'tax-accountant'],
+      },
+      {
+        id: 'cm7b-2',
+        text: '音楽やダンスのレッスンに通っている',
+        emoji: '🎵',
+        description: '表現することが自分にとって一番の楽しみ',
+        effects: { creative: 3, growth: 1 },
+        unlockJobIds: ['musician', 'illustrator', 'hairdresser', 'event-planner'],
+      },
+      {
+        id: 'cm7b-3',
+        text: 'スポーツクラブで本格的にトレーニング',
+        emoji: '🏋️',
+        description: '学校の部活だけじゃ足りない、もっと上を目指したい',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: ['physical-therapist', 'personal-sales', 'pilot'],
+      },
+      {
+        id: 'cm7b-4',
+        text: 'ネットで情報発信やコミュニティに参加',
+        emoji: '📱',
+        description: 'SNSやブログで自分の意見や作品を共有するのが日課',
+        effects: { communication: 2, technical: 2 },
+        unlockJobIds: ['youtuber', 'web-designer', 'pr', 'marketing-planner'],
       },
     ],
   },
@@ -803,6 +1463,269 @@ const slot6Pool: GameEvent[] = [
   },
 ];
 
+// === High Slot 7: 高校 — 文化祭・学校行事系 ===
+
+const highSlot7Pool: GameEvent[] = [
+  {
+    id: 'c-high7a',
+    step: 12,
+    stage: 'high-school',
+    title: '文化祭、あなたの役割は？',
+    description: '高校最大のイベント、文化祭が近づいてきた。クラスの出し物でどんなポジションにつく？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ch7a-1',
+        text: 'クラスのリーダーとして全体を仕切る',
+        emoji: '🏪',
+        description: '接客の基本を学び、お客さんとのやりとりが楽しかった',
+        effects: { communication: 2, stability: 1, care: 1 },
+        unlockJobIds: ['retail-sales', 'customer-success', 'general-admin'],
+      },
+      {
+        id: 'ch7a-2',
+        text: '飲食店のホール・キッチン',
+        emoji: '🍽️',
+        description: '忙しい中でもチームワークで乗り切る達成感',
+        effects: { communication: 2, planning: 1, growth: 1 },
+        unlockJobIds: ['hotel-staff', 'event-producer', 'restaurant-manager'],
+      },
+      {
+        id: 'ch7a-3',
+        text: '塾講師や家庭教師',
+        emoji: '📖',
+        description: '人に教えることで自分も成長できた',
+        effects: { communication: 2, analysis: 1, care: 1 },
+        unlockJobIds: ['teacher', 'nursery-teacher', 'hr-staff', 'training-instructor'],
+      },
+      {
+        id: 'ch7a-4',
+        text: 'イベントスタッフや短期バイト',
+        emoji: '🎪',
+        description: 'いろんな現場を経験して、適応力が身についた',
+        effects: { growth: 2, communication: 1, creative: 1 },
+        unlockJobIds: ['event-producer', 'entertainment-manager', 'logistics-manager', 'ad-planner'],
+      },
+    ],
+  },
+  {
+    id: 'c-high7b',
+    step: 6,
+    stage: 'high-school',
+    title: 'バイト先で「向いてるかも」と感じた瞬間は？',
+    description: 'アルバイトを通じて、自分の意外な一面に気づくことがある。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ch7b-1',
+        text: 'お客さんに「ありがとう」と言われた時',
+        emoji: '😊',
+        description: '人の役に立てることが何より嬉しかった',
+        effects: { care: 3, communication: 1 },
+        unlockJobIds: ['nurse', 'social-worker', 'beauty-advisor', 'hotel-staff'],
+      },
+      {
+        id: 'ch7b-2',
+        text: '効率的にシフトや作業を回せた時',
+        emoji: '⚙️',
+        description: '段取りよく仕事を進められると気持ちいい',
+        effects: { planning: 3, stability: 1 },
+        unlockJobIds: ['accounting', 'procurement', 'logistics-manager', 'general-admin'],
+      },
+      {
+        id: 'ch7b-3',
+        text: '売上や数字が伸びた時',
+        emoji: '📊',
+        description: '自分の工夫で結果が出るのがたまらない',
+        effects: { analysis: 2, growth: 1, planning: 1 },
+        unlockJobIds: ['corporate-sales', 'securities-sales', 'digital-marketer', 'market-researcher'],
+      },
+      {
+        id: 'ch7b-4',
+        text: 'POPやメニューを作って褒められた時',
+        emoji: '✏️',
+        description: 'デザインやアイデアで貢献できるのが楽しい',
+        effects: { creative: 3, care: 1 },
+        unlockJobIds: ['graphic-designer', 'web-designer', 'copywriter', 'ad-planner'],
+      },
+    ],
+  },
+];
+
+const highSlot8Pool: GameEvent[] = [
+  {
+    id: 'c-high8a',
+    step: 6,
+    stage: 'high-school',
+    title: '文化祭、どんな役割を引き受けた？',
+    description: '高校の文化祭。クラスの出し物で、あなたはどう動いた？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ch8a-1',
+        text: 'リーダーとして全体をまとめた',
+        emoji: '📣',
+        description: '意見をまとめてスケジュール管理もバッチリ',
+        effects: { planning: 2, communication: 2 },
+        unlockJobIds: ['management-consultant', 'it-pm', 'event-producer', 'corporate-sales'],
+      },
+      {
+        id: 'ch8a-2',
+        text: '装飾やデザインを担当した',
+        emoji: '🎨',
+        description: '教室の飾り付けやポスター制作に全力投球',
+        effects: { creative: 3, care: 1 },
+        unlockJobIds: ['graphic-designer', 'interior-designer', 'web-designer', 'photographer'],
+      },
+      {
+        id: 'ch8a-3',
+        text: '会計や買い出しなど裏方を支えた',
+        emoji: '🧾',
+        description: '予算管理や材料調達を正確にこなした',
+        effects: { stability: 2, planning: 1, analysis: 1 },
+        unlockJobIds: ['accounting', 'procurement', 'bank-staff', 'internal-audit'],
+      },
+      {
+        id: 'ch8a-4',
+        text: 'ステージやパフォーマンスで盛り上げた',
+        emoji: '🎤',
+        description: '人前に立って場を盛り上げるのが得意',
+        effects: { creative: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['entertainer', 'announcer', 'sns-marketer', 'pr'],
+      },
+    ],
+  },
+  {
+    id: 'c-high8b',
+    step: 6,
+    stage: 'high-school',
+    title: '体育祭で一番やりがいを感じた場面は？',
+    description: '体育祭は単なるスポーツイベントじゃない。そこに自分の個性が出る。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ch8b-1',
+        text: '応援団やチアで仲間を鼓舞した',
+        emoji: '📢',
+        description: 'みんなの士気を上げて、チームを一つにした',
+        effects: { communication: 3, care: 1 },
+        unlockJobIds: ['hr-staff', 'personal-sales', 'training-instructor', 'customer-success'],
+      },
+      {
+        id: 'ch8b-2',
+        text: '作戦を立てて競技で勝利に導いた',
+        emoji: '🏆',
+        description: 'データや相手の分析をして戦略的に攻めた',
+        effects: { analysis: 2, planning: 2 },
+        unlockJobIds: ['management-consultant', 'data-scientist', 'marketing', 'product-planner'],
+      },
+      {
+        id: 'ch8b-3',
+        text: '競技に全力で挑んで自己ベストを更新',
+        emoji: '🏃',
+        description: '練習の成果を発揮して限界を超えた',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: ['corporate-sales', 'mr', 'real-estate-sales', 'sports-trainer'],
+      },
+      {
+        id: 'ch8b-4',
+        text: '放送や記録係として大会を運営した',
+        emoji: '🎙️',
+        description: '裏方から全体を支え、スムーズな進行に貢献',
+        effects: { technical: 2, planning: 1, stability: 1 },
+        unlockJobIds: ['tv-director', 'journalist', 'logistics-manager', 'general-admin'],
+      },
+    ],
+  },
+];
+
+const highSlot9Pool: GameEvent[] = [
+  {
+    id: 'c-high9a',
+    step: 6,
+    stage: 'high-school',
+    title: '高校生活で一番心に残っている出来事は？',
+    description: '振り返ると、あの経験が今の自分を作っている気がする。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ch9a-1',
+        text: '部活の大会で仲間と涙した瞬間',
+        emoji: '🥹',
+        description: '勝っても負けても、一緒に戦った仲間は一生の宝',
+        effects: { communication: 2, growth: 1, care: 1 },
+        unlockJobIds: ['hr-staff', 'sports-trainer', 'teacher', 'event-producer'],
+      },
+      {
+        id: 'ch9a-2',
+        text: '海外研修や留学で価値観が変わった',
+        emoji: '✈️',
+        description: '異文化に触れて、世界の広さを知った',
+        effects: { growth: 3, communication: 1 },
+        unlockJobIds: ['trading-company', 'translator', 'diplomat', 'hotel-staff'],
+      },
+      {
+        id: 'ch9a-3',
+        text: 'コンテストや大会で入賞した',
+        emoji: '🏅',
+        description: '自分の得意分野で努力が認められた',
+        effects: { technical: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['researcher', 'ai-engineer', 'game-designer', 'architect'],
+      },
+      {
+        id: 'ch9a-4',
+        text: '友人の悩みを聞いて支えになれた経験',
+        emoji: '🤝',
+        description: '誰かの力になれたことが自分の自信になった',
+        effects: { care: 3, stability: 1 },
+        unlockJobIds: ['counselor', 'social-worker', 'nurse', 'nursery-teacher'],
+      },
+    ],
+  },
+  {
+    id: 'c-high9b',
+    step: 6,
+    stage: 'high-school',
+    title: '高校最後の日、一番誇らしかったことは？',
+    description: '卒業式の日。3年間を振り返って、一番の成長を感じたのは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ch9b-1',
+        text: '苦手だった科目を克服できたこと',
+        emoji: '💪',
+        description: '逃げずに向き合い続けた自分を褒めたい',
+        effects: { stability: 2, growth: 1, analysis: 1 },
+        unlockJobIds: ['tax-accountant', 'pharmacist', 'internal-audit', 'quality-assurance'],
+      },
+      {
+        id: 'ch9b-2',
+        text: 'みんなをまとめるリーダーになれたこと',
+        emoji: '👑',
+        description: '人の前に立つのが怖かったのに、成長できた',
+        effects: { communication: 2, planning: 1, growth: 1 },
+        unlockJobIds: ['management-consultant', 'it-pm', 'corporate-sales', 'pr'],
+      },
+      {
+        id: 'ch9b-3',
+        text: '自分だけの作品や成果を残せたこと',
+        emoji: '🌟',
+        description: '文集、作品、記録…形に残るものを作れた',
+        effects: { creative: 2, technical: 1, care: 1 },
+        unlockJobIds: ['video-creator', 'copywriter', 'photographer', 'game-designer'],
+      },
+      {
+        id: 'ch9b-4',
+        text: '信頼できる仲間と深い絆を築けたこと',
+        emoji: '🫂',
+        description: '本音で語り合える友達ができたことが何よりの財産',
+        effects: { care: 2, communication: 1, stability: 1 },
+        unlockJobIds: ['hr-staff', 'customer-success', 'counselor', 'social-worker'],
+      },
+    ],
+  },
+];
+
 // === Slot 7: 大学 — 大学での活動系 ===
 
 const slot7Pool: GameEvent[] = [
@@ -1060,6 +1983,399 @@ const slot8Pool: GameEvent[] = [
         description: '人とのつながりが何より大事。おごることも多かった',
         effects: { communication: 3, care: 1 },
         unlockJobIds: ['personal-sales', 'entertainment-manager', 'real-estate-sales', 'insurance-sales'],
+      },
+    ],
+  },
+];
+
+// === 大学 — 大学での人間関係系 ===
+
+const uniSlot9Pool: GameEvent[] = [
+  {
+    id: 'c-uni9a',
+    step: 20,
+    stage: 'university',
+    title: '大学で一番影響を受けた人間関係は？',
+    description: '大学では様々な人と出会う。あなたに一番影響を与えた関係は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu9a-1',
+        text: '尊敬できる先輩との出会い',
+        emoji: '🌟',
+        description: '就活やキャリアについて親身に相談に乗ってくれた先輩がいた',
+        effects: { growth: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['hr-consultant', 'career-consultant', 'school-teacher'],
+      },
+      {
+        id: 'cu9a-2',
+        text: '同じ目標を持つ仲間との切磋琢磨',
+        emoji: '🤝',
+        description: '資格勉強や就活を一緒に頑張れる仲間がいた',
+        effects: { communication: 2, stability: 1, growth: 1 },
+        unlockJobIds: ['general-admin', 'hr-staff', 'bank-staff'],
+      },
+      {
+        id: 'cu9a-3',
+        text: '異なるバックグラウンドの友人との交流',
+        emoji: '🌍',
+        description: '留学生や他学部の友人と話すことで視野が広がった',
+        effects: { communication: 2, creative: 1, care: 1 },
+        unlockJobIds: ['trading-company', 'overseas-sales', 'translator', 'travel-planner'],
+      },
+      {
+        id: 'cu9a-4',
+        text: '教授やメンターとの深い対話',
+        emoji: '🎓',
+        description: '学問的な議論を通じて論理的思考が鍛えられた',
+        effects: { analysis: 2, planning: 1, communication: 1 },
+        unlockJobIds: ['researcher', 'university-researcher', 'management-consultant', 'lawyer'],
+      },
+    ],
+  },
+  {
+    id: 'c-uni9b',
+    step: 20,
+    stage: 'university',
+    title: '大学のグループワークで担った役割は？',
+    description: 'チームで取り組む課題やプロジェクト。あなたはどんな立ち位置だった？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu9b-1',
+        text: 'リーダーとしてチームをまとめた',
+        emoji: '📣',
+        description: '意見を取りまとめて方向性を示す役割を担った',
+        effects: { communication: 2, planning: 1, growth: 1 },
+        unlockJobIds: ['it-pm', 'product-planner', 'pr', 'event-producer'],
+      },
+      {
+        id: 'cu9b-2',
+        text: '調整役として全員の意見を橋渡し',
+        emoji: '🔗',
+        description: '対立する意見をうまくまとめて合意を作った',
+        effects: { communication: 2, care: 1, stability: 1 },
+        unlockJobIds: ['hr-staff', 'customer-success', 'general-admin', 'social-worker'],
+      },
+      {
+        id: 'cu9b-3',
+        text: 'アイデア出し担当で企画を提案',
+        emoji: '💡',
+        description: '誰も思いつかないような発想で貢献した',
+        effects: { creative: 2, communication: 1, analysis: 1 },
+        unlockJobIds: ['copywriter', 'media-planner', 'digital-marketer', 'ui-ux-designer'],
+      },
+      {
+        id: 'cu9b-4',
+        text: '黙々と資料作成やデータ分析を担当',
+        emoji: '📋',
+        description: '裏方として正確なデータと資料でチームを支えた',
+        effects: { analysis: 2, technical: 1, stability: 1 },
+        unlockJobIds: ['data-scientist', 'market-researcher', 'accounting', 'quality-control'],
+      },
+    ],
+  },
+  {
+    id: 'c-uni9c',
+    step: 20,
+    stage: 'university',
+    title: '大学のSNSやネット上の人間関係で学んだことは？',
+    description: 'オンラインでのつながりも大学生活の重要な一部。どう活用した？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu9c-1',
+        text: 'SNSで情報発信して仲間を集めた',
+        emoji: '📲',
+        description: '自分の活動を発信し、共感する人とつながった',
+        effects: { communication: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['sns-marketer', 'pr', 'video-creator', 'copywriter'],
+      },
+      {
+        id: 'cu9c-2',
+        text: 'オンラインコミュニティで専門知識を深めた',
+        emoji: '🖥️',
+        description: '技術系やビジネス系のコミュニティに参加して学んだ',
+        effects: { technical: 2, analysis: 1, communication: 1 },
+        unlockJobIds: ['web-engineer', 'se', 'data-scientist', 'infra-engineer'],
+      },
+      {
+        id: 'cu9c-3',
+        text: 'ネット上のトラブルから対人スキルを学んだ',
+        emoji: '🛡️',
+        description: '炎上やトラブルを経験し、慎重なコミュニケーションの大切さを知った',
+        effects: { care: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['legal-staff', 'hr-consultant', 'customer-success', 'general-admin'],
+      },
+      {
+        id: 'cu9c-4',
+        text: 'OB・OG訪問をSNSで積極的に行った',
+        emoji: '🔍',
+        description: '社会人との接点を自ら作り、業界研究に活かした',
+        effects: { planning: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['personal-sales', 'real-estate-sales', 'securities-sales', 'insurance-sales'],
+      },
+    ],
+  },
+];
+
+// === 大学 — 大学での挑戦・転機系 ===
+
+const uniSlot10Pool: GameEvent[] = [
+  {
+    id: 'c-uni10a',
+    step: 21,
+    stage: 'university',
+    title: '大学時代、一番の転機となった出来事は？',
+    description: '大学生活の中で、あなたの方向性を大きく変えた転機があった。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu10a-1',
+        text: '海外留学で価値観が一変した',
+        emoji: '✈️',
+        description: '異国の地で暮らし、自分の当たり前が覆された',
+        effects: { growth: 2, communication: 1, creative: 1 },
+        unlockJobIds: ['trading-company', 'overseas-sales', 'translator', 'pilot'],
+      },
+      {
+        id: 'cu10a-2',
+        text: '専攻を変えて新しい分野に飛び込んだ',
+        emoji: '🔄',
+        description: '途中で興味が変わり、思い切って転部・転科した',
+        effects: { growth: 2, analysis: 1, planning: 1 },
+        unlockJobIds: ['it-consultant', 'management-consultant', 'product-planner', 'researcher'],
+      },
+      {
+        id: 'cu10a-3',
+        text: 'ビジネスコンテストで入賞した',
+        emoji: '🏆',
+        description: 'チームでアイデアを形にし、審査員から高い評価を得た',
+        effects: { planning: 2, creative: 1, communication: 1 },
+        unlockJobIds: ['management-consultant', 'product-planner', 'digital-marketer', 'event-producer'],
+      },
+      {
+        id: 'cu10a-4',
+        text: 'ボランティアで人生観が変わった',
+        emoji: '💚',
+        description: '被災地支援や途上国での活動で、本当に大切なものに気づいた',
+        effects: { care: 2, growth: 1, communication: 1 },
+        unlockJobIds: ['social-worker', 'care-worker', 'local-civil-servant', 'environmental-consultant'],
+      },
+    ],
+  },
+  {
+    id: 'c-uni10b',
+    step: 21,
+    stage: 'university',
+    title: '大学で思い切って挑戦した新しいことは？',
+    description: 'これまでの自分にはなかった領域に踏み出した経験。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu10b-1',
+        text: '起業やビジネスに挑戦した',
+        emoji: '🚀',
+        description: '自分でサービスを立ち上げ、お金を稼ぐ経験をした',
+        effects: { growth: 2, planning: 1, technical: 1 },
+        unlockJobIds: ['web-engineer', 'product-planner', 'digital-marketer', 'it-pm'],
+      },
+      {
+        id: 'cu10b-2',
+        text: '芸術やパフォーマンスの世界に飛び込んだ',
+        emoji: '🎭',
+        description: '演劇、音楽、ダンス…表現の世界で自分を磨いた',
+        effects: { creative: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['video-creator', 'sound-creator', 'animator', 'entertainment-manager'],
+      },
+      {
+        id: 'cu10b-3',
+        text: 'リーダーシップを発揮する場に立った',
+        emoji: '🗳️',
+        description: '学生自治会や大規模プロジェクトの代表を務めた',
+        effects: { communication: 2, planning: 1, stability: 1 },
+        unlockJobIds: ['national-civil-servant', 'pr', 'hr-staff', 'event-producer'],
+      },
+      {
+        id: 'cu10b-4',
+        text: '資格取得に本気で挑んだ',
+        emoji: '📖',
+        description: '難関資格に挑戦し、長期間の勉強を乗り越えた',
+        effects: { stability: 2, analysis: 1, planning: 1 },
+        unlockJobIds: ['tax-accountant', 'lawyer', 'judicial-scrivener', 'pharmacist-industry'],
+      },
+    ],
+  },
+  {
+    id: 'c-uni10c',
+    step: 21,
+    stage: 'university',
+    title: '大学生活で一番のターニングポイントは？',
+    description: 'あの出来事がなければ、今の自分はいなかった。そう思える瞬間。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu10c-1',
+        text: '恩師の一言で将来の方向性が定まった',
+        emoji: '🗝️',
+        description: '何気ない助言が、自分のキャリアを考えるきっかけになった',
+        effects: { planning: 2, growth: 1, care: 1 },
+        unlockJobIds: ['school-teacher', 'career-consultant', 'hr-consultant', 'cram-teacher'],
+      },
+      {
+        id: 'cu10c-2',
+        text: 'インターン先での成功体験',
+        emoji: '🏢',
+        description: '実務で成果を出し、自分の強みに自信がついた',
+        effects: { growth: 2, technical: 1, planning: 1 },
+        unlockJobIds: ['web-engineer', 'digital-marketer', 'it-pm', 'management-consultant'],
+      },
+      {
+        id: 'cu10c-3',
+        text: '大きな失敗から立ち直った経験',
+        emoji: '🔥',
+        description: 'イベントの失敗や研究の挫折を乗り越えて強くなった',
+        effects: { growth: 2, stability: 1, care: 1 },
+        unlockJobIds: ['general-admin', 'quality-control', 'production-manager', 'logistics-manager'],
+      },
+      {
+        id: 'cu10c-4',
+        text: '海外経験で異文化適応力がついた',
+        emoji: '🗺️',
+        description: '言葉や文化の壁を超えて、どこでも生きていける自信がついた',
+        effects: { communication: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['trading-company', 'overseas-sales', 'hotel-staff', 'translator'],
+      },
+    ],
+  },
+];
+
+// === 大学 — 大学生活の集大成系 ===
+
+const uniSlot11Pool: GameEvent[] = [
+  {
+    id: 'c-uni11a',
+    step: 22,
+    stage: 'university',
+    title: '卒業研究・卒論のテーマは何を選んだ？',
+    description: '大学4年間の学びの集大成。どんなテーマに取り組んだ？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu11a-1',
+        text: '社会問題をデータで分析するテーマ',
+        emoji: '📊',
+        description: '統計やデータを駆使して社会課題を明らかにした',
+        effects: { analysis: 2, technical: 1, planning: 1 },
+        unlockJobIds: ['data-scientist', 'market-researcher', 'actuary', 'management-consultant'],
+      },
+      {
+        id: 'cu11a-2',
+        text: '人の心理や行動に関するテーマ',
+        emoji: '🧠',
+        description: '人間の行動原理やコミュニケーションについて研究した',
+        effects: { care: 2, analysis: 1, communication: 1 },
+        unlockJobIds: ['hr-consultant', 'ui-ux-designer', 'social-worker', 'school-teacher'],
+      },
+      {
+        id: 'cu11a-3',
+        text: '技術やシステム開発に関するテーマ',
+        emoji: '⚙️',
+        description: 'アプリやシステムを実際に作りながら研究を進めた',
+        effects: { technical: 2, analysis: 1, creative: 1 },
+        unlockJobIds: ['web-engineer', 'se', 'game-programmer', 'infra-engineer'],
+      },
+      {
+        id: 'cu11a-4',
+        text: '文化や表現に関するテーマ',
+        emoji: '🎨',
+        description: 'アート、文学、メディアなど表現の世界を深掘りした',
+        effects: { creative: 2, communication: 1, care: 1 },
+        unlockJobIds: ['editor', 'copywriter', 'graphic-designer', 'journalist'],
+      },
+    ],
+  },
+  {
+    id: 'c-uni11b',
+    step: 22,
+    stage: 'university',
+    title: '大学最後の年、一番力を入れたことは？',
+    description: '卒業を前にして、最後にやり切りたかったこと。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu11b-1',
+        text: '卒論を完璧に仕上げることに全力投球',
+        emoji: '📝',
+        description: '教授にも認められるクオリティを目指して何度も書き直した',
+        effects: { analysis: 2, planning: 1, stability: 1 },
+        unlockJobIds: ['researcher', 'university-researcher', 'patent-ip', 'legal-staff'],
+      },
+      {
+        id: 'cu11b-2',
+        text: '就活と並行して自分のスキルを磨いた',
+        emoji: '💪',
+        description: 'ポートフォリオ作成やスキルアップに注力した',
+        effects: { technical: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['web-designer', 'graphic-designer', 'web-engineer', 'video-creator'],
+      },
+      {
+        id: 'cu11b-3',
+        text: '後輩の指導やサークルの引き継ぎ',
+        emoji: '🤲',
+        description: '自分が学んだことを次の世代に伝えることに意義を感じた',
+        effects: { care: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['school-teacher', 'cram-teacher', 'hr-staff', 'social-worker'],
+      },
+      {
+        id: 'cu11b-4',
+        text: '最後の学園祭やイベントを盛大にやり遂げた',
+        emoji: '🎉',
+        description: '仲間と協力して最高の思い出を作った',
+        effects: { communication: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['event-producer', 'entertainment-manager', 'pr', 'media-planner'],
+      },
+    ],
+  },
+  {
+    id: 'c-uni11c',
+    step: 22,
+    stage: 'university',
+    title: '大学生活を振り返って、一番成長したと思う力は？',
+    description: '4年間を通じて、自分の中で一番変わったこと。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'cu11c-1',
+        text: '論理的に考え、分析する力',
+        emoji: '🔬',
+        description: 'データや事実に基づいて冷静に判断できるようになった',
+        effects: { analysis: 2, planning: 1, technical: 1 },
+        unlockJobIds: ['management-consultant', 'data-scientist', 'it-consultant', 'actuary'],
+      },
+      {
+        id: 'cu11c-2',
+        text: '人と協力し、つながりを作る力',
+        emoji: '🫂',
+        description: '多様な人と信頼関係を築けるようになった',
+        effects: { communication: 2, care: 1, growth: 1 },
+        unlockJobIds: ['personal-sales', 'hr-sales', 'customer-success', 'hotel-staff'],
+      },
+      {
+        id: 'cu11c-3',
+        text: '計画を立てて実行し切る力',
+        emoji: '📅',
+        description: '長期的な目標に向けてコツコツ取り組む姿勢が身についた',
+        effects: { planning: 2, stability: 1, growth: 1 },
+        unlockJobIds: ['production-manager', 'logistics-manager', 'procurement', 'general-admin'],
+      },
+      {
+        id: 'cu11c-4',
+        text: 'ゼロから何かを生み出す創造力',
+        emoji: '✨',
+        description: 'アイデアを形にする楽しさと難しさを知った',
+        effects: { creative: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['web-designer', 'product-planner', 'animator', 'photographer'],
       },
     ],
   },
@@ -1367,7 +2683,74 @@ const pathChoiceEvent: GameEvent = {
   ],
 };
 
-// === 専門学校イベントプール ===
+// === 専門学校種類選択イベント ===
+
+/** 専門学校の種類 */
+export type VocationalPath = 'it-design' | 'medical' | 'culinary' | 'beauty' | 'entertainment' | 'business';
+
+/** 専門学校種類選択の分岐イベントID */
+export const VOCATIONAL_CHOICE_EVENT_ID = 'c-voc-choice';
+
+const vocationalChoiceEvent: GameEvent = {
+  id: VOCATIONAL_CHOICE_EVENT_ID,
+  step: 8,
+  stage: 'vocational',
+  title: 'どんな専門学校に進む？',
+  description: '専門学校はジャンルの宝庫。自分の「好き」や「なりたい」に一番近い分野を選ぼう！',
+  relatedJobIds: [],
+  choices: [
+    {
+      id: 'voc-it-design',
+      text: 'IT・デザイン系',
+      emoji: '💻',
+      description: 'プログラミング、Web、グラフィック、映像…デジタルのプロへ',
+      effects: { technical: 1, creative: 1 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'voc-medical',
+      text: '医療・福祉系',
+      emoji: '🏥',
+      description: '看護、介護、リハビリ、歯科衛生…人を支える資格職へ',
+      effects: { care: 2 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'voc-culinary',
+      text: '調理・製菓・栄養系',
+      emoji: '👨‍🍳',
+      description: '料理、パティシエ、栄養士…食のプロフェッショナルへ',
+      effects: { creative: 1, care: 1 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'voc-beauty',
+      text: '美容・ファッション系',
+      emoji: '💇',
+      description: 'ヘアメイク、エステ、ネイル、ファッション…美のスペシャリストへ',
+      effects: { creative: 1, communication: 1 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'voc-entertainment',
+      text: '芸能・音楽・声優系',
+      emoji: '🎤',
+      description: '俳優、声優、ミュージシャン、ダンサー…表現の世界で生きる',
+      effects: { creative: 2 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'voc-business',
+      text: 'ビジネス・語学・その他',
+      emoji: '📊',
+      description: '会計、語学、観光、動物…幅広い分野で即戦力を目指す',
+      effects: { planning: 1, stability: 1 },
+      unlockJobIds: [],
+    },
+  ],
+};
+
+// === 専門学校イベントプール（汎用 — IT/医療/調理/ビジネス共通） ===
 
 const slotVocational1Pool: GameEvent[] = [
   {
@@ -1543,6 +2926,802 @@ const slotVocational2Pool: GameEvent[] = [
   },
 ];
 
+// === 専門学校でのチーム制作・グループワーク系 ===
+
+const vocSlot3Pool: GameEvent[] = [
+  {
+    id: 'c-voc3a',
+    step: 9,
+    stage: 'vocational',
+    title: 'チーム制作の授業。あなたはどんな役割を担った？',
+    description:
+      '専門学校ではグループワークも大切な学び。チームの中で自分の強みが見えてくる。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc3a-1',
+        text: 'リーダーとして全体をまとめた',
+        emoji: '📋',
+        description: 'スケジュール管理やメンバーの調整役を買って出た',
+        effects: { planning: 3, communication: 1 },
+        unlockJobIds: ['production-manager', 'general-admin', 'restaurant-manager'],
+      },
+      {
+        id: 'voc3a-2',
+        text: 'アイデア出し担当で企画を引っ張った',
+        emoji: '💡',
+        description: '斬新な発想でチームの方向性を決めた',
+        effects: { creative: 2, growth: 1 },
+        unlockJobIds: ['game-designer', 'copywriter', 'sns-marketer'],
+      },
+      {
+        id: 'voc3a-3',
+        text: '技術面を一手に引き受けた',
+        emoji: '🔧',
+        description: 'コードを書いたり、機材を操作したり、手を動かすのが得意だった',
+        effects: { technical: 2, analysis: 1 },
+        unlockJobIds: ['web-engineer', 'game-programmer', 'sound-creator'],
+      },
+      {
+        id: 'voc3a-4',
+        text: 'メンバーのケアとサポートに回った',
+        emoji: '🤝',
+        description: '困っている人を助けたり、意見をまとめたりして雰囲気を作った',
+        effects: { care: 2, communication: 1, stability: 1 },
+        unlockJobIds: ['social-worker', 'nursery-teacher', 'customer-success'],
+      },
+    ],
+  },
+  {
+    id: 'c-voc3b',
+    step: 9,
+    stage: 'vocational',
+    title: 'グループ制作で大変だったこと。どう乗り越えた？',
+    description: 'チームで何かを作り上げるのは楽しいけれど、ぶつかることもある。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc3b-1',
+        text: '意見が割れたとき、論理的に整理して解決した',
+        emoji: '📊',
+        description: 'それぞれの意見をホワイトボードに書き出して冷静に比較した',
+        effects: { analysis: 2, planning: 1 },
+        unlockJobIds: ['consulting', 'data-scientist', 'quality-control'],
+      },
+      {
+        id: 'voc3b-2',
+        text: '締め切りが迫る中、粘り強く完成させた',
+        emoji: '🔥',
+        description: '最後まで諦めず、夜遅くまでチームで頑張り抜いた',
+        effects: { stability: 2, growth: 1 },
+        unlockJobIds: ['production-engineer', 'se', 'logistics-manager'],
+      },
+      {
+        id: 'voc3b-3',
+        text: 'メンバーの長所を見つけて役割を再配置した',
+        emoji: '🧩',
+        description: '一人ひとりの得意を活かすことでチーム全体の力が上がった',
+        effects: { communication: 2, care: 1, planning: 1 },
+        unlockJobIds: ['hr', 'production-manager', 'hotel-staff'],
+      },
+      {
+        id: 'voc3b-4',
+        text: 'プレゼン担当として成果を発表した',
+        emoji: '🎤',
+        description: 'チームの努力を伝えるために表現力を磨いた',
+        effects: { communication: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['digital-marketer', 'overseas-sales', 'video-creator'],
+      },
+    ],
+  },
+];
+
+// === 専門学校での自主学習・課外活動系 ===
+
+const vocSlot4Pool: GameEvent[] = [
+  {
+    id: 'c-voc4a',
+    step: 9,
+    stage: 'vocational',
+    title: '授業以外の時間、何に打ち込んだ？',
+    description:
+      '専門学校の授業だけでは満足できない。放課後や休日の過ごし方が差を生む。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc4a-1',
+        text: '独学でプログラミングやツールを深掘りした',
+        emoji: '💻',
+        description: '教材を買い込んで、授業では扱わない領域まで手を伸ばした',
+        effects: { technical: 2, analysis: 1, growth: 1 },
+        unlockJobIds: ['web-engineer', 'infra-engineer', 'data-scientist'],
+      },
+      {
+        id: 'voc4a-2',
+        text: 'アルバイトで実務経験を積んだ',
+        emoji: '💼',
+        description: '学んだスキルを現場で試して、即戦力を目指した',
+        effects: { stability: 2, communication: 1 },
+        unlockJobIds: ['retail-sales', 'restaurant-manager', 'hotel-staff'],
+      },
+      {
+        id: 'voc4a-3',
+        text: '個人作品をSNSやコンテストに出した',
+        emoji: '🎨',
+        description: '自主制作を世に発信して、外部からの評価をもらった',
+        effects: { creative: 2, growth: 1 },
+        unlockJobIds: ['graphic-designer', 'photographer', 'animator'],
+      },
+      {
+        id: 'voc4a-4',
+        text: 'ボランティアや地域活動に参加した',
+        emoji: '🌱',
+        description: '専門スキルを活かして社会に貢献する経験を積んだ',
+        effects: { care: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['social-worker', 'nursery-teacher', 'dietitian'],
+      },
+    ],
+  },
+  {
+    id: 'c-voc4b',
+    step: 9,
+    stage: 'vocational',
+    title: '放課後や休日、自分磨きのために何をしていた？',
+    description: '専門学校での学びを超えて、自分の可能性を広げる時間の使い方。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc4b-1',
+        text: '資格試験の勉強に集中した',
+        emoji: '📚',
+        description: '在学中に取れる資格は全部取る！という意気込みで勉強した',
+        effects: { analysis: 2, stability: 1, technical: 1 },
+        unlockJobIds: ['tax-accountant', 'fp', 'pharmacist', 'customs-broker'],
+      },
+      {
+        id: 'voc4b-2',
+        text: '異業種交流会やセミナーに顔を出した',
+        emoji: '🗣️',
+        description: '学校の外の世界を知りたくて、社会人の集まりに参加した',
+        effects: { communication: 2, growth: 1, planning: 1 },
+        unlockJobIds: ['consulting', 'digital-marketer', 'startup-founder'],
+      },
+      {
+        id: 'voc4b-3',
+        text: '趣味の延長で副業を始めてみた',
+        emoji: '🛠️',
+        description: 'ハンドメイドやイラスト販売など、小さなビジネスを経験した',
+        effects: { creative: 2, planning: 1 },
+        unlockJobIds: ['fashion-designer', 'web-designer', 'copywriter'],
+      },
+      {
+        id: 'voc4b-4',
+        text: '体力づくりやメンタルケアに力を入れた',
+        emoji: '🏃',
+        description: '集中力と持続力を支えるために、健康管理を意識した',
+        effects: { stability: 2, care: 1, growth: 1 },
+        unlockJobIds: ['sports-trainer', 'nurse', 'physical-therapist'],
+      },
+    ],
+  },
+];
+
+// === 専門学校で見つけた将来の目標系 ===
+
+const vocSlot5Pool: GameEvent[] = [
+  {
+    id: 'c-voc5a',
+    step: 9,
+    stage: 'vocational',
+    title: '専門学校で学ぶうちに見えてきた将来の目標は？',
+    description:
+      '実践的な学びの中で、自分が本当にやりたいことが少しずつ明確になってきた。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc5a-1',
+        text: 'この分野の第一人者になりたい',
+        emoji: '🏆',
+        description: '誰よりも深く極めて、業界をリードする存在を目指す',
+        effects: { technical: 2, growth: 2 },
+        unlockJobIds: ['game-programmer', 'chef', 'pharmacist', 'researcher'],
+      },
+      {
+        id: 'voc5a-2',
+        text: '人の役に立つ仕事がしたいと実感した',
+        emoji: '💛',
+        description: '実習やボランティアで「ありがとう」と言われた瞬間が忘れられない',
+        effects: { care: 2, communication: 1, stability: 1 },
+        unlockJobIds: ['nurse', 'care-worker', 'social-worker', 'nursery-teacher'],
+      },
+      {
+        id: 'voc5a-3',
+        text: 'ものづくりで世の中を驚かせたい',
+        emoji: '✨',
+        description: '自分の手で作ったもので、多くの人を感動させる未来を描いた',
+        effects: { creative: 2, planning: 1, growth: 1 },
+        unlockJobIds: ['animator', 'video-creator', 'sound-creator', 'fashion-designer'],
+      },
+      {
+        id: 'voc5a-4',
+        text: '自分のビジネスを持ちたいと思った',
+        emoji: '🚀',
+        description: '雇われるだけでなく、自分で事業を作る道に惹かれ始めた',
+        effects: { planning: 2, analysis: 1, communication: 1 },
+        unlockJobIds: ['startup-founder', 'digital-marketer', 'sns-marketer'],
+      },
+    ],
+  },
+  {
+    id: 'c-voc5b',
+    step: 9,
+    stage: 'vocational',
+    title: '専門学校での経験を通じて、将来どんな働き方をしたいと思った？',
+    description: 'スキルだけでなく、どう生きたいかも見えてくる時期。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'voc5b-1',
+        text: '安定した環境でじっくり腕を磨きたい',
+        emoji: '🏢',
+        description: '大きな組織の中で着実にキャリアを積み上げていきたい',
+        effects: { stability: 2, planning: 1, technical: 1 },
+        unlockJobIds: ['general-admin', 'bank-staff', 'quality-control', 'production-engineer'],
+      },
+      {
+        id: 'voc5b-2',
+        text: '自分の技術で勝負できるプロになりたい',
+        emoji: '🎯',
+        description: '手に職をつけて、どこでも通用するスペシャリストを目指す',
+        effects: { technical: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['hairdresser', 'web-engineer', 'graphic-designer', 'chef'],
+      },
+      {
+        id: 'voc5b-3',
+        text: '色んな人と関わる仕事がしたい',
+        emoji: '🌍',
+        description: '多くの人とコミュニケーションを取りながら成長したい',
+        effects: { communication: 2, care: 1, growth: 1 },
+        unlockJobIds: ['overseas-sales', 'hotel-staff', 'travel-planner', 'retail-sales'],
+      },
+      {
+        id: 'voc5b-4',
+        text: 'データや数字を使って課題を解決したい',
+        emoji: '📈',
+        description: '分析力を武器に、論理的に物事を改善していく仕事に興味が湧いた',
+        effects: { analysis: 2, planning: 1, technical: 1 },
+        unlockJobIds: ['data-scientist', 'consulting', 'fp', 'tax-accountant'],
+      },
+    ],
+  },
+];
+
+// === 美容系専門学校イベントプール ===
+
+const beautyVoc1Pool: GameEvent[] = [
+  {
+    id: 'c-bvoc1a',
+    step: 8,
+    stage: 'vocational',
+    title: '美容系専門学校、どのコースを選んだ？',
+    description: '美容のプロへの第一歩。あなたが極めたい分野は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'bvoc1a-1',
+        text: '美容師コース — カット＆カラーのプロになる',
+        emoji: '✂️',
+        description: 'シャンプー、カット、パーマ、カラー…技術を一から叩き込む',
+        effects: { creative: 2, technical: 2 },
+        unlockJobIds: ['hairdresser'],
+      },
+      {
+        id: 'bvoc1a-2',
+        text: 'メイク・ヘアメイクコース',
+        emoji: '💄',
+        description: '雑誌、ブライダル、映画…メイクで人を変える仕事',
+        effects: { creative: 3, care: 1 },
+        unlockJobIds: ['beauty-advisor', 'photographer'],
+      },
+      {
+        id: 'bvoc1a-3',
+        text: 'エステ・ネイルコース',
+        emoji: '💅',
+        description: 'フェイシャル、ボディ、ネイルアート…癒しと美を提供する',
+        effects: { care: 2, creative: 2 },
+        unlockJobIds: ['beauty-advisor'],
+      },
+      {
+        id: 'bvoc1a-4',
+        text: 'ファッション・スタイリストコース',
+        emoji: '👗',
+        description: 'トータルコーディネートで人の魅力を最大限に引き出す',
+        effects: { creative: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['fashion-designer', 'beauty-advisor', 'retail-sales'],
+      },
+    ],
+  },
+  {
+    id: 'c-bvoc1b',
+    step: 8,
+    stage: 'vocational',
+    title: '美容系専門学校に入って一番テンションが上がったことは？',
+    description: '憧れの世界への扉が開いた！',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'bvoc1b-1',
+        text: '本格的なサロン実習室で練習できること',
+        emoji: '💈',
+        description: 'プロと同じ設備で、実際のお客様を想定した練習',
+        effects: { technical: 2, creative: 2 },
+        unlockJobIds: ['hairdresser', 'beauty-advisor'],
+      },
+      {
+        id: 'bvoc1b-2',
+        text: 'おしゃれに敏感なクラスメイトたちとの毎日',
+        emoji: '✨',
+        description: 'みんなのセンスに刺激を受けて、自分も磨かれていく',
+        effects: { communication: 2, creative: 2 },
+        unlockJobIds: ['fashion-designer', 'beauty-advisor', 'retail-sales'],
+      },
+      {
+        id: 'bvoc1b-3',
+        text: '有名サロンのスタイリストが講師として来ること',
+        emoji: '🌟',
+        description: '業界トップの技術を間近で学べる贅沢な環境',
+        effects: { growth: 2, creative: 1, technical: 1 },
+        unlockJobIds: ['hairdresser', 'beauty-advisor'],
+      },
+      {
+        id: 'bvoc1b-4',
+        text: '友達同士でモデルになって練習し合えること',
+        emoji: '👯',
+        description: 'お互いの髪やメイクを担当して腕を磨く日々',
+        effects: { care: 2, communication: 1, creative: 1 },
+        unlockJobIds: ['hairdresser', 'beauty-advisor'],
+      },
+    ],
+  },
+];
+
+const beautyVoc2Pool: GameEvent[] = [
+  {
+    id: 'c-bvoc2a',
+    step: 9,
+    stage: 'vocational',
+    title: '実技テストやコンテスト、どんな結果だった？',
+    description: '美容の世界は技術が全て。練習の成果を試す場面。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'bvoc2a-1',
+        text: '校内コンテストで入賞した！',
+        emoji: '🏆',
+        description: '練習を重ねた技術が認められて自信がついた',
+        effects: { creative: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['hairdresser', 'beauty-advisor'],
+      },
+      {
+        id: 'bvoc2a-2',
+        text: '国家試験の練習で着実に合格ラインへ',
+        emoji: '📝',
+        description: '毎日のワインディングやカット練習が実を結んでいる',
+        effects: { stability: 2, technical: 2 },
+        unlockJobIds: ['hairdresser'],
+      },
+      {
+        id: 'bvoc2a-3',
+        text: 'オリジナルのヘアスタイルで先生に褒められた',
+        emoji: '💫',
+        description: '基本を押さえた上での自分らしい表現が評価された',
+        effects: { creative: 3, growth: 1 },
+        unlockJobIds: ['hairdresser', 'photographer'],
+      },
+      {
+        id: 'bvoc2a-4',
+        text: 'サロン実習でお客様に喜ばれた',
+        emoji: '😊',
+        description: '初めて本物のお客様を担当。「ありがとう」の言葉が嬉しかった',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['beauty-advisor', 'hotel-staff', 'retail-sales'],
+      },
+    ],
+  },
+  {
+    id: 'c-bvoc2b',
+    step: 9,
+    stage: 'vocational',
+    title: '美容業界で将来どうなりたい？',
+    description: '技術を磨くうちに、自分の将来像が見えてきた。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'bvoc2b-1',
+        text: '有名サロンのトップスタイリストになりたい',
+        emoji: '✂️',
+        description: '指名が絶えない、憧れの美容師を目指す',
+        effects: { technical: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['hairdresser'],
+      },
+      {
+        id: 'bvoc2b-2',
+        text: '将来は自分のサロンをオープンしたい',
+        emoji: '🏠',
+        description: '技術とセンスを活かして、理想のお店を作る',
+        effects: { planning: 2, creative: 1, communication: 1 },
+        unlockJobIds: ['hairdresser', 'restaurant-manager'],
+      },
+      {
+        id: 'bvoc2b-3',
+        text: 'ブライダルや雑誌のヘアメイクをやりたい',
+        emoji: '👰',
+        description: '人生の特別な日を彩る、最高のメイクを提供する',
+        effects: { creative: 2, care: 2 },
+        unlockJobIds: ['beauty-advisor', 'photographer', 'event-producer'],
+      },
+      {
+        id: 'bvoc2b-4',
+        text: '美容部員やコスメブランドで働きたい',
+        emoji: '🧴',
+        description: '美容の知識を活かして、商品の魅力を伝える仕事',
+        effects: { communication: 2, planning: 1, creative: 1 },
+        unlockJobIds: ['beauty-advisor', 'retail-sales', 'marketing', 'pr'],
+      },
+    ],
+  },
+];
+
+const beautyVoc3Pool: GameEvent[] = [
+  {
+    id: 'c-bvoc3a',
+    step: 9,
+    stage: 'vocational',
+    title: '就職活動、どんな職場を目指す？',
+    description: '美容業界の就職活動が本格化。あなたが選ぶ職場は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'bvoc3a-1',
+        text: '大手サロンチェーンで技術を磨く',
+        emoji: '🏢',
+        description: '充実した研修制度で、基礎から応用まで学べる環境',
+        effects: { stability: 2, technical: 2 },
+        unlockJobIds: ['hairdresser'],
+      },
+      {
+        id: 'bvoc3a-2',
+        text: '個性的なコンセプトサロンで自分らしく',
+        emoji: '🎨',
+        description: '自分のセンスを活かせる、こだわりのお店で働きたい',
+        effects: { creative: 2, growth: 2 },
+        unlockJobIds: ['hairdresser', 'interior-designer'],
+      },
+      {
+        id: 'bvoc3a-3',
+        text: 'コスメブランドやデパートの美容部員',
+        emoji: '🛍️',
+        description: 'メイクの知識を活かして、お客様をキレイにする仕事',
+        effects: { communication: 2, creative: 1, care: 1 },
+        unlockJobIds: ['beauty-advisor', 'retail-sales', 'pr'],
+      },
+      {
+        id: 'bvoc3a-4',
+        text: 'ブライダルサロンやフォトスタジオ',
+        emoji: '📸',
+        description: '人生の特別な瞬間を美しく演出する仕事',
+        effects: { creative: 2, care: 1, communication: 1 },
+        unlockJobIds: ['beauty-advisor', 'photographer', 'event-producer'],
+      },
+    ],
+  },
+  {
+    id: 'c-bvoc3b',
+    step: 9,
+    stage: 'vocational',
+    title: '美容学校で一番成長したと感じることは？',
+    description: '入学時の自分と今の自分、何が一番変わった？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'bvoc3b-1',
+        text: '技術力が見違えるほど上がった',
+        emoji: '✨',
+        description: 'ハサミを持つ手が安定して、自信を持って施術できる',
+        effects: { technical: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['hairdresser'],
+      },
+      {
+        id: 'bvoc3b-2',
+        text: 'お客様の要望を引き出すカウンセリング力',
+        emoji: '👂',
+        description: '言葉にならない「なりたいイメージ」を理解できるように',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['beauty-advisor', 'customer-success', 'hr-consultant'],
+      },
+      {
+        id: 'bvoc3b-3',
+        text: 'トレンドをキャッチするセンスと感性',
+        emoji: '📱',
+        description: 'SNSやコレクションから最新トレンドを分析する目が養われた',
+        effects: { creative: 2, analysis: 1, planning: 1 },
+        unlockJobIds: ['fashion-designer', 'sns-marketer', 'digital-marketer'],
+      },
+      {
+        id: 'bvoc3b-4',
+        text: '同じ夢を持つ仲間との絆',
+        emoji: '🤝',
+        description: '辛い練習も励まし合って乗り越えた仲間は一生の財産',
+        effects: { communication: 2, care: 1, growth: 1 },
+        unlockJobIds: ['hr-staff', 'hotel-staff', 'customer-success'],
+      },
+    ],
+  },
+];
+
+// === 芸能・エンタメ系専門学校イベントプール ===
+
+const entVoc1Pool: GameEvent[] = [
+  {
+    id: 'c-evoc1a',
+    step: 8,
+    stage: 'vocational',
+    title: '芸能系専門学校、どのコースを選んだ？',
+    description: '表現の世界への入口。あなたが輝きたいステージは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'evoc1a-1',
+        text: '声優・ナレーションコース',
+        emoji: '🎙️',
+        description: 'アニメ、ゲーム、吹き替え…声で表現するプロを目指す',
+        effects: { creative: 2, communication: 2 },
+        unlockJobIds: ['entertainment-manager', 'video-creator'],
+      },
+      {
+        id: 'evoc1a-2',
+        text: '俳優・演劇コース',
+        emoji: '🎭',
+        description: '舞台、ドラマ、映画…役を通じて人の心を動かす',
+        effects: { creative: 2, communication: 1, care: 1 },
+        unlockJobIds: ['entertainment-manager', 'event-producer'],
+      },
+      {
+        id: 'evoc1a-3',
+        text: '音楽・ボーカルコース',
+        emoji: '🎵',
+        description: '歌、作曲、楽器演奏…音楽で人を感動させたい',
+        effects: { creative: 3, growth: 1 },
+        unlockJobIds: ['sound-creator', 'entertainment-manager', 'event-producer'],
+      },
+      {
+        id: 'evoc1a-4',
+        text: 'ダンス・パフォーマンスコース',
+        emoji: '💃',
+        description: 'ヒップホップ、ジャズ、コンテンポラリー…身体で表現する',
+        effects: { creative: 2, growth: 1, communication: 1 },
+        unlockJobIds: ['sports-trainer', 'entertainment-manager', 'event-producer'],
+      },
+    ],
+  },
+  {
+    id: 'c-evoc1b',
+    step: 8,
+    stage: 'vocational',
+    title: '芸能系専門学校に入って衝撃を受けたことは？',
+    description: '今までとは違う世界。刺激的な毎日が始まる。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'evoc1b-1',
+        text: '周りのレベルが高くて刺激を受けた',
+        emoji: '🔥',
+        description: '子役出身や経験者がゴロゴロ。自分ももっと頑張らなきゃ',
+        effects: { growth: 3, creative: 1 },
+        unlockJobIds: ['entertainment-manager'],
+      },
+      {
+        id: 'evoc1b-2',
+        text: 'プロの現場で活躍する講師の授業が刺激的',
+        emoji: '🌟',
+        description: '第一線で活躍するプロの技術と考え方に圧倒された',
+        effects: { creative: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['sound-creator', 'video-creator'],
+      },
+      {
+        id: 'evoc1b-3',
+        text: '人前で表現することの楽しさに目覚めた',
+        emoji: '🎤',
+        description: '緊張するけど、ステージに立つ喜びは何にも代えがたい',
+        effects: { communication: 2, creative: 2 },
+        unlockJobIds: ['entertainment-manager', 'event-producer'],
+      },
+      {
+        id: 'evoc1b-4',
+        text: 'オーディション情報がたくさん入ってくる環境',
+        emoji: '📋',
+        description: '学校を通じて実際の仕事に挑戦できるチャンスが豊富',
+        effects: { planning: 2, growth: 2 },
+        unlockJobIds: ['entertainment-manager', 'pr'],
+      },
+    ],
+  },
+];
+
+const entVoc2Pool: GameEvent[] = [
+  {
+    id: 'c-evoc2a',
+    step: 9,
+    stage: 'vocational',
+    title: '学内公演やライブ、どんな経験をした？',
+    description: '練習の成果を披露する舞台。あなたの一番の見せ場は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'evoc2a-1',
+        text: '主役やセンターに選ばれて全力で演じた',
+        emoji: '🌟',
+        description: '責任とプレッシャーの中で、最高のパフォーマンスを届けた',
+        effects: { creative: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['entertainment-manager', 'event-producer'],
+      },
+      {
+        id: 'evoc2a-2',
+        text: '裏方として音響や照明、演出を担当',
+        emoji: '🎛️',
+        description: '表に出なくても、舞台を支える仕事のやりがいを知った',
+        effects: { technical: 2, planning: 2 },
+        unlockJobIds: ['sound-creator', 'video-creator', 'event-producer'],
+      },
+      {
+        id: 'evoc2a-3',
+        text: 'オリジナル作品を自分で作って発表した',
+        emoji: '✍️',
+        description: '脚本、作曲、振付…ゼロから作品を生み出す喜び',
+        effects: { creative: 3, planning: 1 },
+        unlockJobIds: ['sound-creator', 'game-designer', 'copywriter'],
+      },
+      {
+        id: 'evoc2a-4',
+        text: '観客の反応がダイレクトに返ってきた感動',
+        emoji: '👏',
+        description: '笑い、涙、拍手…お客さんと一体になれた瞬間',
+        effects: { communication: 2, care: 1, creative: 1 },
+        unlockJobIds: ['entertainment-manager', 'hotel-staff', 'event-producer'],
+      },
+    ],
+  },
+  {
+    id: 'c-evoc2b',
+    step: 9,
+    stage: 'vocational',
+    title: '芸能の道、現実も見えてきた。どう感じている？',
+    description: '華やかに見える世界の裏側も見えてきた。あなたの正直な気持ちは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'evoc2b-1',
+        text: '厳しいけど、やっぱりこの道で生きていきたい',
+        emoji: '🔥',
+        description: '才能だけじゃない、努力と情熱で突き進む覚悟',
+        effects: { growth: 3, creative: 1 },
+        unlockJobIds: ['entertainment-manager'],
+      },
+      {
+        id: 'evoc2b-2',
+        text: '表現の技術を活かせる裏方の仕事も面白い',
+        emoji: '🎬',
+        description: '制作、マネジメント、技術スタッフ…エンタメを支える側に興味',
+        effects: { planning: 2, technical: 2 },
+        unlockJobIds: ['video-creator', 'sound-creator', 'event-producer', 'entertainment-manager'],
+      },
+      {
+        id: 'evoc2b-3',
+        text: 'コミュ力や表現力は他の仕事でも武器になる',
+        emoji: '💼',
+        description: '芸能で鍛えた力は営業やサービス業でも最強',
+        effects: { communication: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['corporate-sales', 'pr', 'hotel-staff', 'hr-sales'],
+      },
+      {
+        id: 'evoc2b-4',
+        text: 'SNSや動画配信で自分で発信していきたい',
+        emoji: '📱',
+        description: '事務所に頼らず、自分の力で表現を届ける時代',
+        effects: { creative: 2, planning: 1, communication: 1 },
+        unlockJobIds: ['video-creator', 'sns-marketer', 'photographer'],
+      },
+    ],
+  },
+];
+
+const entVoc3Pool: GameEvent[] = [
+  {
+    id: 'c-evoc3a',
+    step: 9,
+    stage: 'vocational',
+    title: '卒業が近づいてきた。進路はどうする？',
+    description: '夢と現実の間で、自分の道を決める時。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'evoc3a-1',
+        text: '事務所やプロダクションに所属を目指す',
+        emoji: '🎭',
+        description: 'オーディションを受けまくって、プロへの切符を掴む',
+        effects: { growth: 2, creative: 2 },
+        unlockJobIds: ['entertainment-manager'],
+      },
+      {
+        id: 'evoc3a-2',
+        text: '映像・音響・イベント制作の会社に就職',
+        emoji: '🎥',
+        description: 'エンタメを裏から支える仕事でプロになる',
+        effects: { technical: 2, planning: 2 },
+        unlockJobIds: ['video-creator', 'sound-creator', 'event-producer'],
+      },
+      {
+        id: 'evoc3a-3',
+        text: '表現力を活かして接客・サービス業へ',
+        emoji: '🛎️',
+        description: '人を楽しませる力はあらゆる仕事で重宝される',
+        effects: { communication: 2, care: 1, growth: 1 },
+        unlockJobIds: ['hotel-staff', 'entertainment-manager', 'beauty-advisor'],
+      },
+      {
+        id: 'evoc3a-4',
+        text: 'フリーランスで自分の名前で勝負する',
+        emoji: '🚀',
+        description: 'SNS発信、動画制作、ナレーション…個人で仕事を獲る',
+        effects: { creative: 2, planning: 1, communication: 1 },
+        unlockJobIds: ['video-creator', 'sns-marketer', 'photographer', 'copywriter'],
+      },
+    ],
+  },
+  {
+    id: 'c-evoc3b',
+    step: 9,
+    stage: 'vocational',
+    title: '芸能系専門学校で一番身についた力は？',
+    description: '表現の世界で鍛えられた2年間を振り返る。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'evoc3b-1',
+        text: '度胸と表現力',
+        emoji: '🎤',
+        description: '人前で堂々と自分を表現できるようになった',
+        effects: { communication: 2, creative: 2 },
+        unlockJobIds: ['corporate-sales', 'pr', 'event-producer'],
+      },
+      {
+        id: 'evoc3b-2',
+        text: '感性と創造力',
+        emoji: '🎨',
+        description: '日常の中からインスピレーションを見つけ、形にする力',
+        effects: { creative: 3, care: 1 },
+        unlockJobIds: ['video-creator', 'sound-creator', 'game-designer', 'copywriter'],
+      },
+      {
+        id: 'evoc3b-3',
+        text: '仲間と作品を作り上げるチーム力',
+        emoji: '🤝',
+        description: '一人じゃ作れない作品を仲間と生み出す経験',
+        effects: { communication: 2, planning: 1, care: 1 },
+        unlockJobIds: ['it-pm', 'production-manager', 'event-producer'],
+      },
+      {
+        id: 'evoc3b-4',
+        text: '継続する力とメンタルの強さ',
+        emoji: '💪',
+        description: 'オーディションに落ちても、練習がきつくても折れない心',
+        effects: { stability: 2, growth: 2 },
+        unlockJobIds: ['police-fire', 'mr', 'personal-sales'],
+      },
+    ],
+  },
+];
+
 // === 高卒就職イベントプール ===
 
 const slotEarlyWorkPool: GameEvent[] = [
@@ -1632,6 +3811,1465 @@ const slotEarlyWorkPool: GameEvent[] = [
   },
 ];
 
+// === 高校選択イベント（中学卒業時の分岐） ===
+
+/** 高校の種類 */
+export type HighSchoolPath = 'general' | 'technical' | 'commercial' | 'agricultural' | 'sports';
+
+/** 高校選択の分岐イベントID */
+export const HIGHSCHOOL_CHOICE_EVENT_ID = 'c-hs-choice';
+
+const highSchoolChoiceEvent: GameEvent = {
+  id: HIGHSCHOOL_CHOICE_EVENT_ID,
+  step: 5,
+  stage: 'middle-school',
+  title: 'どんな高校に進学する？',
+  description: '中学3年の進路相談。先生や家族と話し合って、自分に合った高校を選ぼう。この選択が高校生活を大きく変える！',
+  relatedJobIds: [],
+  choices: [
+    {
+      id: 'hs-general',
+      text: '普通科高校に進学する',
+      emoji: '📚',
+      description: '幅広い教養を学び、大学進学を目指す王道コース',
+      effects: { analysis: 1, planning: 1 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'hs-technical',
+      text: '工業高校（技術系）に進学する',
+      emoji: '🔧',
+      description: '機械、電気、情報…ものづくりの技術を高校から学ぶ',
+      effects: { technical: 2 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'hs-commercial',
+      text: '商業高校（ビジネス系）に進学する',
+      emoji: '💹',
+      description: '簿記、マーケティング、情報処理…ビジネスの基礎を身につける',
+      effects: { planning: 1, stability: 1 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'hs-agricultural',
+      text: '農業高校に進学する',
+      emoji: '🌾',
+      description: '農業、畜産、食品加工、環境…自然と向き合う学びの場',
+      effects: { care: 1, stability: 1 },
+      unlockJobIds: [],
+    },
+    {
+      id: 'hs-sports',
+      text: '体育科・スポーツ科に進学する',
+      emoji: '🏅',
+      description: '競技力を磨きながら、スポーツの理論やトレーニングを学ぶ',
+      effects: { communication: 1, growth: 1 },
+      unlockJobIds: [],
+    },
+  ],
+};
+
+// === 工業高校イベントプール ===
+
+const techHS1Pool: GameEvent[] = [
+  {
+    id: 'c-ths1a',
+    step: 5,
+    stage: 'high-school',
+    title: '工業高校、どの学科を選んだ？',
+    description: '入学して最初の選択。どの分野のエキスパートを目指す？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths1a-1',
+        text: '機械科 — マシンやロボットに興味津々',
+        emoji: '⚙️',
+        description: '旋盤、溶接、CAD…ものづくりの基本を叩き込む',
+        effects: { technical: 3, stability: 1 },
+        unlockJobIds: ['production-engineer', 'quality-control', 'construction-manager'],
+      },
+      {
+        id: 'ths1a-2',
+        text: '電気・電子科 — 回路や制御に惹かれる',
+        emoji: '⚡',
+        description: '電気回路、PLC、電子工作…見えない力を操る',
+        effects: { technical: 3, analysis: 1 },
+        unlockJobIds: ['infra-engineer', 'energy-engineer', 'production-engineer'],
+      },
+      {
+        id: 'ths1a-3',
+        text: '情報技術科 — プログラミングを極めたい',
+        emoji: '💻',
+        description: 'C言語、ネットワーク、データベース…ITの土台を学ぶ',
+        effects: { technical: 2, analysis: 2 },
+        unlockJobIds: ['web-engineer', 'se', 'game-programmer', 'security-engineer'],
+      },
+      {
+        id: 'ths1a-4',
+        text: '建築・土木科 — 建物やインフラに興味',
+        emoji: '🏗️',
+        description: '設計図を描き、模型を作り、構造を学ぶ',
+        effects: { technical: 2, creative: 1, planning: 1 },
+        unlockJobIds: ['architect', 'construction-manager', 'surveyor', 'interior-designer'],
+      },
+    ],
+  },
+  {
+    id: 'c-ths1b',
+    step: 5,
+    stage: 'high-school',
+    title: '工業高校に入学！最初に感動したことは？',
+    description: '普通科にはない工業高校ならではの体験が待っている。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths1b-1',
+        text: '実習室の本格的な工作機械に圧倒された',
+        emoji: '🏭',
+        description: '旋盤やフライス盤…プロが使う設備がすぐそこに',
+        effects: { technical: 3, growth: 1 },
+        unlockJobIds: ['production-engineer', 'production-manager', 'quality-control'],
+      },
+      {
+        id: 'ths1b-2',
+        text: 'プログラミングで初めて動くものを作れた',
+        emoji: '🖥️',
+        description: '自分が書いたコードでLEDが光った瞬間の感動',
+        effects: { technical: 2, creative: 2 },
+        unlockJobIds: ['web-engineer', 'game-programmer', 'ai-engineer'],
+      },
+      {
+        id: 'ths1b-3',
+        text: '同じ志を持つ仲間と出会えた',
+        emoji: '🤝',
+        description: 'ものづくりが好きな仲間との会話が最高に楽しい',
+        effects: { communication: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['it-pm', 'customer-success', 'corporate-sales'],
+      },
+      {
+        id: 'ths1b-4',
+        text: '設計図を描いて形にする過程が楽しい',
+        emoji: '📐',
+        description: '頭の中のイメージを図面に落とし込む快感',
+        effects: { planning: 2, technical: 1, creative: 1 },
+        unlockJobIds: ['architect', 'ux-designer', 'interior-designer'],
+      },
+    ],
+  },
+];
+
+const techHS2Pool: GameEvent[] = [
+  {
+    id: 'c-ths2a',
+    step: 6,
+    stage: 'high-school',
+    title: '実習で一番得意だったことは？',
+    description: '工業高校の醍醐味、実習授業。手を動かして学ぶ毎日。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths2a-1',
+        text: '図面通りに精密な部品を削り出す',
+        emoji: '🔩',
+        description: '0.01mm単位の精度にこだわる職人技',
+        effects: { technical: 3, stability: 1 },
+        unlockJobIds: ['production-engineer', 'quality-control', 'pilot'],
+      },
+      {
+        id: 'ths2a-2',
+        text: 'チームで課題製作を完成させる',
+        emoji: '🏗️',
+        description: '役割分担してひとつのものを作り上げる達成感',
+        effects: { communication: 2, planning: 2 },
+        unlockJobIds: ['construction-manager', 'it-pm', 'production-manager'],
+      },
+      {
+        id: 'ths2a-3',
+        text: '回路設計やプログラムのデバッグ',
+        emoji: '🐛',
+        description: 'エラーを見つけて解決する過程が面白い',
+        effects: { analysis: 3, technical: 1 },
+        unlockJobIds: ['se', 'security-engineer', 'data-scientist', 'qa-engineer'],
+      },
+      {
+        id: 'ths2a-4',
+        text: '実験レポートを丁寧にまとめる',
+        emoji: '📝',
+        description: 'データを整理して考察を書くのが得意',
+        effects: { analysis: 2, planning: 1, stability: 1 },
+        unlockJobIds: ['researcher', 'university-researcher', 'environmental-consultant'],
+      },
+    ],
+  },
+  {
+    id: 'c-ths2b',
+    step: 6,
+    stage: 'high-school',
+    title: '工業高校ならではの部活・コンテスト、何に参加した？',
+    description: 'ロボコン、技能五輪、溶接コンテスト…普通科にはない熱い戦い。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths2b-1',
+        text: 'ロボコンに出場してチームで戦った',
+        emoji: '🤖',
+        description: '設計・製作・操縦…仲間と作り上げたロボットで勝負',
+        effects: { technical: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['ai-engineer', 'production-engineer', 'game-programmer'],
+      },
+      {
+        id: 'ths2b-2',
+        text: '技能検定や資格試験に全力で挑戦',
+        emoji: '📜',
+        description: '危険物取扱者、電気工事士…在学中に資格を取りまくった',
+        effects: { stability: 2, technical: 2 },
+        unlockJobIds: ['energy-engineer', 'infra-engineer', 'construction-manager'],
+      },
+      {
+        id: 'ths2b-3',
+        text: 'プログラミングコンテストに挑戦',
+        emoji: '🏆',
+        description: 'アルゴリズムを組んで制限時間内に解を出す緊張感',
+        effects: { analysis: 2, technical: 2 },
+        unlockJobIds: ['web-engineer', 'ai-engineer', 'security-engineer', 'data-scientist'],
+      },
+      {
+        id: 'ths2b-4',
+        text: 'ものづくりコンテストで作品を出品',
+        emoji: '🛠️',
+        description: 'アイデアと技術を融合させた自信作を世に出した',
+        effects: { creative: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['product-planner', 'architect', 'game-designer'],
+      },
+    ],
+  },
+];
+
+const techHS3Pool: GameEvent[] = [
+  {
+    id: 'c-ths3a',
+    step: 6,
+    stage: 'high-school',
+    title: '工場見学・企業実習で感じたことは？',
+    description: '工業高校では企業との連携が多い。現場を見て感じたことは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths3a-1',
+        text: 'プロの技術力に圧倒された',
+        emoji: '🔥',
+        description: '学校で学んだことはまだまだ序の口だと実感',
+        effects: { growth: 2, technical: 2 },
+        unlockJobIds: ['production-engineer', 'chef', 'pilot'],
+      },
+      {
+        id: 'ths3a-2',
+        text: '最新技術の現場にワクワクした',
+        emoji: '🚀',
+        description: 'AIやIoTが実際に使われている現場を見て興奮',
+        effects: { technical: 2, analysis: 1, creative: 1 },
+        unlockJobIds: ['ai-engineer', 'infra-engineer', 'data-scientist'],
+      },
+      {
+        id: 'ths3a-3',
+        text: '安全管理や品質管理の大切さを学んだ',
+        emoji: '🛡️',
+        description: '一つのミスが大事故につながる。責任の重さを知った',
+        effects: { stability: 3, planning: 1 },
+        unlockJobIds: ['quality-control', 'construction-manager', 'logistics-manager'],
+      },
+      {
+        id: 'ths3a-4',
+        text: '現場の人のコミュニケーション力に驚いた',
+        emoji: '🗣️',
+        description: '技術だけじゃない、チームワークの大切さを学んだ',
+        effects: { communication: 2, care: 1, planning: 1 },
+        unlockJobIds: ['corporate-sales', 'hr-staff', 'customer-success'],
+      },
+    ],
+  },
+  {
+    id: 'c-ths3b',
+    step: 6,
+    stage: 'high-school',
+    title: '卒業が近づいてきた。進路をどう考えている？',
+    description: '工業高校では就職も進学も選べる。あなたの考えは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths3b-1',
+        text: '学校推薦で大手メーカーに就職したい',
+        emoji: '🏢',
+        description: '在学中の成績と資格を武器に安定企業へ',
+        effects: { stability: 2, technical: 2 },
+        unlockJobIds: ['production-engineer', 'quality-control', 'logistics-manager'],
+      },
+      {
+        id: 'ths3b-2',
+        text: '工学系の大学に進学してさらに深く学びたい',
+        emoji: '🎓',
+        description: '高校で学んだ基礎を大学で発展させたい',
+        effects: { analysis: 2, growth: 2 },
+        unlockJobIds: ['researcher', 'ai-engineer', 'architect'],
+      },
+      {
+        id: 'ths3b-3',
+        text: '専門学校でより実践的なスキルを身につけたい',
+        emoji: '🔧',
+        description: '高校の知識をベースに、さらに専門性を高めたい',
+        effects: { technical: 2, creative: 1, growth: 1 },
+        unlockJobIds: ['web-engineer', 'game-programmer', 'interior-designer'],
+      },
+      {
+        id: 'ths3b-4',
+        text: '技術を活かして起業やフリーランスを目指す',
+        emoji: '🚀',
+        description: '自分の腕一本で勝負する道に魅力を感じる',
+        effects: { growth: 2, planning: 1, creative: 1 },
+        unlockJobIds: ['web-engineer', 'photographer', 'construction-manager'],
+      },
+    ],
+  },
+];
+
+const techHS4Pool: GameEvent[] = [
+  {
+    id: 'c-ths4a',
+    step: 6,
+    stage: 'high-school',
+    title: '工業高校で一番の思い出は？',
+    description: '卒業を前に振り返る。3年間で一番心に残っていることは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths4a-1',
+        text: '課題研究で仲間と本気でものづくりに取り組んだ',
+        emoji: '🔬',
+        description: 'チームで試行錯誤して、自分たちの作品を完成させた',
+        effects: { technical: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['production-engineer', 'it-pm', 'game-designer'],
+      },
+      {
+        id: 'ths4a-2',
+        text: '難しい資格に合格した瞬間',
+        emoji: '🎉',
+        description: '何度も落ちて、諦めずに挑戦し続けた結果',
+        effects: { stability: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['energy-engineer', 'construction-manager', 'infra-engineer'],
+      },
+      {
+        id: 'ths4a-3',
+        text: 'インターンで「即戦力だね」と言われた',
+        emoji: '💼',
+        description: '現場のプロに認められて自信がついた',
+        effects: { communication: 2, technical: 1, stability: 1 },
+        unlockJobIds: ['production-manager', 'corporate-sales', 'logistics-manager'],
+      },
+      {
+        id: 'ths4a-4',
+        text: '苦手だった座学を克服して成績が伸びた',
+        emoji: '📈',
+        description: '実習だけじゃなく、理論もしっかり理解できるようになった',
+        effects: { analysis: 2, planning: 1, stability: 1 },
+        unlockJobIds: ['researcher', 'data-scientist', 'se'],
+      },
+    ],
+  },
+  {
+    id: 'c-ths4b',
+    step: 6,
+    stage: 'high-school',
+    title: '工業高校で身についたと思う力は？',
+    description: '3年間の実習と座学で培ったもの。一番成長を感じるのは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ths4b-1',
+        text: '何でも自分の手で作れる自信',
+        emoji: '🛠️',
+        description: '壊れたものを直したり、ゼロから作れるようになった',
+        effects: { technical: 3, creative: 1 },
+        unlockJobIds: ['production-engineer', 'architect', 'web-engineer'],
+      },
+      {
+        id: 'ths4b-2',
+        text: '安全第一・品質第一の意識',
+        emoji: '🛡️',
+        description: '現場で叩き込まれた「当たり前のことを当たり前にやる」精神',
+        effects: { stability: 3, care: 1 },
+        unlockJobIds: ['quality-control', 'construction-manager', 'pilot'],
+      },
+      {
+        id: 'ths4b-3',
+        text: '問題解決力と論理的思考',
+        emoji: '🧠',
+        description: '実習でトラブルが起きたとき、原因を探って解決する力',
+        effects: { analysis: 2, technical: 1, planning: 1 },
+        unlockJobIds: ['se', 'security-engineer', 'data-scientist', 'it-consultant'],
+      },
+      {
+        id: 'ths4b-4',
+        text: 'チームで協力してものを作り上げる力',
+        emoji: '🤝',
+        description: '一人じゃできないことも、仲間と力を合わせれば実現できる',
+        effects: { communication: 2, planning: 1, care: 1 },
+        unlockJobIds: ['it-pm', 'corporate-sales', 'production-manager'],
+      },
+    ],
+  },
+];
+
+// === 商業高校イベントプール ===
+
+const commHS1Pool: GameEvent[] = [
+  {
+    id: 'c-chs1a',
+    step: 5,
+    stage: 'high-school',
+    title: '商業高校、一番楽しみな授業は？',
+    description: '普通科にはない商業科目がたくさん。どれに一番ワクワクする？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs1a-1',
+        text: '簿記 — 数字でお金の流れを読み解く',
+        emoji: '📊',
+        description: '仕訳、決算書…企業の成績表を作れるようになる',
+        effects: { analysis: 3, stability: 1 },
+        unlockJobIds: ['accounting', 'tax-accountant', 'bank-staff', 'internal-audit'],
+      },
+      {
+        id: 'chs1a-2',
+        text: 'マーケティング — 売れる仕組みを考える',
+        emoji: '📈',
+        description: '商品企画、市場調査、広告戦略…ビジネスの花形',
+        effects: { planning: 2, communication: 2 },
+        unlockJobIds: ['marketing', 'ad-planner', 'product-planner', 'digital-marketer'],
+      },
+      {
+        id: 'chs1a-3',
+        text: '情報処理 — Excel・プログラミングを学ぶ',
+        emoji: '💻',
+        description: 'IT スキルを武器にビジネスを効率化する',
+        effects: { technical: 2, analysis: 2 },
+        unlockJobIds: ['se', 'web-engineer', 'data-scientist', 'general-admin'],
+      },
+      {
+        id: 'chs1a-4',
+        text: 'ビジネスマナー・商業法規',
+        emoji: '👔',
+        description: '社会人としての基礎力を高校のうちから身につける',
+        effects: { stability: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['general-admin', 'general-affairs', 'secretary', 'bank-staff'],
+      },
+    ],
+  },
+  {
+    id: 'c-chs1b',
+    step: 5,
+    stage: 'high-school',
+    title: '商業高校に入学して驚いたことは？',
+    description: '普通科の友達とは違う、商業高校ならではの日常。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs1b-1',
+        text: '電卓をものすごいスピードで打つ先輩がカッコいい',
+        emoji: '🔢',
+        description: '簿記や珠算の達人たちに圧倒された',
+        effects: { analysis: 2, stability: 2 },
+        unlockJobIds: ['accounting', 'bank-staff', 'fp'],
+      },
+      {
+        id: 'chs1b-2',
+        text: '実際にお店を経営する実習がある！',
+        emoji: '🏪',
+        description: '仕入れ、販売、接客…リアルなビジネス体験',
+        effects: { planning: 2, communication: 2 },
+        unlockJobIds: ['retail-sales', 'restaurant-manager', 'product-planner'],
+      },
+      {
+        id: 'chs1b-3',
+        text: '資格が在学中にたくさん取れること',
+        emoji: '📜',
+        description: '簿記、情報処理、ビジネス文書…武器がどんどん増える',
+        effects: { stability: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['general-admin', 'se', 'customs-broker'],
+      },
+      {
+        id: 'chs1b-4',
+        text: '将来のキャリアを早くから考える雰囲気',
+        emoji: '🎯',
+        description: '就職を意識した先輩たちの姿勢に刺激を受けた',
+        effects: { planning: 2, growth: 2 },
+        unlockJobIds: ['hr-staff', 'management-consultant', 'corporate-sales'],
+      },
+    ],
+  },
+];
+
+const commHS2Pool: GameEvent[] = [
+  {
+    id: 'c-chs2a',
+    step: 6,
+    stage: 'high-school',
+    title: '商業高校の検定試験、どこまで取った？',
+    description: '商業高校は資格取得がアツい。どの分野で力を発揮した？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs2a-1',
+        text: '簿記検定で上位級に合格！',
+        emoji: '🏆',
+        description: '日商簿記2級や全商1級をゲット。数字に強い自分を証明',
+        effects: { analysis: 3, stability: 1 },
+        unlockJobIds: ['accounting', 'tax-accountant', 'internal-audit', 'fp'],
+      },
+      {
+        id: 'chs2a-2',
+        text: '情報処理検定で高得点を取った',
+        emoji: '💻',
+        description: 'プログラミングやデータ処理のスキルが証明できた',
+        effects: { technical: 2, analysis: 2 },
+        unlockJobIds: ['se', 'web-engineer', 'data-scientist'],
+      },
+      {
+        id: 'chs2a-3',
+        text: 'ビジネス文書やマナー検定に合格',
+        emoji: '📄',
+        description: '社会人として即戦力になれるスキルを身につけた',
+        effects: { stability: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['general-admin', 'secretary', 'general-affairs', 'trade-admin'],
+      },
+      {
+        id: 'chs2a-4',
+        text: '英語検定や商業英語にも挑戦した',
+        emoji: '🌍',
+        description: 'グローバルビジネスに対応できる力をつけたい',
+        effects: { communication: 2, growth: 2 },
+        unlockJobIds: ['trading-company', 'overseas-sales', 'translator', 'hotel-staff'],
+      },
+    ],
+  },
+  {
+    id: 'c-chs2b',
+    step: 6,
+    stage: 'high-school',
+    title: '模擬会社や販売実習、どんな役割を担った？',
+    description: '商業高校ならではの実践的な学び。あなたはどのポジションで力を発揮した？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs2b-1',
+        text: '社長・リーダーとして全体を統括した',
+        emoji: '👔',
+        description: '方針を決め、メンバーに指示を出し、責任を持った',
+        effects: { planning: 2, communication: 2 },
+        unlockJobIds: ['management-consultant', 'corporate-sales', 'it-pm'],
+      },
+      {
+        id: 'chs2b-2',
+        text: '経理・会計担当でお金を管理した',
+        emoji: '💰',
+        description: '売上と経費を正確に記録して利益を計算した',
+        effects: { analysis: 2, stability: 2 },
+        unlockJobIds: ['accounting', 'bank-staff', 'fp', 'internal-audit'],
+      },
+      {
+        id: 'chs2b-3',
+        text: '販売・接客担当でお客さんと直接やりとり',
+        emoji: '🛍️',
+        description: '商品の魅力を伝えて、お客さんを笑顔にした',
+        effects: { communication: 3, care: 1 },
+        unlockJobIds: ['retail-sales', 'personal-sales', 'beauty-advisor', 'insurance-sales'],
+      },
+      {
+        id: 'chs2b-4',
+        text: '広告・企画担当でPRを考えた',
+        emoji: '📢',
+        description: 'ポスターやSNSで宣伝して集客に貢献した',
+        effects: { creative: 2, planning: 1, communication: 1 },
+        unlockJobIds: ['ad-planner', 'pr', 'sns-marketer', 'digital-marketer'],
+      },
+    ],
+  },
+];
+
+const commHS3Pool: GameEvent[] = [
+  {
+    id: 'c-chs3a',
+    step: 6,
+    stage: 'high-school',
+    title: '商業高校で学んで、将来やりたいことが見えてきた？',
+    description: 'ビジネスの基礎を学ぶうちに、自分の得意や興味が明確になってきた。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs3a-1',
+        text: '企業の経営や戦略に関わりたい',
+        emoji: '🏢',
+        description: '経営者やコンサルタントとして会社を動かす仕事がしたい',
+        effects: { planning: 2, analysis: 2 },
+        unlockJobIds: ['management-consultant', 'investment-banker', 'corporate-sales'],
+      },
+      {
+        id: 'chs3a-2',
+        text: '会計・金融のプロフェッショナルになりたい',
+        emoji: '📊',
+        description: '簿記が面白かった。もっと深く学んで専門家を目指す',
+        effects: { analysis: 2, stability: 2 },
+        unlockJobIds: ['tax-accountant', 'accounting', 'actuary', 'bank-staff'],
+      },
+      {
+        id: 'chs3a-3',
+        text: 'ITとビジネスを掛け合わせた仕事がしたい',
+        emoji: '🖥️',
+        description: '情報処理で学んだスキルをビジネスの現場で活かしたい',
+        effects: { technical: 2, planning: 1, analysis: 1 },
+        unlockJobIds: ['se', 'it-consultant', 'digital-marketer', 'data-scientist'],
+      },
+      {
+        id: 'chs3a-4',
+        text: '接客や営業で人と関わる仕事がしたい',
+        emoji: '🤝',
+        description: '販売実習で感じた「人の笑顔」をもっと見たい',
+        effects: { communication: 2, care: 1, growth: 1 },
+        unlockJobIds: ['personal-sales', 'hotel-staff', 'retail-sales', 'hr-sales'],
+      },
+    ],
+  },
+  {
+    id: 'c-chs3b',
+    step: 6,
+    stage: 'high-school',
+    title: '卒業後の進路、どう考えている？',
+    description: '商業高校からは就職も進学も。あなたの選択は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs3b-1',
+        text: '地元の企業に就職して即戦力になる',
+        emoji: '💼',
+        description: '商業高校で学んだ資格とスキルを武器に社会へ',
+        effects: { stability: 2, planning: 1, communication: 1 },
+        unlockJobIds: ['general-admin', 'bank-staff', 'retail-sales', 'general-affairs'],
+      },
+      {
+        id: 'chs3b-2',
+        text: '経済学部や商学部のある大学に進学する',
+        emoji: '🎓',
+        description: '商業の基礎知識を活かして、大学でさらに深く学びたい',
+        effects: { analysis: 2, growth: 2 },
+        unlockJobIds: ['management-consultant', 'tax-accountant', 'investment-banker'],
+      },
+      {
+        id: 'chs3b-3',
+        text: '専門学校でITや会計をさらに極めたい',
+        emoji: '🔧',
+        description: '実践的なスキルをもっと磨いて専門家を目指す',
+        effects: { technical: 2, stability: 1, analysis: 1 },
+        unlockJobIds: ['se', 'web-engineer', 'accounting', 'fp'],
+      },
+      {
+        id: 'chs3b-4',
+        text: '起業やフリーランスに挑戦してみたい',
+        emoji: '🚀',
+        description: 'ビジネスの知識があるなら、自分でやってみたい',
+        effects: { growth: 2, planning: 1, creative: 1 },
+        unlockJobIds: ['digital-marketer', 'sns-marketer', 'copywriter'],
+      },
+    ],
+  },
+];
+
+const commHS4Pool: GameEvent[] = [
+  {
+    id: 'c-chs4a',
+    step: 6,
+    stage: 'high-school',
+    title: '商業高校で一番成長したと思うことは？',
+    description: '3年間を振り返って、自分が一番変わったと感じるのは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs4a-1',
+        text: 'お金の流れや経済の仕組みが理解できるようになった',
+        emoji: '💹',
+        description: 'ニュースの経済ニュースが分かるようになって世界が広がった',
+        effects: { analysis: 2, planning: 1, stability: 1 },
+        unlockJobIds: ['fp', 'bank-staff', 'securities-sales', 'investment-banker'],
+      },
+      {
+        id: 'chs4a-2',
+        text: 'プレゼンや接客でコミュ力が爆上がりした',
+        emoji: '🗣️',
+        description: '人前で話すのが苦手だったのに、今は得意になった',
+        effects: { communication: 3, growth: 1 },
+        unlockJobIds: ['corporate-sales', 'pr', 'hr-sales', 'hotel-staff'],
+      },
+      {
+        id: 'chs4a-3',
+        text: 'PC スキルが格段に上がった',
+        emoji: '⌨️',
+        description: 'Excel、Word、プログラミング…何でもこなせるようになった',
+        effects: { technical: 2, analysis: 1, planning: 1 },
+        unlockJobIds: ['se', 'general-admin', 'data-scientist', 'web-engineer'],
+      },
+      {
+        id: 'chs4a-4',
+        text: '計画的に目標を達成する力がついた',
+        emoji: '📅',
+        description: '資格試験のスケジュール管理で身についた計画力',
+        effects: { planning: 2, stability: 2 },
+        unlockJobIds: ['procurement', 'logistics-manager', 'internal-audit', 'accounting'],
+      },
+    ],
+  },
+  {
+    id: 'c-chs4b',
+    step: 6,
+    stage: 'high-school',
+    title: '商業高校の3年間、一番の思い出は？',
+    description: '卒業アルバムに書くなら、この一言。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'chs4b-1',
+        text: '販売実習で自分たちの商品が完売した時',
+        emoji: '🎉',
+        description: '企画から販売まで全力でやり切った達成感',
+        effects: { communication: 2, planning: 1, creative: 1 },
+        unlockJobIds: ['product-planner', 'retail-sales', 'marketing'],
+      },
+      {
+        id: 'chs4b-2',
+        text: '全商検定で1級を複数取得できた時',
+        emoji: '🏅',
+        description: '努力が形になって、自分の武器が増えた',
+        effects: { stability: 2, analysis: 1, technical: 1 },
+        unlockJobIds: ['accounting', 'tax-accountant', 'general-admin'],
+      },
+      {
+        id: 'chs4b-3',
+        text: 'クラスの仲間と切磋琢磨した日々',
+        emoji: '🤝',
+        description: '同じ目標を持つ仲間がいたから頑張れた',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['hr-staff', 'customer-success', 'social-worker'],
+      },
+      {
+        id: 'chs4b-4',
+        text: '先生に「社会に出ても大丈夫」と言われた時',
+        emoji: '🌟',
+        description: '3年間の成長を認めてもらえて嬉しかった',
+        effects: { growth: 2, stability: 1, care: 1 },
+        unlockJobIds: ['general-affairs', 'bank-staff', 'insurance-sales'],
+      },
+    ],
+  },
+];
+
+// === 農業高校イベントプール ===
+
+const agriHS1Pool: GameEvent[] = [
+  {
+    id: 'c-ahs1a',
+    step: 5,
+    stage: 'high-school',
+    title: '農業高校、どの学科を選んだ？',
+    description: '農業高校にはいろんな専門コースがある。どの分野を学ぶ？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs1a-1',
+        text: '農業科 — 米や野菜を育てたい',
+        emoji: '🌱',
+        description: '土づくりから収穫まで、作物を育てる基本を学ぶ',
+        effects: { care: 2, stability: 2 },
+        unlockJobIds: ['farmer', 'environmental-consultant', 'dietitian'],
+      },
+      {
+        id: 'ahs1a-2',
+        text: '畜産科 — 動物と一緒に過ごしたい',
+        emoji: '🐄',
+        description: '牛、豚、鶏…命と向き合いながら畜産の技術を学ぶ',
+        effects: { care: 3, growth: 1 },
+        unlockJobIds: ['farmer', 'dietitian', 'researcher'],
+      },
+      {
+        id: 'ahs1a-3',
+        text: '食品科学科 — 食の加工・開発に興味',
+        emoji: '🧪',
+        description: 'ジャムやパン、お菓子…食品の製造と品質管理を学ぶ',
+        effects: { technical: 2, creative: 1, analysis: 1 },
+        unlockJobIds: ['chef', 'patissier', 'quality-control', 'product-planner'],
+      },
+      {
+        id: 'ahs1a-4',
+        text: '環境・造園科 — 緑や自然環境を守りたい',
+        emoji: '🌳',
+        description: '庭園設計、緑化、環境保全…自然を活かす技術を学ぶ',
+        effects: { creative: 2, care: 1, planning: 1 },
+        unlockJobIds: ['architect', 'environmental-consultant', 'surveyor', 'interior-designer'],
+      },
+    ],
+  },
+  {
+    id: 'c-ahs1b',
+    step: 5,
+    stage: 'high-school',
+    title: '農業高校に入学！最初に感動したことは？',
+    description: '普通科では味わえない、農業高校ならではの体験が始まる。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs1b-1',
+        text: '学校に広大な農場や温室があること',
+        emoji: '🏡',
+        description: '教室だけじゃない、自然が教科書の毎日',
+        effects: { care: 2, growth: 2 },
+        unlockJobIds: ['farmer', 'environmental-consultant'],
+      },
+      {
+        id: 'ahs1b-2',
+        text: '自分が育てた野菜を初めて収穫した瞬間',
+        emoji: '🥕',
+        description: '種から育てた作物が形になる喜びは格別',
+        effects: { care: 2, stability: 1, creative: 1 },
+        unlockJobIds: ['farmer', 'chef', 'dietitian'],
+      },
+      {
+        id: 'ahs1b-3',
+        text: '動物たちの世話を通じて命の大切さを実感',
+        emoji: '🐾',
+        description: '早朝から餌やりや体調管理…責任の重さと愛着',
+        effects: { care: 3, stability: 1 },
+        unlockJobIds: ['nurse', 'care-worker', 'farmer'],
+      },
+      {
+        id: 'ahs1b-4',
+        text: '実習で作った食品がお店で売られていた',
+        emoji: '🛒',
+        description: '自分たちが作ったジャムやパンが地域の人に届く',
+        effects: { planning: 2, communication: 1, creative: 1 },
+        unlockJobIds: ['product-planner', 'retail-sales', 'restaurant-manager'],
+      },
+    ],
+  },
+];
+
+const agriHS2Pool: GameEvent[] = [
+  {
+    id: 'c-ahs2a',
+    step: 6,
+    stage: 'high-school',
+    title: '農業高校の実習で一番好きな時間は？',
+    description: '座学だけじゃない、体を動かして自然と向き合う毎日。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs2a-1',
+        text: '田畑で汗を流して作物を育てる時間',
+        emoji: '🌾',
+        description: '季節の移り変わりを感じながらの農作業が最高',
+        effects: { care: 2, stability: 2 },
+        unlockJobIds: ['farmer', 'environmental-consultant'],
+      },
+      {
+        id: 'ahs2a-2',
+        text: '食品加工の実習でオリジナル商品を開発',
+        emoji: '🍞',
+        description: '材料の配合を工夫して、おいしいものを作り上げる',
+        effects: { creative: 2, technical: 1, analysis: 1 },
+        unlockJobIds: ['chef', 'patissier', 'product-planner', 'quality-control'],
+      },
+      {
+        id: 'ahs2a-3',
+        text: '土壌や水質の分析で科学的に農業を学ぶ',
+        emoji: '🔬',
+        description: 'データに基づいた農業の面白さに気づいた',
+        effects: { analysis: 3, technical: 1 },
+        unlockJobIds: ['researcher', 'data-scientist', 'environmental-consultant'],
+      },
+      {
+        id: 'ahs2a-4',
+        text: '地域の農家さんとの交流や販売体験',
+        emoji: '🤝',
+        description: '生産者の想いを聞いて、農業のリアルを知った',
+        effects: { communication: 2, care: 1, planning: 1 },
+        unlockJobIds: ['corporate-sales', 'retail-sales', 'trading-company'],
+      },
+    ],
+  },
+  {
+    id: 'c-ahs2b',
+    step: 6,
+    stage: 'high-school',
+    title: '農業高校ならではの行事・コンテスト、何に参加した？',
+    description: '農業クラブ、収穫祭、品評会…農業高校にはユニークなイベントがたくさん。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs2b-1',
+        text: '農業クラブの全国大会に出場',
+        emoji: '🏆',
+        description: 'プロジェクト研究を発表して、全国の仲間と切磋琢磨',
+        effects: { analysis: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['researcher', 'university-researcher', 'environmental-consultant'],
+      },
+      {
+        id: 'ahs2b-2',
+        text: '収穫祭でお客さんに直接販売',
+        emoji: '🎪',
+        description: '自分たちが育てた作物を地域の人に届ける喜び',
+        effects: { communication: 2, planning: 1, care: 1 },
+        unlockJobIds: ['retail-sales', 'event-producer', 'restaurant-manager'],
+      },
+      {
+        id: 'ahs2b-3',
+        text: 'フラワーアレンジメントや造園のコンテスト',
+        emoji: '💐',
+        description: '自然素材を活かした美しいデザインで勝負',
+        effects: { creative: 3, care: 1 },
+        unlockJobIds: ['interior-designer', 'architect', 'photographer'],
+      },
+      {
+        id: 'ahs2b-4',
+        text: '食品加工コンテストでオリジナル商品を出品',
+        emoji: '🧁',
+        description: '味と見た目を追求したオリジナルレシピで挑戦',
+        effects: { creative: 2, planning: 1, technical: 1 },
+        unlockJobIds: ['patissier', 'chef', 'product-planner'],
+      },
+    ],
+  },
+];
+
+const agriHS3Pool: GameEvent[] = [
+  {
+    id: 'c-ahs3a',
+    step: 6,
+    stage: 'high-school',
+    title: '農業高校で学んで見えてきた将来の夢は？',
+    description: '自然や食と向き合ううちに、自分のやりたいことが見えてきた。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs3a-1',
+        text: '農家として自分の農園を持ちたい',
+        emoji: '🚜',
+        description: 'こだわりの作物を育てて、食卓に届けたい',
+        effects: { care: 2, planning: 1, growth: 1 },
+        unlockJobIds: ['farmer'],
+      },
+      {
+        id: 'ahs3a-2',
+        text: '食品メーカーで商品開発に関わりたい',
+        emoji: '🏭',
+        description: '農業の知識を活かして、新しい食品を生み出す仕事',
+        effects: { creative: 2, technical: 1, planning: 1 },
+        unlockJobIds: ['product-planner', 'quality-control', 'researcher'],
+      },
+      {
+        id: 'ahs3a-3',
+        text: '環境問題の解決に貢献したい',
+        emoji: '🌍',
+        description: '農業と環境の関わりを学んで、持続可能な社会を目指す',
+        effects: { analysis: 2, care: 2 },
+        unlockJobIds: ['environmental-consultant', 'researcher', 'local-civil-servant'],
+      },
+      {
+        id: 'ahs3a-4',
+        text: '食や農業の魅力を伝える仕事がしたい',
+        emoji: '📢',
+        description: '農業体験、食育、SNS発信…農業の素晴らしさを広めたい',
+        effects: { communication: 2, creative: 1, care: 1 },
+        unlockJobIds: ['journalist', 'sns-marketer', 'school-teacher', 'dietitian'],
+      },
+    ],
+  },
+  {
+    id: 'c-ahs3b',
+    step: 6,
+    stage: 'high-school',
+    title: '卒業後の進路、どう考えている？',
+    description: '農業高校からの進路は多様。あなたの選択は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs3b-1',
+        text: '農業法人や食品メーカーに就職する',
+        emoji: '💼',
+        description: '農業高校で身につけた知識と技術を即戦力として活かす',
+        effects: { stability: 2, technical: 1, care: 1 },
+        unlockJobIds: ['farmer', 'quality-control', 'production-manager'],
+      },
+      {
+        id: 'ahs3b-2',
+        text: '農学部のある大学に進学する',
+        emoji: '🎓',
+        description: '農業をもっと科学的に深く学びたい',
+        effects: { analysis: 2, growth: 2 },
+        unlockJobIds: ['researcher', 'university-researcher', 'environmental-consultant'],
+      },
+      {
+        id: 'ahs3b-3',
+        text: '調理・栄養系の専門学校に進学する',
+        emoji: '🍳',
+        description: '食材の知識を活かして、料理や栄養のプロを目指す',
+        effects: { creative: 2, care: 1, technical: 1 },
+        unlockJobIds: ['chef', 'patissier', 'dietitian'],
+      },
+      {
+        id: 'ahs3b-4',
+        text: '実家の農業を継いで発展させたい',
+        emoji: '🌾',
+        description: '先代の知恵と自分の学びを融合させた農業を目指す',
+        effects: { planning: 2, care: 1, growth: 1 },
+        unlockJobIds: ['farmer', 'product-planner'],
+      },
+    ],
+  },
+];
+
+const agriHS4Pool: GameEvent[] = [
+  {
+    id: 'c-ahs4a',
+    step: 6,
+    stage: 'high-school',
+    title: '農業高校で一番の思い出は？',
+    description: '3年間を振り返って、一番心に残っていることは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs4a-1',
+        text: '1年かけて育てた作物が大豊作だった',
+        emoji: '🎉',
+        description: '天候にも左右される中、最後まで諦めなかった成果',
+        effects: { care: 2, stability: 1, growth: 1 },
+        unlockJobIds: ['farmer', 'production-manager'],
+      },
+      {
+        id: 'ahs4a-2',
+        text: '地域の人に「おいしい」と言ってもらえた時',
+        emoji: '😊',
+        description: '収穫祭や販売実習で、自分の作ったものが認められた',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['chef', 'retail-sales', 'hotel-staff'],
+      },
+      {
+        id: 'ahs4a-3',
+        text: '課題研究で新しい発見をした時',
+        emoji: '🔬',
+        description: '実験データから仮説を立証できた達成感',
+        effects: { analysis: 2, technical: 1, growth: 1 },
+        unlockJobIds: ['researcher', 'data-scientist', 'environmental-consultant'],
+      },
+      {
+        id: 'ahs4a-4',
+        text: '仲間と朝早くから汗を流した毎日',
+        emoji: '🌅',
+        description: '大変だったけど、今思えばかけがえのない青春だった',
+        effects: { communication: 2, stability: 1, care: 1 },
+        unlockJobIds: ['construction-manager', 'sports-trainer', 'farmer'],
+      },
+    ],
+  },
+  {
+    id: 'c-ahs4b',
+    step: 6,
+    stage: 'high-school',
+    title: '農業高校で身についたと思う力は？',
+    description: '3年間の学びで一番成長を感じるのは？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'ahs4b-1',
+        text: '命や自然を大切にする心',
+        emoji: '🌿',
+        description: '生き物を育てる中で、責任感と思いやりが育った',
+        effects: { care: 3, stability: 1 },
+        unlockJobIds: ['nurse', 'care-worker', 'nursery-teacher', 'farmer'],
+      },
+      {
+        id: 'ahs4b-2',
+        text: '粘り強く続ける忍耐力',
+        emoji: '💪',
+        description: '自然相手の仕事は思い通りにいかない。だからこそ鍛えられた',
+        effects: { stability: 2, growth: 2 },
+        unlockJobIds: ['construction-manager', 'production-engineer', 'police-fire'],
+      },
+      {
+        id: 'ahs4b-3',
+        text: '観察力とデータ分析力',
+        emoji: '👀',
+        description: '作物や動物の小さな変化を見逃さない目が養われた',
+        effects: { analysis: 2, care: 1, technical: 1 },
+        unlockJobIds: ['researcher', 'quality-control', 'data-scientist'],
+      },
+      {
+        id: 'ahs4b-4',
+        text: 'チームで協力して成果を出す力',
+        emoji: '🤝',
+        description: '農作業はひとりじゃできない。仲間との連携力が上がった',
+        effects: { communication: 2, planning: 1, care: 1 },
+        unlockJobIds: ['hr-staff', 'production-manager', 'event-producer'],
+      },
+    ],
+  },
+];
+
+// === スポーツ科・体育科イベントプール ===
+
+const sportsHS1Pool: GameEvent[] = [
+  {
+    id: 'c-shs1a',
+    step: 5,
+    stage: 'high-school',
+    title: '体育科に入学！どの競技に打ち込む？',
+    description: 'スポーツのエリートが集まる環境。あなたの専門競技は？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs1a-1',
+        text: '球技系（サッカー、バスケ、野球など）',
+        emoji: '⚽',
+        description: 'チームスポーツで仲間と勝利を目指す',
+        effects: { communication: 3, growth: 1 },
+        unlockJobIds: ['sports-trainer', 'corporate-sales', 'event-producer'],
+      },
+      {
+        id: 'shs1a-2',
+        text: '個人競技（陸上、水泳、柔道など）',
+        emoji: '🏊',
+        description: '自分自身との戦い。限界を突破する快感',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: ['sports-trainer', 'physical-therapist', 'pilot'],
+      },
+      {
+        id: 'shs1a-3',
+        text: 'ダンス・体操・新体操など表現系',
+        emoji: '💃',
+        description: '身体で美しさと芸術を表現する競技',
+        effects: { creative: 2, growth: 1, communication: 1 },
+        unlockJobIds: ['entertainment-manager', 'photographer', 'video-creator'],
+      },
+      {
+        id: 'shs1a-4',
+        text: 'アウトドア系（登山、カヌー、スキーなど）',
+        emoji: '🏔️',
+        description: '自然の中で体力と精神力を鍛える',
+        effects: { growth: 2, care: 1, stability: 1 },
+        unlockJobIds: ['travel-planner', 'police-fire', 'sdf', 'environmental-consultant'],
+      },
+    ],
+  },
+  {
+    id: 'c-shs1b',
+    step: 5,
+    stage: 'high-school',
+    title: '体育科に入って最初に感じたことは？',
+    description: 'スポーツに真剣に向き合う仲間たちとの日々が始まる。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs1b-1',
+        text: 'レベルの高い仲間に刺激を受けた',
+        emoji: '🔥',
+        description: '中学では敵なしだった自分が、ここではまだまだだと実感',
+        effects: { growth: 3, communication: 1 },
+        unlockJobIds: ['sports-trainer', 'corporate-sales', 'mr'],
+      },
+      {
+        id: 'shs1b-2',
+        text: 'スポーツ科学の授業が面白い',
+        emoji: '📊',
+        description: 'トレーニング理論、栄養学、解剖学…科学的にスポーツを学べる',
+        effects: { analysis: 2, technical: 1, care: 1 },
+        unlockJobIds: ['physical-therapist', 'sports-trainer', 'dietitian', 'researcher'],
+      },
+      {
+        id: 'shs1b-3',
+        text: '毎日の練習がハードだけど充実している',
+        emoji: '💪',
+        description: '朝練、放課後練…きついけど確実に成長を感じる',
+        effects: { stability: 2, growth: 2 },
+        unlockJobIds: ['police-fire', 'sdf', 'construction-manager'],
+      },
+      {
+        id: 'shs1b-4',
+        text: 'チームメイトとの絆がすぐに深まった',
+        emoji: '🤝',
+        description: '一緒に汗を流す仲間は、すぐに親友になった',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['hr-staff', 'customer-success', 'hotel-staff'],
+      },
+    ],
+  },
+];
+
+const sportsHS2Pool: GameEvent[] = [
+  {
+    id: 'c-shs2a',
+    step: 6,
+    stage: 'high-school',
+    title: '大会・試合で一番印象に残っている場面は？',
+    description: 'スポーツに真剣に取り組んだからこそ味わえた瞬間がある。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs2a-1',
+        text: '大舞台で自己ベストを更新した瞬間',
+        emoji: '🏅',
+        description: '練習の成果が最高の形で実った',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: ['sports-trainer', 'personal-sales', 'real-estate-sales'],
+      },
+      {
+        id: 'shs2a-2',
+        text: 'チームメイトと勝利を分かち合った時',
+        emoji: '🏆',
+        description: '一人じゃたどり着けなかった頂点。仲間への感謝',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['hr-staff', 'event-producer', 'corporate-sales'],
+      },
+      {
+        id: 'shs2a-3',
+        text: '負けた悔しさから立ち直って再挑戦した経験',
+        emoji: '😤',
+        description: '敗北があったからこそ、もっと強くなれた',
+        effects: { growth: 2, planning: 1, stability: 1 },
+        unlockJobIds: ['management-consultant', 'mr', 'police-fire'],
+      },
+      {
+        id: 'shs2a-4',
+        text: 'ケガから復帰して復活を遂げた時',
+        emoji: '🩹',
+        description: 'リハビリの辛さを乗り越えて、もう一度コートに立てた',
+        effects: { care: 2, stability: 1, growth: 1 },
+        unlockJobIds: ['physical-therapist', 'nurse', 'sports-trainer'],
+      },
+    ],
+  },
+  {
+    id: 'c-shs2b',
+    step: 6,
+    stage: 'high-school',
+    title: 'スポーツ以外の時間、何に力を入れた？',
+    description: '体育科でもスポーツだけじゃない。勉強やプライベートはどう過ごした？',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs2b-1',
+        text: '栄養管理や体づくりの知識を深めた',
+        emoji: '🥗',
+        description: '食事管理、サプリ、睡眠…パフォーマンスを最大化する方法を研究',
+        effects: { analysis: 2, care: 2 },
+        unlockJobIds: ['dietitian', 'physical-therapist', 'sports-trainer'],
+      },
+      {
+        id: 'shs2b-2',
+        text: '後輩の指導やコーチ役を買って出た',
+        emoji: '📋',
+        description: '教えることで自分の理解も深まった',
+        effects: { communication: 2, planning: 1, care: 1 },
+        unlockJobIds: ['school-teacher', 'sports-trainer', 'hr-consultant'],
+      },
+      {
+        id: 'shs2b-3',
+        text: 'SNSで試合の動画やトレーニングを発信',
+        emoji: '📱',
+        description: 'スポーツの魅力を多くの人に伝えたいと思った',
+        effects: { creative: 2, communication: 2 },
+        unlockJobIds: ['video-creator', 'sns-marketer', 'pr', 'journalist'],
+      },
+      {
+        id: 'shs2b-4',
+        text: '勉強も手を抜かず、文武両道を貫いた',
+        emoji: '📚',
+        description: '進学も見据えて、テスト勉強もしっかりこなした',
+        effects: { planning: 2, stability: 1, analysis: 1 },
+        unlockJobIds: ['bank-staff', 'general-admin', 'national-civil-servant'],
+      },
+    ],
+  },
+];
+
+const sportsHS3Pool: GameEvent[] = [
+  {
+    id: 'c-shs3a',
+    step: 6,
+    stage: 'high-school',
+    title: 'スポーツを通じて見えてきた将来の夢は？',
+    description: '3年間本気で取り組んだからこそ、将来が見えてきた。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs3a-1',
+        text: 'プロ選手や実業団で競技を続けたい',
+        emoji: '🥇',
+        description: 'まだまだ上を目指せる。スポーツで生きていきたい',
+        effects: { growth: 3, stability: 1 },
+        unlockJobIds: ['sports-trainer', 'entertainment-manager'],
+      },
+      {
+        id: 'shs3a-2',
+        text: 'トレーナーや指導者として選手を支えたい',
+        emoji: '🏋️',
+        description: '自分の経験を活かして、次の世代を育てたい',
+        effects: { care: 2, communication: 1, technical: 1 },
+        unlockJobIds: ['sports-trainer', 'physical-therapist', 'school-teacher'],
+      },
+      {
+        id: 'shs3a-3',
+        text: 'スポーツビジネスやマネジメントに興味',
+        emoji: '💼',
+        description: 'イベント運営、スポンサー営業…スポーツを支えるビジネス側',
+        effects: { planning: 2, communication: 2 },
+        unlockJobIds: ['event-producer', 'corporate-sales', 'pr', 'entertainment-manager'],
+      },
+      {
+        id: 'shs3a-4',
+        text: 'スポーツ医学やリハビリの専門家になりたい',
+        emoji: '🩺',
+        description: 'ケガの経験から、選手の体を守る仕事に興味',
+        effects: { care: 2, analysis: 1, technical: 1 },
+        unlockJobIds: ['physical-therapist', 'nurse', 'doctor', 'dietitian'],
+      },
+    ],
+  },
+  {
+    id: 'c-shs3b',
+    step: 6,
+    stage: 'high-school',
+    title: '卒業後の進路、どう考えている？',
+    description: 'スポーツを続けるか、新しい道を切り開くか。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs3b-1',
+        text: 'スポーツ推薦で大学に進学する',
+        emoji: '🎓',
+        description: '大学でも競技を続けながら、将来の選択肢を広げたい',
+        effects: { growth: 2, communication: 1, planning: 1 },
+        unlockJobIds: ['sports-trainer', 'school-teacher', 'corporate-sales'],
+      },
+      {
+        id: 'shs3b-2',
+        text: '体育・スポーツ系の専門学校へ',
+        emoji: '🔧',
+        description: 'トレーナーやインストラクターの資格を取りたい',
+        effects: { technical: 2, care: 2 },
+        unlockJobIds: ['sports-trainer', 'physical-therapist', 'beauty-advisor'],
+      },
+      {
+        id: 'shs3b-3',
+        text: '体力と根性を活かして就職する',
+        emoji: '💪',
+        description: 'スポーツで鍛えたメンタルとフィジカルは社会でも武器になる',
+        effects: { stability: 2, communication: 1, growth: 1 },
+        unlockJobIds: ['police-fire', 'sdf', 'personal-sales', 'construction-manager'],
+      },
+      {
+        id: 'shs3b-4',
+        text: '全く違う分野に挑戦してみたい',
+        emoji: '🌟',
+        description: 'スポーツ以外の世界も見てみたいという好奇心',
+        effects: { creative: 2, growth: 1, planning: 1 },
+        unlockJobIds: ['web-engineer', 'graphic-designer', 'digital-marketer'],
+      },
+    ],
+  },
+];
+
+const sportsHS4Pool: GameEvent[] = [
+  {
+    id: 'c-shs4a',
+    step: 6,
+    stage: 'high-school',
+    title: '体育科で一番の思い出は？',
+    description: '卒業を前に振り返る、熱かった3年間。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs4a-1',
+        text: 'インターハイや全国大会に出場したこと',
+        emoji: '🏟️',
+        description: '夢の大舞台に立てた。一生忘れない経験',
+        effects: { growth: 2, communication: 1, stability: 1 },
+        unlockJobIds: ['sports-trainer', 'entertainment-manager', 'event-producer'],
+      },
+      {
+        id: 'shs4a-2',
+        text: '最後の試合でチームメイトと流した涙',
+        emoji: '🥹',
+        description: '勝っても負けても、全力で戦った仲間は宝物',
+        effects: { communication: 2, care: 2 },
+        unlockJobIds: ['hr-staff', 'customer-success', 'school-teacher'],
+      },
+      {
+        id: 'shs4a-3',
+        text: '怪我を乗り越えて復帰できた経験',
+        emoji: '🔥',
+        description: 'あの時諦めなくて本当に良かった',
+        effects: { stability: 2, care: 1, growth: 1 },
+        unlockJobIds: ['physical-therapist', 'nurse', 'social-worker'],
+      },
+      {
+        id: 'shs4a-4',
+        text: '監督やコーチの言葉が人生の指針になった',
+        emoji: '🎓',
+        description: '厳しくも愛のある指導が自分を成長させてくれた',
+        effects: { care: 2, planning: 1, growth: 1 },
+        unlockJobIds: ['school-teacher', 'sports-trainer', 'management-consultant'],
+      },
+    ],
+  },
+  {
+    id: 'c-shs4b',
+    step: 6,
+    stage: 'high-school',
+    title: 'スポーツを通じて身についた力は？',
+    description: '体育科で培ったものは、競技だけじゃない。',
+    relatedJobIds: [],
+    choices: [
+      {
+        id: 'shs4b-1',
+        text: '何事にも負けない精神力',
+        emoji: '🧠',
+        description: 'プレッシャーの中でも力を発揮できるメンタルの強さ',
+        effects: { growth: 2, stability: 2 },
+        unlockJobIds: ['police-fire', 'pilot', 'mr', 'real-estate-sales'],
+      },
+      {
+        id: 'shs4b-2',
+        text: 'チームワークとリーダーシップ',
+        emoji: '👑',
+        description: '仲間を信じ、引っ張り、時にはサポートする力',
+        effects: { communication: 2, planning: 1, care: 1 },
+        unlockJobIds: ['management-consultant', 'it-pm', 'corporate-sales', 'hr-staff'],
+      },
+      {
+        id: 'shs4b-3',
+        text: '目標設定と自己管理能力',
+        emoji: '📅',
+        description: '大会に向けて計画的にトレーニングを積む習慣',
+        effects: { planning: 3, stability: 1 },
+        unlockJobIds: ['accounting', 'logistics-manager', 'general-admin'],
+      },
+      {
+        id: 'shs4b-4',
+        text: '人の気持ちを理解する共感力',
+        emoji: '💛',
+        description: '仲間の調子や気持ちを察して動ける力が身についた',
+        effects: { care: 3, communication: 1 },
+        unlockJobIds: ['nurse', 'care-worker', 'social-worker', 'customer-success'],
+      },
+    ],
+  },
+];
+
 // === Helper & exports ===
 
 function pickRandom<T>(arr: T[]): T {
@@ -1641,29 +5279,88 @@ function pickRandom<T>(arr: T[]): T {
 /** 進路選択 */
 export type EducationPath = 'university' | 'vocational' | 'work';
 
-/** 高校まで + 進路選択イベント（分岐前） */
-export function getBaseChildhoodEvents(): GameEvent[] {
+/** 小学校＋中学校＋高校選択イベント（高校分岐前） */
+export function getPreHighSchoolEvents(): GameEvent[] {
   return [
+    // 小学校（5イベント）
     pickRandom(slot1Pool),
     pickRandom(slot2Pool),
+    pickRandom(elemSlot3Pool),
+    pickRandom(elemSlot4Pool),
+    pickRandom(elemSlot5Pool),
+    // 中学校（5イベント）
     pickRandom(slot3Pool),
     pickRandom(slot4Pool),
-    pickRandom(slot5Pool),
-    pickRandom(slot6Pool),
-    pathChoiceEvent,
+    pickRandom(midSlot5Pool),
+    pickRandom(midSlot6Pool),
+    pickRandom(midSlot7Pool),
+    // 高校選択
+    highSchoolChoiceEvent,
   ];
 }
 
-/** 進路に応じた後半イベント */
+/** 高校種別に応じたイベント（高校イベント + 進路選択） */
+export function getHighSchoolEvents(hsPath: HighSchoolPath): GameEvent[] {
+  switch (hsPath) {
+    case 'technical':
+      return [
+        pickRandom(techHS1Pool),
+        pickRandom(techHS2Pool),
+        pickRandom(techHS3Pool),
+        pickRandom(techHS4Pool),
+        pathChoiceEvent,
+      ];
+    case 'commercial':
+      return [
+        pickRandom(commHS1Pool),
+        pickRandom(commHS2Pool),
+        pickRandom(commHS3Pool),
+        pickRandom(commHS4Pool),
+        pathChoiceEvent,
+      ];
+    case 'agricultural':
+      return [
+        pickRandom(agriHS1Pool),
+        pickRandom(agriHS2Pool),
+        pickRandom(agriHS3Pool),
+        pickRandom(agriHS4Pool),
+        pathChoiceEvent,
+      ];
+    case 'sports':
+      return [
+        pickRandom(sportsHS1Pool),
+        pickRandom(sportsHS2Pool),
+        pickRandom(sportsHS3Pool),
+        pickRandom(sportsHS4Pool),
+        pathChoiceEvent,
+      ];
+    case 'general':
+    default:
+      return [
+        pickRandom(slot5Pool),
+        pickRandom(slot6Pool),
+        pickRandom(highSlot7Pool),
+        pickRandom(highSlot8Pool),
+        pickRandom(highSlot9Pool),
+        pathChoiceEvent,
+      ];
+  }
+}
+
+/** 高校まで + 進路選択イベント（分岐前）— 互換用 */
+export function getBaseChildhoodEvents(): GameEvent[] {
+  return [
+    ...getPreHighSchoolEvents(),
+    ...getHighSchoolEvents('general'),
+  ];
+}
+
+/** 進路に応じた後半イベント（専門学校の場合は種類選択イベントのみ） */
 export function getPathEvents(path: EducationPath): GameEvent[] {
   switch (path) {
     case 'vocational':
-      return [
-        pickRandom(slotVocational1Pool),
-        pickRandom(slotVocational2Pool),
-        pickRandom(slot9Pool),
-        pickRandom(slot10Pool),
-      ];
+      // 専門学校種類選択イベントのみ返す（その後はgetVocationalEventsで分岐）
+      return [vocationalChoiceEvent];
     case 'work':
       return [
         pickRandom(slotEarlyWorkPool),
@@ -1675,6 +5372,45 @@ export function getPathEvents(path: EducationPath): GameEvent[] {
       return [
         pickRandom(slot7Pool),
         pickRandom(slot8Pool),
+        pickRandom(uniSlot9Pool),
+        pickRandom(uniSlot10Pool),
+        pickRandom(uniSlot11Pool),
+        pickRandom(slot9Pool),
+        pickRandom(slot10Pool),
+      ];
+  }
+}
+
+/** 専門学校の種類に応じたイベント */
+export function getVocationalEvents(vocPath: VocationalPath): GameEvent[] {
+  switch (vocPath) {
+    case 'beauty':
+      return [
+        pickRandom(beautyVoc1Pool),
+        pickRandom(beautyVoc2Pool),
+        pickRandom(beautyVoc3Pool),
+        pickRandom(slot9Pool),
+        pickRandom(slot10Pool),
+      ];
+    case 'entertainment':
+      return [
+        pickRandom(entVoc1Pool),
+        pickRandom(entVoc2Pool),
+        pickRandom(entVoc3Pool),
+        pickRandom(slot9Pool),
+        pickRandom(slot10Pool),
+      ];
+    case 'it-design':
+    case 'medical':
+    case 'culinary':
+    case 'business':
+    default:
+      return [
+        pickRandom(slotVocational1Pool),
+        pickRandom(slotVocational2Pool),
+        pickRandom(vocSlot3Pool),
+        pickRandom(vocSlot4Pool),
+        pickRandom(vocSlot5Pool),
         pickRandom(slot9Pool),
         pickRandom(slot10Pool),
       ];
