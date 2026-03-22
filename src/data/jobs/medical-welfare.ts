@@ -5,7 +5,7 @@ export const medicalWelfareJobs: Job[] = [
   {
     id: 'doctor',
     title: '医師',
-    industry: '医療',
+    industry: '医療・福祉',
     shortDescription: '目の前の命を救える、人類最古にして最強の専門職',
     description: [
       '救急外来に運ばれてきた患者さん。あなたの判断ひとつで、その人の人生が変わる——そんな圧倒的な「重み」と「やりがい」が同時に押し寄せる仕事',
@@ -41,12 +41,12 @@ export const medicalWelfareJobs: Job[] = [
     suitableFor: ['人を助けたい', '生命科学に興味がある', '責任感がある', '勉強を続けられる'],
     skillsGained: ['医学知識', '判断力', 'コミュニケーション力', '精神的強さ'],
     companyExamples: ['大学病院', '総合病院', 'クリニック', '研究機関'],
-    tags: ['医療', '専門', '理系', '高収入'],
+    tags: ['医療', '専門'],
   },
   {
     id: 'nurse',
     title: '看護師',
-    industry: '医療',
+    industry: '医療・福祉',
     shortDescription: '患者さんの「不安な夜」に寄り添える、医療現場の最前線ヒーロー',
     description: [
       '手術前夜、不安で眠れない患者さんの手を握って「大丈夫ですよ」と声をかける。あなたのその一言が、誰かの心を救う——看護師は「人の弱さに寄り添える」数少ない仕事',
@@ -88,7 +88,7 @@ export const medicalWelfareJobs: Job[] = [
   {
     id: 'pharmacist',
     title: '薬剤師',
-    industry: '医療・製薬',
+    industry: '医療・福祉',
     shortDescription: '「その薬、危険です」——たった一言で患者の命を守る"最後の砦"',
     description: [
       '処方せんをチェックしていて、ふと気づく。「この組み合わせ、飲み合わせが悪い！」——医師に連絡して処方を変更。あなたの気づきが、重大な副作用を未然に防いだ瞬間',
@@ -128,7 +128,7 @@ export const medicalWelfareJobs: Job[] = [
   {
     id: 'physical-therapist',
     title: '理学療法士',
-    industry: '医療・リハビリ',
+    industry: '医療・福祉',
     shortDescription: '「もう歩けない」を「また歩けた！」に変える、人生復活の立役者',
     description: [
       '交通事故で「もう二度と歩けない」と絶望していた患者さんが、あなたと二人三脚のリハビリの末、自分の足で退院していく——その瞬間、二人とも泣いている',
@@ -167,7 +167,7 @@ export const medicalWelfareJobs: Job[] = [
   {
     id: 'care-worker',
     title: '介護福祉士',
-    industry: '福祉',
+    industry: '医療・福祉',
     shortDescription: 'おじいちゃんの「今日も楽しかった」を毎日つくれる、笑顔の職人',
     description: [
       '認知症で家族の顔も忘れてしまったおばあちゃんが、あなたの顔を見た瞬間だけ「あら、来てくれたの」と笑う——あなたは確かに、誰かの世界の中心になれる',
@@ -209,7 +209,7 @@ export const medicalWelfareJobs: Job[] = [
   {
     id: 'social-worker',
     title: '社会福祉士',
-    industry: '福祉',
+    industry: '医療・福祉',
     shortDescription: '「もう誰にも頼れない」と思った人に、最初に手を差し伸べる仕事',
     description: [
       '仕事を失い、家賃も払えず途方に暮れている人が相談に来る。話を聞き、使える制度を一緒に探し、住居と仕事を見つける手助けをする——あなたの知識と行動力が、誰かの人生を「詰み」から救い出す',
@@ -251,7 +251,7 @@ export const medicalWelfareJobs: Job[] = [
   {
     id: 'dietitian',
     title: '管理栄養士',
-    industry: '医療・食品',
+    industry: '医療・福祉',
     shortDescription: '「食べること」で人を元気にする、おいしい医療のスペシャリスト',
     description: [
       '糖尿病で好きなものが食べられないと落ち込んでいた患者さんに、栄養バランス完璧なのに「めちゃくちゃ美味しい」献立を提案。「こんなに食べていいの！？」と目を輝かせる瞬間が最高',
@@ -287,12 +287,12 @@ export const medicalWelfareJobs: Job[] = [
     suitableFor: ['食や栄養に興味がある', '人の健康を支えたい', '計算が得意', '人と関わるのが好き'],
     skillsGained: ['栄養学知識', '指導力', '献立作成', '食品知識'],
     companyExamples: ['病院', '給食会社', '食品メーカー', 'スポーツチーム'],
-    tags: ['栄養', '医療', '食品', '専門'],
+    tags: ['栄養', '医療', '食品', '専門', '相談', '指導', '健康', '計画', '対人', '教育'],
   },
   {
     id: 'clinical-technologist',
     title: '臨床検査技師',
-    industry: '医療',
+    industry: '医療・福祉',
     shortDescription: '目に見えない病気の正体を暴く、医療界の"名探偵"',
     description: [
       '原因不明の体調不良で不安な患者さん。あなたが血液を分析し、データの異常値を発見——「ここだ！」と原因を突き止めた瞬間、まるでミステリーの謎解きのような快感が走る',
@@ -333,7 +333,7 @@ export const medicalWelfareJobs: Job[] = [
   {
     id: 'dental-hygienist',
     title: '歯科衛生士',
-    industry: '医療・歯科',
+    industry: '医療・福祉',
     shortDescription: '「歯医者キライ」を「また来たい！」に変える、笑顔づくりのプロ',
     description: [
       '「歯医者が怖い…」と震えていた子どもが、あなたの優しい声かけでリラックスして口を開けてくれた。終わった後の「全然痛くなかった！」の笑顔を見ると、思わずこっちも笑顔になる',

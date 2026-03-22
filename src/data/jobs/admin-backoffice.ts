@@ -5,7 +5,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'general-admin',
     title: '一般事務',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '会社という巨大マシンを裏側から動かす、縁の下の"最強プレイヤー"',
     description: [
       '想像してみて。100人が働くオフィスで、あなたが作った資料がそのまま社長プレゼンに使われる。「この表、めちゃくちゃ見やすいね」——その一言で、自分の仕事が会社を動かしていると実感する瞬間がある',
@@ -47,7 +47,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'accounting',
     title: '経理・会計',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '何十億円ものお金の流れを読み解く、会社の"財務ドクター"',
     description: [
       '月末、決算の数字がピタッと合った瞬間の快感は、パズルの最後のピースがハマるあの感覚に似ている。1円のズレも許さない——そのこだわりが、何百億円規模の企業経営を正しく導く力になる',
@@ -89,7 +89,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'hr-staff',
     title: '人事・労務',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '「この会社に入ってよかった」を作り出す、人と組織の仕掛け人',
     description: [
       '就活の説明会で「この会社いいな」と思ったこと、あるよね？実はその説明会の裏側には、人事担当者の緻密な演出がある。会場選び、登壇する社員の人選、質疑応答の設計——あなたが学生の人生を変える"出会い"を作る側になる',
@@ -131,7 +131,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'legal-staff',
     title: '法務',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '契約書の一行が数億円を左右する——会社を守る"最後の砦"',
     description: [
       '想像してみて。取引先から届いた契約書の中に、こちらに不利な条項がこっそり紛れ込んでいる。それを見抜いたのはあなただけ。たった一行の修正が、会社の数億円の損失を防ぐ——法務とはそういう"知的格闘技"だ',
@@ -173,7 +173,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'general-affairs',
     title: '総務',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: 'オフィス空間から社員の笑顔まで、"働く毎日"をデザインする仕掛け人',
     description: [
       '入社式で新入社員が緊張しながらも嬉しそうにしている姿。忘年会で普段は厳しい部長が楽しそうに笑っている姿。その舞台を作ったのは、あなた。総務は会社の"イベントプロデューサー"でもある',
@@ -215,7 +215,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'secretary',
     title: '秘書',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '経営トップの"右腕"として、会社の意思決定のど真ん中にいる仕事',
     description: [
       '社長が海外の要人と会食する。レストラン選び、手土産、席順、話題のリサーチ——すべてあなたが整えた完璧な舞台の上で、数百億円のビジネスが動き出す。秘書とは、経営の最前線を"裏側から操る"プロフェッショナル',
@@ -257,7 +257,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'procurement',
     title: '購買・調達',
-    industry: 'メーカー・全業界',
+    industry: 'メーカー',
     shortDescription: '世界中から最高の素材を見つけ出す、ビジネス界の"トレジャーハンター"',
     description: [
       'あなたが見つけた部品が、世界中で売れるスマートフォンの中に入っている。あなたが交渉で勝ち取った価格が、製品の競争力を決める。購買・調達は、ものづくりの"最初の一手"を打つポジション。地味？とんでもない、勝負師の仕事だ',
@@ -299,7 +299,7 @@ export const adminBackofficeJobs: Job[] = [
   {
     id: 'internal-audit',
     title: '内部監査',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '不正やリスクを見抜く鋭い目——組織の"守護者"にして"名探偵"',
     description: [
       '何千件ものデータの中から、たった一つの異常値を見つけ出す。「この数字、おかしくないですか？」——あなたの一言が、数千万円の不正を未然に防ぐ。内部監査は、会社版の"名探偵コナン"。真実を見抜く目が最大の武器になる',

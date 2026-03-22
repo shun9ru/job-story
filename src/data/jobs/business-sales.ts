@@ -5,7 +5,7 @@ export const businessSalesJobs: Job[] = [
   {
     id: 'corporate-sales',
     title: '法人営業',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '企業の「困った」を解決して、何千万円もの契約を自分の手で勝ち取る仕事',
     description: [
       '想像してみて。大手企業の会議室で、部長クラスの大人たちがあなたのプレゼンに真剣に耳を傾けている。「この提案、まさに我々が求めていたものです」——その一言を引き出した瞬間、全身に鳥肌が立つ',
@@ -41,12 +41,12 @@ export const businessSalesJobs: Job[] = [
     suitableFor: ['人と話すのが好き', '目標達成に燃える', 'フットワークが軽い', '相手の気持ちを考えられる'],
     skillsGained: ['コミュニケーション力', '交渉力', 'プレゼン力', '行動力'],
     companyExamples: ['キーエンス', 'リクルート', '大塚商会', 'セールスフォース'],
-    tags: ['営業', '対人', 'コミュニケーション', '提案'],
+    tags: ['営業', '対人', '提案', '交渉', '戦略', 'リーダー'],
   },
   {
     id: 'personal-sales',
     title: '個人営業',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '目の前の一人の人生を変える提案ができる、"ありがとう"が最高のご褒美になる仕事',
     description: [
       '「あなたに相談してよかった」——お客さんが涙ぐみながらそう言ってくれることがある。家を買う、車を選ぶ、保険を見直す。人生の大きな決断に寄り添えるのがこの仕事の醍醐味',
@@ -87,7 +87,7 @@ export const businessSalesJobs: Job[] = [
   {
     id: 'hr-sales',
     title: '人材営業',
-    industry: '人材',
+    industry: 'ビジネス・営業',
     shortDescription: '人と企業の運命の出会いをつくる、"人生の仲人"のような仕事',
     description: [
       '「転職して本当に良かったです。あのとき背中を押してくれてありがとうございます」——自分が紹介した人が新しい職場でイキイキ働いている報告をもらう瞬間、この仕事をやっていて良かったと心から思える',
@@ -127,7 +127,7 @@ export const businessSalesJobs: Job[] = [
   {
     id: 'real-estate-sales',
     title: '不動産営業',
-    industry: '不動産',
+    industry: '建設・インフラ',
     shortDescription: '一生に一度の大きな買い物を導く、数千万円の取引を動かすダイナミックな仕事',
     description: [
       '想像してみて。若い夫婦が新居の鍵を受け取り、「ここで子どもを育てるんだね」と笑い合っている。その幸せな瞬間を作ったのは、あなたの提案。人の人生の舞台をつくれるのが不動産営業の最大の魅力',
@@ -168,7 +168,7 @@ export const businessSalesJobs: Job[] = [
   {
     id: 'mr',
     title: 'MR（医薬品営業）',
-    industry: '製薬',
+    industry: 'メーカー',
     shortDescription: '医師のパートナーとして命を救う薬を届ける、知識が武器の"医療×ビジネス"の最前線',
     description: [
       'あなたが届けた薬の情報が、医師の処方を変え、患者さんの命を救う。「あなたが教えてくれた新薬のおかげで、患者さんの症状が劇的に改善しました」——医師からのそんな言葉は、どんなボーナスよりも心に響く',
@@ -210,7 +210,7 @@ export const businessSalesJobs: Job[] = [
   {
     id: 'overseas-sales',
     title: '海外営業',
-    industry: 'メーカー・商社',
+    industry: 'メーカー',
     shortDescription: '世界を飛び回り、日本のモノを海の向こうに届ける"グローバル最前線"の仕事',
     description: [
       '月曜はシンガポール、水曜はドバイ、金曜は東京——パスポートのスタンプが増えるたびに、自分の世界が広がっていく。現地のビジネスパートナーと握手を交わし、「日本の技術はやっぱりすごい」と言われたとき、誇らしさで胸がいっぱいになる',
@@ -247,12 +247,12 @@ export const businessSalesJobs: Job[] = [
     suitableFor: ['海外に興味がある', '語学力を活かしたい', '異文化に寛容', 'チャレンジ精神旺盛'],
     skillsGained: ['語学力', '異文化コミュニケーション', '交渉力', '市場分析力'],
     companyExamples: ['トヨタ', 'ソニー', '三菱商事', 'パナソニック'],
-    tags: ['海外', '営業', 'グローバル', '語学'],
+    tags: ['海外', '営業', 'グローバル', '語学', '交渉', '挑戦'],
   },
   {
     id: 'customer-success',
     title: 'カスタマーサクセス',
-    industry: 'IT・SaaS',
+    industry: 'IT・テクノロジー',
     shortDescription: 'お客さんの"成功"を一緒に作り上げる、IT時代の新しいヒーロー的ポジション',
     description: [
       '「御社のおかげで業務時間が半分になりました！」——自分が提案した使い方でお客さんの仕事が劇的に変わる。売って終わりじゃなく、"その後"に本当の価値がある。お客さんと一緒に成長を喜べるのがこの仕事の最高なところ',
@@ -294,7 +294,7 @@ export const businessSalesJobs: Job[] = [
   {
     id: 'insurance-sales',
     title: '保険営業',
-    industry: '金融・保険',
+    industry: '金融・コンサル',
     shortDescription: '人生の「もしも」に備える安心を届ける、お客さんの人生丸ごとに寄り添う仕事',
     description: [
       '「あのとき保険に入っていて本当に良かった」——お客さんが事故や病気に見舞われたとき、自分が設計した保障プランがその人の生活を守る。目に見えない"安心"を届ける仕事は、想像以上にやりがいが深い',
@@ -330,6 +330,6 @@ export const businessSalesJobs: Job[] = [
     suitableFor: ['人の人生に関わりたい', '信頼されたい', '粘り強い', '自己管理ができる'],
     skillsGained: ['傾聴力', 'ライフプランニング', '提案力', '自己管理力'],
     companyExamples: ['日本生命', '第一生命', 'ソニー生命', '東京海上日動'],
-    tags: ['金融', '保険', '営業', '対人'],
+    tags: ['金融', '保険', '営業', '対人', '提案', '相談', '資産'],
   },
 ];

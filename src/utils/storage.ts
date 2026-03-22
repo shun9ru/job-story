@@ -1,4 +1,5 @@
-import type { DiagnosisRecord, GameMode, TraitKey, StatKey } from '../types';
+import type { DiagnosisRecord, GameMode, StatKey, ValueKey } from '../types';
+import { initialValues } from '../data/stats';
 import { supabase } from '../lib/supabase';
 
 /** 体験ゲームのシーン選択履歴 */
@@ -37,16 +38,17 @@ export interface GameResultRecord {
   id: string;
   date: string;
   gameMode: GameMode;
-  primaryTrait: TraitKey;
+  primaryStat: StatKey;
   stats: Record<StatKey, number>;
-  /** 診断由来のステータス（タイプセクション表示用） */
-  diagnosisStats?: Record<StatKey, number>;
   discoveredJobIds: string[];
   recommendedJobIds: string[];
+  favorite?: boolean;
   /** @deprecated */
   discoveredJobCount?: number;
   /** @deprecated */
   topJobTitles?: string[];
+  /** @deprecated - old field name */
+  primaryTrait?: string;
 }
 
 // ─── ユーザーセッション ───
@@ -86,15 +88,30 @@ export async function saveDiagnosisRecord(record: DiagnosisRecord): Promise<void
   if (!userId) return;
 
   if (supabase) {
-    await supabase.from('diagnosis_records').insert({
+    const row: Record<string, unknown> = {
       id: record.id,
       user_id: userId,
       date: record.date,
-      primary_trait: record.primaryTrait,
-      secondary_trait: record.secondaryTrait,
-      traits: record.traits,
+      primary_trait: record.primaryStat,
+      secondary_trait: record.secondaryStat,
+      traits: record.stats,
+      stats: record.stats ?? null,
+      values: record.values ?? null,
       game_mode: record.gameMode ?? null,
-    });
+    };
+    const { error } = await supabase.from('diagnosis_records').insert(row);
+    if (error) {
+      if (error.code === 'PGRST204' || error.code === '42703') {
+        // stats/game_mode カラムが未追加 → 除外して再試行
+        const { stats: _, game_mode: __, ...rowWithout } = row;
+        const { error: retryError } = await supabase.from('diagnosis_records').insert(rowWithout);
+        if (retryError) {
+          console.error('Error saving diagnosis record (retry):', retryError);
+        }
+      } else {
+        console.error('Error saving diagnosis record:', error);
+      }
+    }
   }
 }
 
@@ -104,7 +121,8 @@ export async function getDiagnosisRecords(): Promise<DiagnosisRecord[]> {
   if (!userId) return [];
 
   if (supabase) {
-    const { data, error } = await supabase
+    // まず全カラムで試行、失敗したら基本カラムのみで再試行
+    let { data, error } = await supabase
       .from('diagnosis_records')
       .select('*')
       .eq('user_id', userId)
@@ -112,17 +130,28 @@ export async function getDiagnosisRecords(): Promise<DiagnosisRecord[]> {
       .limit(20);
 
     if (error) {
-      console.error('Error fetching diagnosis records:', error);
-      return [];
+      // stats/game_mode カラムが存在しない場合は基本カラムのみで取得
+      const retry = await supabase
+        .from('diagnosis_records')
+        .select('id,user_id,date,primary_trait,secondary_trait,traits,created_at')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(20);
+      if (retry.error) {
+        console.error('Error fetching diagnosis records:', retry.error);
+        return [];
+      }
+      data = retry.data;
     }
 
     return (data ?? []).map((r) => ({
       id: r.id,
       date: r.date,
-      primaryTrait: r.primary_trait as TraitKey,
-      secondaryTrait: r.secondary_trait as TraitKey,
-      traits: r.traits as Record<TraitKey, number>,
-      gameMode: r.game_mode as GameMode | undefined,
+      primaryStat: (r.primary_trait as StatKey),
+      secondaryStat: (r.secondary_trait as StatKey),
+      stats: (r.stats ?? r.traits) as Record<StatKey, number>,
+      values: (r.values as Record<ValueKey, number>) ?? { ...initialValues },
+      gameMode: (r.game_mode as GameMode) ?? undefined,
     }));
   }
 
@@ -143,17 +172,20 @@ export async function saveGameResult(result: GameResultRecord): Promise<void> {
   if (!userId) return;
 
   if (supabase) {
-    await supabase.from('game_results').insert({
+    const row: Record<string, unknown> = {
       id: result.id,
       user_id: userId,
       date: result.date,
       game_mode: result.gameMode,
-      primary_trait: result.primaryTrait,
+      primary_trait: result.primaryStat,
       stats: result.stats,
-      diagnosis_stats: result.diagnosisStats ?? null,
       discovered_job_ids: result.discoveredJobIds,
       recommended_job_ids: result.recommendedJobIds,
-    });
+    };
+    const { error } = await supabase.from('game_results').insert(row);
+    if (error) {
+      console.error('Error saving game result:', error);
+    }
   }
 }
 
@@ -179,15 +211,48 @@ export async function getGameResults(): Promise<GameResultRecord[]> {
       id: r.id,
       date: r.date,
       gameMode: r.game_mode as GameMode,
-      primaryTrait: r.primary_trait as TraitKey,
+      primaryStat: (r.primary_trait as StatKey),
       stats: r.stats as Record<StatKey, number>,
-      diagnosisStats: r.diagnosis_stats as Record<StatKey, number> | undefined,
       discoveredJobIds: r.discovered_job_ids ?? [],
       recommendedJobIds: r.recommended_job_ids ?? [],
+      favorite: r.favorite ?? false,
     }));
   }
 
   return [];
+}
+
+/** ゲーム結果のお気に入りを切り替え */
+export async function toggleGameResultFavorite(id: string, favorite: boolean): Promise<void> {
+  if (supabase) {
+    const { error } = await supabase
+      .from('game_results')
+      .update({ favorite })
+      .eq('id', id);
+    if (error) console.error('Error toggling favorite:', error);
+  }
+}
+
+/** ゲーム結果を削除 */
+export async function deleteGameResult(id: string): Promise<void> {
+  if (supabase) {
+    const { error } = await supabase
+      .from('game_results')
+      .delete()
+      .eq('id', id);
+    if (error) console.error('Error deleting game result:', error);
+  }
+}
+
+/** 診断履歴を削除 */
+export async function deleteDiagnosisRecord(id: string): Promise<void> {
+  if (supabase) {
+    const { error } = await supabase
+      .from('diagnosis_records')
+      .delete()
+      .eq('id', id);
+    if (error) console.error('Error deleting diagnosis record:', error);
+  }
 }
 
 // ─── 体験振り返り ───

@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { Job } from '../types';
 import type { ExperienceReflection } from '../utils/storage';
 import { getJobImageUrl } from '../data/job-images';
+import { statDefinitions, valueDefinitions } from '../data/stats';
 import { MangaJobViewer } from './MangaJobViewer';
 import { JobExperienceGame } from './JobExperienceGame';
 import { getJobExperience } from '../data/job-experiences';
+import { computeJobProfile, UnifiedRadarChart } from './SkillRadarChart';
+import type { RadarDataset } from './SkillRadarChart';
 
 interface JobDetailModalProps {
   job: Job;
@@ -217,6 +220,9 @@ export function JobDetailModal({ job, onClose, onReflectionSaved }: JobDetailMod
             )}
           </div>
 
+          {/* スキルマップ */}
+          <JobSkillRadar job={job} />
+
           {/* 向いている人 */}
           <Section title="🙋 向いている人">
             <div className="flex flex-wrap gap-2">
@@ -282,5 +288,77 @@ function Section({
       </h3>
       {children}
     </div>
+  );
+}
+
+/** 職種スキルレーダーチャート */
+function JobSkillRadar({ job }: { job: Job }) {
+  const profile = useMemo(
+    () => computeJobProfile(job.tags, job.skillsGained, job.suitableFor),
+    [job],
+  );
+
+  const datasets: RadarDataset[] = useMemo(() => [{
+    label: job.title,
+    values: profile,
+    color: '#f59e0b',
+    fillOpacity: 0.2,
+  }], [job.title, profile]);
+
+  // スキル上位5つ
+  const topSkills = useMemo(() => {
+    return statDefinitions
+      .map((d) => ({ ...d, value: profile[d.key] ?? 0 }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 5);
+  }, [profile]);
+
+  // 価値観で50から離れているもの
+  const notableValues = useMemo(() => {
+    return valueDefinitions
+      .map((d) => ({ ...d, value: profile[d.key] ?? 50 }))
+      .filter((d) => Math.abs(d.value - 50) >= 10)
+      .sort((a, b) => Math.abs(b.value - 50) - Math.abs(a.value - 50));
+  }, [profile]);
+
+  return (
+    <Section title="🗺️ スキルマップ">
+      <UnifiedRadarChart datasets={datasets} maxValue={100} size={300} unit="%" />
+      {/* 上位スキル */}
+      <div className="mt-3 space-y-1.5">
+        {topSkills.map((s) => (
+          <div key={s.key} className="flex items-center gap-2">
+            <span className="text-sm">{s.emoji}</span>
+            <span className="text-xs text-gray-600 w-24 shrink-0">{s.label}</span>
+            <div className="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden">
+              <div
+                className={`h-full rounded-full ${
+                  s.value >= 70 ? 'bg-amber-400' : 'bg-amber-200'
+                }`}
+                style={{ width: `${s.value}%` }}
+              />
+            </div>
+            <span className="text-xs font-bold text-gray-500 w-8 text-right">{s.value}%</span>
+          </div>
+        ))}
+      </div>
+      {/* 価値観の特徴 */}
+      {notableValues.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {notableValues.map((v) => (
+            <span
+              key={v.key}
+              className={`text-[11px] px-2 py-1 rounded-lg ${
+                v.value > 50
+                  ? 'bg-amber-50 text-amber-700'
+                  : 'bg-blue-50 text-blue-700'
+              }`}
+            >
+              {v.emoji} {v.value > 50 ? v.highLabel : v.lowLabel}
+            </span>
+          ))}
+        </div>
+      )}
+    </Section>
   );
 }

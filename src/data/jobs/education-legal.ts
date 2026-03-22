@@ -5,7 +5,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'school-teacher',
     title: '教師（小中高）',
-    industry: '教育',
+    industry: '教育・法律・公務',
     shortDescription: '「先生のおかげで人生変わった」――その一言が、一生の宝物になる仕事',
     description: [
       '想像してみて。不登校気味だった生徒が、あなたの授業をきっかけに目を輝かせて教室に来るようになる。卒業式の日、「先生がいたから頑張れた」と泣きながら言ってくれる。教師とは、30人の人生のターニングポイントに立ち会える、とんでもない仕事だ',
@@ -47,7 +47,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'university-researcher',
     title: '大学教員・研究者',
-    industry: '教育・研究',
+    industry: '教育・法律・公務',
     shortDescription: '世界でまだ誰も知らない「答え」を、最初に見つける人になれる仕事',
     description: [
       '論文が国際学会で採択された瞬間、世界中の研究者から「あなたの発見、すごい」とメールが届く。何ヶ月も悩み続けた実験がついに成功したとき、研究室で思わずガッツポーズ。人類の知識を1ページ分、あなたが書き加える――そんなスケールの仕事だ',
@@ -87,7 +87,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'cram-school-teacher',
     title: '塾講師',
-    industry: '教育',
+    industry: '教育・法律・公務',
     shortDescription: '「E判定」から逆転合格させたとき、生徒と一緒に泣ける仕事',
     description: [
       '模試でE判定だった生徒が、あなたの授業と戦略で偏差値を15上げ、第一志望に合格する。合格発表の日、電話口で泣きながら「先生ありがとう！」と言われた瞬間――塾講師をやっていて本当に良かったと心から思える',
@@ -127,7 +127,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'nursery-teacher',
     title: '保育士',
-    industry: '保育・教育',
+    industry: '医療・福祉',
     shortDescription: '昨日できなかったことが今日できた――小さな奇跡に毎日立ち会える仕事',
     description: [
       '初めて自分で靴を履けた子が「せんせい、みて！」と満面の笑みで駆け寄ってくる。昨日まで泣いていた子が、今日は笑顔で「おはよう」と言ってくれる。大人にとっては些細なことでも、子どもにとっては大冒険。その「初めて」の瞬間に毎日立ち会えるのは、保育士だけの特権',
@@ -168,7 +168,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'lawyer',
     title: '弁護士',
-    industry: '法律',
+    industry: '教育・法律・公務',
     shortDescription: '理不尽に追い込まれた人の「最後の味方」になれる仕事',
     description: [
       'パワハラで退職に追い込まれた人、離婚で子どもに会えなくなった親、不当解雇された労働者――追い詰められた人が最後に頼るのが弁護士だ。法廷で証拠を突きつけ、相手の主張を論理で崩し、依頼者の権利を勝ち取る。判決が出た瞬間、依頼者が涙を流して「ありがとう」と言う、あの瞬間のために戦う',
@@ -209,7 +209,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'tax-accountant',
     title: '税理士・公認会計士',
-    industry: '会計・税務',
+    industry: '金融・コンサル',
     shortDescription: '数字を読み解く力で、経営者の「右腕」になれる仕事',
     description: [
       '「先生のおかげで500万円も節税できました！」――中小企業の社長が目を丸くして感謝する。税理士・公認会計士は、数字のプロとして経営者が見落としている「お金の流れ」を可視化し、会社の未来を一緒にデザインする仕事。あなたのアドバイスひとつで、会社の運命が変わることもある',
@@ -249,7 +249,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'judicial-scrivener',
     title: '司法書士・行政書士',
-    industry: '法律',
+    industry: '教育・法律・公務',
     shortDescription: '家を買う人、会社を作る人、遺産で揉める家族――人生の大事な場面を法律で守る仕事',
     description: [
       '人生で一番高い買い物「マイホーム」。その所有権を法的に守る登記手続きをするのが司法書士だ。「これで本当に自分の家なんですね」とホッとした表情を見せるお客さんの顔が、何よりのやりがい。起業家が新しい会社を立ち上げるときも、あなたが法的な「産声」を上げさせる',
@@ -290,7 +290,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'social-insurance-labor',
     title: '社会保険労務士',
-    industry: '法律・人事',
+    industry: '教育・法律・公務',
     shortDescription: '「ブラック企業」を「ホワイト企業」に変える――働く人を守る仕事',
     description: [
       '残業月100時間のブラック企業に乗り込み、就業規則を見直して労働環境を改善する。「おかげで社員が辞めなくなりました」と社長に感謝される。社労士は、日本中の「働く」を良くする仕事。あなたのアドバイスで、何百人もの社員の毎日が変わる',
@@ -331,7 +331,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'national-civil-servant',
     title: '国家公務員',
-    industry: '官公庁',
+    industry: '教育・法律・公務',
     shortDescription: '1億2千万人の暮らしを動かす「国のエンジン」になれる仕事',
     description: [
       'あなたが書いた政策が、明日のニュースになる。少子化対策、エネルギー政策、外交戦略――国家公務員が作る制度は、日本に住む全員の生活に直結する。「自分の仕事が教科書に載るかもしれない」というスケール感は、民間企業では味わえない',
@@ -371,7 +371,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'local-civil-servant',
     title: '地方公務員',
-    industry: '官公庁',
+    industry: '教育・法律・公務',
     shortDescription: '自分の街を「もっと住みたい街」に変えていける仕事',
     description: [
       '過疎化が進む地域で、移住促進イベントを企画して若い家族が引っ越してくる。空き家だらけの商店街に新しいカフェがオープンして賑わいが戻る。地方公務員は、自分が生まれ育った（あるいは好きになった）街を、自分の手で良くしていける仕事。住民の「ありがとう」が、ダイレクトに届く',
@@ -411,7 +411,7 @@ export const educationLegalJobs: Job[] = [
   {
     id: 'police-fire',
     title: '警察官・消防士',
-    industry: '公安',
+    industry: '教育・法律・公務',
     shortDescription: '119番の向こう側で「助けて」に応える――命を懸けて人を守るヒーローの仕事',
     description: [
       '深夜の火災現場。炎が建物を包む中、逃げ遅れた子どもを抱きかかえて脱出する消防士。交通事故の現場で、泣いている被害者に「もう大丈夫ですよ」と声をかける警察官。映画やドラマじゃない、これが本物の「人を守る仕事」だ。命を救った瞬間の感動は、他のどんな仕事でも味わえない',

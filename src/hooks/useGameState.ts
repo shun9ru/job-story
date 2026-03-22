@@ -1,9 +1,9 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import type { PlayerState, StatKey, TraitKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
-import { initialStats, valueStatKeys } from '../data/stats';
+import type { PlayerState, StatKey, ValueKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
+import { initialStats, calcTagMatchScore } from '../data/stats';
 import { jobs } from '../data/jobs/index';
-import { getPreHighSchoolEvents, getHighSchoolEvents, getPathEvents, getVocationalEvents, PATH_CHOICE_EVENT_ID, HIGHSCHOOL_CHOICE_EVENT_ID, VOCATIONAL_CHOICE_EVENT_ID } from '../data/events-childhood';
-import type { EducationPath, HighSchoolPath, VocationalPath } from '../data/events-childhood';
+import { getPreHighSchoolEvents, getHighSchoolEvents, getPathEvents, getVocationalEvents, getUniversityEvents, PATH_CHOICE_EVENT_ID, HIGHSCHOOL_CHOICE_EVENT_ID, VOCATIONAL_CHOICE_EVENT_ID, UNIVERSITY_CHOICE_EVENT_ID } from '../data/events-childhood';
+import type { EducationPath, HighSchoolPath, VocationalPath, UniversityPath } from '../data/events-childhood';
 import { getRandomWorkingEvents } from '../data/events-working';
 import type { GameResultRecord, ExperienceReflection } from '../utils/storage';
 import {
@@ -15,6 +15,9 @@ import {
   getDiagnosisRecords,
   getGameResults,
   getExperienceReflections,
+  toggleGameResultFavorite,
+  deleteGameResult as storageDeleteGameResult,
+  deleteDiagnosisRecord as storageDeleteDiagnosisRecord,
 } from '../utils/storage';
 
 /** ゲーム全体の画面遷移状態 */
@@ -41,6 +44,7 @@ export function useGameState() {
   const [highSchoolPath, setHighSchoolPath] = useState<HighSchoolPath | undefined>(undefined);
   const [educationPath, setEducationPath] = useState<EducationPath | undefined>(undefined);
   const [vocationalPath, setVocationalPath] = useState<VocationalPath | undefined>(undefined);
+  const [universityPath, setUniversityPath] = useState<UniversityPath | undefined>(undefined);
 
   /** 子供時代モード：小学校＋中学校＋高校選択イベント（第一分岐前） */
   const preHSEvents: GameEvent[] = useMemo(() => {
@@ -67,9 +71,17 @@ export function useGameState() {
     if (educationPath === 'vocational' && vocationalPath) {
       return [...preHSEvents, ...hsEvents, ...pathEvents, ...getVocationalEvents(vocationalPath)];
     }
-    // 大学・就職：全イベント
+    // 大学で学部未選択：学部選択イベントまで
+    if (educationPath === 'university' && !universityPath) {
+      return [...preHSEvents, ...hsEvents, ...pathEvents];
+    }
+    // 大学で学部選択済み：学部別イベントを追加
+    if (educationPath === 'university' && universityPath) {
+      return [...preHSEvents, ...hsEvents, ...pathEvents, ...getUniversityEvents(universityPath)];
+    }
+    // 就職：全イベント
     return [...preHSEvents, ...hsEvents, ...pathEvents];
-  }, [gameMode, eventSeed, highSchoolPath, educationPath, vocationalPath, preHSEvents]);
+  }, [gameMode, eventSeed, highSchoolPath, educationPath, vocationalPath, universityPath, preHSEvents]);
 
   /** ユーザーデータをSupabaseから読み込み */
   const loadUserData = useCallback(async () => {
@@ -112,69 +124,63 @@ export function useGameState() {
     setScreen('login');
   }, []);
 
-  /** 診断の回答を反映 */
+  /** 診断の回答を反映（StatKeyベース） */
   const applyDiagnosisAnswer = useCallback(
-    (effects: Partial<Record<TraitKey, number>>) => {
-      setPlayer((prev) => {
-        const newTraits = { ...prev.diagnosisTraits };
-        for (const [key, value] of Object.entries(effects)) {
-          newTraits[key as TraitKey] += value!;
-        }
-        return { ...prev, diagnosisTraits: newTraits };
-      });
+    (_effects: Partial<Record<StatKey, number>>) => {
+      // 診断中の回答反映はDiagnosisPage内で管理するため、ここでは何もしない
     },
     [],
   );
 
   /** 診断完了（結果をSupabaseに保存） */
   const finishDiagnosis = useCallback(async (
-    traits: Record<TraitKey, number>,
-    primaryKey: TraitKey,
-    secondaryKey: TraitKey,
-    diagStats?: Record<StatKey, number>,
+    stats: Record<StatKey, number>,
+    values: Record<ValueKey, number>,
+    primaryKey: StatKey,
+    secondaryKey: StatKey,
   ) => {
     // 診断結果を保存
     const record: DiagnosisRecord = {
       id: Date.now().toString(),
       date: new Date().toLocaleDateString('ja-JP'),
-      primaryTrait: primaryKey,
-      secondaryTrait: secondaryKey,
-      traits,
-      stats: diagStats,
+      primaryStat: primaryKey,
+      secondaryStat: secondaryKey,
+      stats,
+      values,
       gameMode,
     };
-    await saveDiagnosisRecord(record);
+    try {
+      await saveDiagnosisRecord(record);
+    } catch (e) {
+      console.error('Failed to save diagnosis record:', e);
+    }
     setDiagnosisRecords((prev) => [record, ...prev]);
 
-    if (diagnosisOnly) {
-      // 診断単体モード → 診断詳細を表示
-      setViewingRecord(record);
-      setScreen('diagnosis-detail');
-      setDiagnosisOnly(false);
-    } else {
-      // ストーリーモード → ゲーム開始（診断ステータスは別管理、ストーリーの初期値には加算しない）
-      setPlayer((prev) => ({
-        ...prev,
-        diagnosisTraits: traits,
-        primaryTrait: primaryKey,
-        diagnosisStats: diagStats,
-      }));
-      setScreen('game');
-    }
-  }, [gameMode, diagnosisOnly]);
+    // diagnosisOnly の最新値を直接取得（useCallback のクロージャ問題を回避）
+    setDiagnosisOnly((prev) => {
+      if (prev) {
+        // 診断単体モード → 診断詳細を表示
+        setViewingRecord(record);
+        setScreen('diagnosis-detail');
+      } else {
+        // ストーリーモード → ゲーム開始
+        setPlayer((p) => ({ ...p, primaryStat: primaryKey }));
+        setScreen('game');
+      }
+      return false;
+    });
+  }, [gameMode]);
 
-  /** 過去の診断結果を再利用してゲーム開始（診断ステータスは別管理） */
+  /** 過去の診断結果を再利用してゲーム開始 */
   const reuseDiagnosis = useCallback((record: DiagnosisRecord) => {
     setPlayer((prev) => ({
       ...prev,
-      diagnosisTraits: { ...record.traits },
-      primaryTrait: record.primaryTrait,
-      diagnosisStats: record.stats,
+      primaryStat: record.primaryStat,
     }));
     setScreen('game');
   }, []);
 
-  /** 選択肢を選んだ時の処理（価値観系ステータスはスキップ） */
+  /** 選択肢を選んだ時の処理 */
   const selectChoice = useCallback(
     (eventId: string, choice: Choice) => {
       // 高校選択イベントの分岐処理
@@ -214,6 +220,9 @@ export function useGameState() {
           'voc-beauty': 'beauty',
           'voc-entertainment': 'entertainment',
           'voc-business': 'business',
+          'voc-sports': 'sports',
+          'voc-animal': 'animal',
+          'voc-architecture': 'architecture',
         };
         const selectedVoc = vocMap[choice.id];
         if (selectedVoc) {
@@ -221,13 +230,27 @@ export function useGameState() {
         }
       }
 
+      // 大学学部選択イベントの分岐処理
+      if (eventId === UNIVERSITY_CHOICE_EVENT_ID) {
+        const uniMap: Record<string, UniversityPath> = {
+          'uni-humanities': 'humanities',
+          'uni-law-economics': 'law-economics',
+          'uni-science-engineering': 'science-engineering',
+          'uni-medical': 'medical',
+          'uni-education': 'education',
+          'uni-informatics': 'informatics',
+        };
+        const selectedUni = uniMap[choice.id];
+        if (selectedUni) {
+          setUniversityPath(selectedUni);
+        }
+      }
+
       setPlayer((prev) => {
         const newStats = { ...prev.stats };
         for (const [key, value] of Object.entries(choice.effects)) {
-          // 価値観系（satisfaction, income）はストーリーでは変動させない
-          if (valueStatKeys.includes(key as StatKey)) continue;
           newStats[key as StatKey] = Math.min(
-            20,
+            100,
             Math.max(0, newStats[key as StatKey] + value!),
           );
         }
@@ -247,117 +270,36 @@ export function useGameState() {
     [],
   );
 
-  /** 結果画面で向いてそうな職種TOP5を計算（診断+ストーリー統合値を使用） */
+  /** 結果画面で向いてそうな職種TOP5を計算 */
   const getRecommendedJobs = useCallback(() => {
     const { discoveredJobIds } = player;
-    // 診断statsとストーリーstatsを統合して使用
-    const stats = { ...player.stats };
-    if (player.diagnosisStats) {
-      for (const [key, value] of Object.entries(player.diagnosisStats)) {
-        stats[key as StatKey] = Math.min(20, stats[key as StatKey] + value);
-      }
-    }
 
-    const tagMap: Record<string, StatKey[]> = {
-      '対人': ['communication'],
-      'コミュニケーション': ['communication'],
-      '営業': ['communication'],
-      '接客': ['communication'],
-      '企画': ['planning'],
-      'メディア': ['planning'],
-      '広告': ['planning', 'creative'],
-      'クリエイティブ': ['creative'],
-      'デザイン': ['creative'],
-      '制作': ['creative'],
-      '映像': ['creative'],
-      '音楽': ['creative'],
-      '写真': ['creative'],
-      '表現': ['creative'],
-      'データ': ['analysis'],
-      '分析': ['analysis'],
-      '数字': ['analysis'],
-      '安定': ['stability'],
-      'サポート': ['care'],
-      'ケア': ['care'],
-      '福祉': ['care'],
-      '医療': ['care', 'technical'],
-      '教育': ['care'],
-      '保育': ['care'],
-      '技術': ['technical'],
-      '開発': ['technical'],
-      '研究': ['technical', 'analysis'],
-      'IT': ['technical'],
-      'プログラミング': ['technical'],
-      'AI': ['technical', 'analysis'],
-      'セキュリティ': ['technical'],
-      '設計': ['technical'],
-      '専門': ['technical'],
-      '戦略': ['planning', 'analysis'],
-      'コンサル': ['analysis', 'communication'],
-      '金融': ['analysis', 'stability'],
-      '法律': ['analysis', 'stability'],
-      'グローバル': ['communication'],
-      '語学': ['communication'],
-      '体力': ['care'],
-      'エンタメ': ['creative', 'communication'],
-      'ゲーム': ['creative', 'technical'],
-      'マネジメント': ['communication', 'planning'],
-      '管理': ['stability', 'planning'],
-      '挑戦': ['communication', 'planning'],
-      'スポーツ': ['communication', 'care'],
-      'リーダーシップ': ['communication', 'planning'],
-      '起業': ['planning', 'analysis'],
-      '防衛': ['stability', 'care'],
-      '公務': ['stability'],
-      '品質': ['stability', 'analysis'],
-      '法務': ['stability', 'analysis'],
-      '堅実': ['stability'],
-      '資格': ['stability', 'technical'],
-      'マーケティング': ['analysis', 'planning'],
-      'SNS': ['creative', 'communication'],
-      '高収入': ['analysis'],
-      '社会貢献': ['care'],
-    };
-
-    const jobScores = jobs.map((job) => {
-      let score = 0;
-      if (discoveredJobIds.includes(job.id)) score += 5;
-      for (const tag of job.tags) {
-        const relevantStats = tagMap[tag];
-        if (relevantStats) {
-          for (const statKey of relevantStats) {
-            score += stats[statKey];
-          }
-        }
-      }
-      return { job, score };
-    });
+    const jobScores = jobs.map((job) => ({
+      job,
+      score: calcTagMatchScore(job.tags, player.stats, discoveredJobIds, job.id),
+    }));
 
     jobScores.sort((a, b) => b.score - a.score);
     return jobScores.slice(0, 5).map((s) => s.job);
   }, [player]);
 
-  /** 結果画面へ遷移（ゲーム結果を保存、診断+ストーリーの統合値） */
+  /** 結果画面へ遷移（ゲーム結果を保存） */
   const goToResult = useCallback(async () => {
     const recommended = getRecommendedJobs();
-    // 保存用に診断statsとストーリーstatsを統合
-    const combinedStats = { ...player.stats };
-    if (player.diagnosisStats) {
-      for (const [key, value] of Object.entries(player.diagnosisStats)) {
-        combinedStats[key as StatKey] = Math.min(20, combinedStats[key as StatKey] + value);
-      }
-    }
     const result: GameResultRecord = {
       id: Date.now().toString(),
       date: new Date().toLocaleDateString('ja-JP'),
       gameMode,
-      primaryTrait: player.primaryTrait,
-      stats: combinedStats,
-      diagnosisStats: player.diagnosisStats,
+      primaryStat: player.primaryStat,
+      stats: { ...player.stats },
       discoveredJobIds: [...player.discoveredJobIds],
       recommendedJobIds: recommended.map((j) => j.id),
     };
-    await saveGameResult(result);
+    try {
+      await saveGameResult(result);
+    } catch (e) {
+      console.error('Failed to save game result:', e);
+    }
     setGameResults((prev) => [result, ...prev]);
     setScreen('result');
   }, [gameMode, player, getRecommendedJobs]);
@@ -366,6 +308,7 @@ export function useGameState() {
   const selectMode = useCallback((mode: GameMode) => {
     setGameMode(mode);
     setEventSeed(Date.now());
+    setDiagnosisOnly(false);
     if (diagnosisRecords.length > 0) {
       setScreen('diagnosis-choice');
     } else {
@@ -381,6 +324,7 @@ export function useGameState() {
 
   /** 診断選択で「やり直す」を選んだ場合 */
   const goToDiagnosis = useCallback(() => {
+    setDiagnosisOnly(false);
     setScreen('diagnosis');
   }, []);
 
@@ -408,12 +352,38 @@ export function useGameState() {
     setScreen('top');
   }, []);
 
-  /** 全ゲーム結果から発見済み職種IDを集約 */
+  /** ゲーム結果のお気に入りを切り替え */
+  const toggleGameFavorite = useCallback(async (id: string) => {
+    const target = gameResults.find((r) => r.id === id);
+    if (!target) return;
+    const newFav = !target.favorite;
+    setGameResults((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, favorite: newFav } : r)),
+    );
+    await toggleGameResultFavorite(id, newFav);
+  }, [gameResults]);
+
+  /** ゲーム結果を削除 */
+  const deleteGameResultById = useCallback(async (id: string) => {
+    setGameResults((prev) => prev.filter((r) => r.id !== id));
+    await storageDeleteGameResult(id);
+  }, []);
+
+  /** 診断履歴を削除 */
+  const deleteDiagnosisById = useCallback(async (id: string) => {
+    setDiagnosisRecords((prev) => prev.filter((r) => r.id !== id));
+    await storageDeleteDiagnosisRecord(id);
+  }, []);
+
+  /** 全ゲーム結果から発見済み職種IDを集約（実在する職種のみ） */
   const allDiscoveredJobIds = useMemo(() => {
+    const validJobIds = new Set(jobs.map((j) => j.id));
     const ids = new Set<string>();
     for (const result of gameResults) {
       for (const id of result.discoveredJobIds) {
-        ids.add(id);
+        if (validJobIds.has(id)) {
+          ids.add(id);
+        }
       }
     }
     return [...ids];
@@ -441,6 +411,7 @@ export function useGameState() {
     setHighSchoolPath(undefined);
     setEducationPath(undefined);
     setVocationalPath(undefined);
+    setUniversityPath(undefined);
     setScreen('top');
   }, []);
 
@@ -451,6 +422,7 @@ export function useGameState() {
     setHighSchoolPath(undefined);
     setEducationPath(undefined);
     setVocationalPath(undefined);
+    setUniversityPath(undefined);
     setScreen('mode-select');
   }, []);
 
@@ -492,6 +464,9 @@ export function useGameState() {
     goToEncyclopedia,
     backFromEncyclopedia,
     addReflection,
+    toggleGameFavorite,
+    deleteGameResultById,
+    deleteDiagnosisById,
   };
 }
 
@@ -500,16 +475,6 @@ function createInitialPlayer(): PlayerState {
     stats: { ...initialStats },
     discoveredJobIds: [],
     selectedChoices: [],
-    diagnosisTraits: {
-      communication: 0,
-      planning: 0,
-      analysis: 0,
-      stability: 0,
-      challenge: 0,
-      creative: 0,
-      care: 0,
-      technical: 0,
-    },
-    primaryTrait: 'communication',
+    primaryStat: 'communication',
   };
 }

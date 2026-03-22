@@ -5,7 +5,7 @@ export const marketingAdJobs: Job[] = [
   {
     id: 'ad-planner',
     title: '広告プランナー',
-    industry: '広告・メディア',
+    industry: 'クリエイティブ・メディア',
     shortDescription: '渋谷の街を埋め尽くすあの広告、実は誰かの「思いつき」から始まった',
     description: [
       '想像してみて。電車で何気なく見たポスターが気になって、つい商品を手に取ってしまった経験はない？　その「つい」を仕掛けるのがこの仕事。クライアントの商品を徹底的に分析して、人の心が動く瞬間を設計する',
@@ -45,7 +45,7 @@ export const marketingAdJobs: Job[] = [
   {
     id: 'pr',
     title: 'PR・広報',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: '「あのニュース見た？」を自分の手で世の中に仕掛ける黒幕',
     description: [
       'テレビの情報番組で「今話題の○○」と紹介されているアレ、実は裏でPR担当が記者に情報を届けていたからこそ取り上げられている。メディアを動かし、世の中の「話題」を生み出す——それがこの仕事のスケール感',
@@ -87,7 +87,7 @@ export const marketingAdJobs: Job[] = [
   {
     id: 'marketing',
     title: 'マーケティング職',
-    industry: '全業界共通',
+    industry: 'ビジネス・営業',
     shortDescription: 'コンビニの棚に並ぶ「あの商品」が売れている理由、全部この人が設計してる',
     description: [
       'なぜ冬になるとコンビニにチョコレートの新商品が増えるのか。なぜあのドリンクはいつも目線の高さの棚にあるのか——全部、マーケターが「売れる仕組み」を設計しているから。消費者の無意識すら読み解いて、ヒット商品を生み出す',
@@ -128,7 +128,7 @@ export const marketingAdJobs: Job[] = [
   {
     id: 'digital-marketer',
     title: 'デジタルマーケター',
-    industry: 'IT・マーケティング',
+    industry: 'IT・テクノロジー',
     shortDescription: 'スマホに出てくる「妙に気になる広告」、あれを操っているのがこの人',
     description: [
       'YouTubeを見ていて「なんで自分の欲しいものの広告が出るんだろう？」と思ったことはない？　それは偶然じゃない。デジタルマーケターが、年齢・趣味・検索履歴などのデータを駆使して「この人にはこの広告」とピンポイントで届けている',
@@ -169,7 +169,7 @@ export const marketingAdJobs: Job[] = [
   {
     id: 'media-planner',
     title: 'メディアプランナー',
-    industry: '広告',
+    industry: 'クリエイティブ・メディア',
     shortDescription: '3億円の広告予算をどこに投じるか——その采配で商品の運命が変わる',
     description: [
       '新作映画の宣伝に3億円の予算がある。テレビCMに2億使う？　それともTikTokに全振りする？　渋谷のスクランブル交差点をジャックする？——この判断ひとつで映画の興行収入が何十億円も変わる。そのスリルと責任感が、この仕事の醍醐味',
@@ -211,7 +211,7 @@ export const marketingAdJobs: Job[] = [
   {
     id: 'sns-marketer',
     title: 'SNSマーケター',
-    industry: 'IT・マーケティング',
+    industry: 'IT・テクノロジー',
     shortDescription: '「いいね」の嵐を巻き起こし、たった1投稿で売上を10倍にする仕掛け人',
     description: [
       'ある企業のTikTok動画がバズって一晩で500万再生。翌朝、商品は全国のコンビニで完売——こんなことが本当に起きるのがSNSの世界。その「バズ」を偶然じゃなく意図的に生み出すのがSNSマーケターの仕事',
@@ -253,7 +253,7 @@ export const marketingAdJobs: Job[] = [
   {
     id: 'market-researcher',
     title: '市場リサーチャー',
-    industry: 'リサーチ・コンサル',
+    industry: 'ビジネス・営業',
     shortDescription: '「なぜ人はそれを買うのか」——人間の本音を暴き出すデータの探偵',
     description: [
       '「若者のビール離れ」ってよく聞くけど、本当にそうなのか？　3,000人にアンケートを取り、居酒屋で実際に観察し、10人にインタビューしたら意外な真実が見えてくる——「ビールが嫌いなんじゃなく、最初の一杯を選ぶ場面が減っただけ」。この発見が、新商品開発のヒントになる',

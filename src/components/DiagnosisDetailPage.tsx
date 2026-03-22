@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import type { DiagnosisType, TraitKey, DiagnosisRecord } from '../types';
+import type { DiagnosisType, StatKey, DiagnosisRecord } from '../types';
 import { diagnosisTypes, getDiagnosisType } from '../data/diagnosis';
-import { statDefinitions } from '../data/stats';
+import { statDefinitions, valueDefinitions } from '../data/stats';
 import { DiagnosisAIReviewSection } from './DiagnosisAIReview';
 
 interface DiagnosisDetailPageProps {
@@ -13,13 +13,13 @@ interface DiagnosisDetailPageProps {
 export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'work' | 'growth'>('overview');
 
-  const primary = getDiagnosisType(record.primaryTrait);
-  const secondary = getDiagnosisType(record.secondaryTrait);
+  const primary = getDiagnosisType(record.primaryStat);
+  const secondary = getDiagnosisType(record.secondaryStat);
 
-  // トレイトスコアのソート（バーチャート用）
-  const sortedTraits = (Object.entries(record.traits) as [TraitKey, number][])
+  // スコアのソート（バーチャート用）
+  const sortedStats = (Object.entries(record.stats) as [StatKey, number][])
     .sort((a, b) => b[1] - a[1]);
-  const maxTrait = sortedTraits[0][1] || 1;
+  const maxStat = sortedStats[0][1] || 1;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
@@ -56,25 +56,25 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
           </div>
         </div>
 
-        {/* トレイトバーチャート */}
+        {/* スコアバーチャート */}
         <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
           <h3 className="text-base font-bold text-gray-800 mb-4">📊 あなたのスコア分布</h3>
           <div className="space-y-3">
-            {sortedTraits.map(([key, value]) => {
-              const type = diagnosisTypes.find((t) => t.key === key)!;
-              const percentage = Math.max(5, (value / maxTrait) * 100);
-              const isPrimary = key === record.primaryTrait;
-              const isSecondary = key === record.secondaryTrait;
+            {sortedStats.map(([key, value]) => {
+              const statDef = statDefinitions.find((d) => d.key === key);
+              const percentage = Math.max(5, Math.round((value / maxStat) * 100));
+              const isPrimary = key === record.primaryStat;
+              const isSecondary = key === record.secondaryStat;
               return (
                 <div key={key} className="flex items-center gap-3">
-                  <span className="text-lg w-8 text-center">{type.emoji}</span>
+                  <span className="text-lg w-8 text-center">{statDef?.emoji ?? '📊'}</span>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
                       <span className={`text-xs font-medium ${isPrimary ? 'text-indigo-600' : isSecondary ? 'text-violet-500' : 'text-gray-500'}`}>
-                        {type.label}
+                        {statDef?.label ?? key}
                         {isPrimary && ' ★'}
                       </span>
-                      <span className="text-xs text-gray-400 font-mono">{value}</span>
+                      <span className="text-xs text-gray-400 font-mono">{percentage}%</span>
                     </div>
                     <div className="w-full bg-gray-100 rounded-full h-2">
                       <div
@@ -89,49 +89,41 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
           </div>
         </div>
 
-        {/* 10軸ステータス */}
-        {record.stats && (
+        {/* 価値観チャート */}
+        {record.values && (
           <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
-            <h3 className="text-base font-bold text-gray-800 mb-1">📈 あなたのステータス</h3>
-            <p className="text-xs text-gray-400 mb-4">診断結果から算出された10軸の傾向値</p>
-            <div className="space-y-3">
-              {(() => {
-                const stats = record.stats!;
-                const sortedStats = statDefinitions
-                  .map((def) => ({ ...def, value: stats[def.key] ?? 0 }))
-                  .sort((a, b) => b.value - a.value);
-                const maxVal = Math.max(...sortedStats.map((s) => s.value), 1);
-                return sortedStats.map((stat) => {
-                  const percentage = Math.max(5, (stat.value / maxVal) * 100);
-                  return (
-                    <div key={stat.key} className="flex items-center gap-3">
-                      <span className="text-lg w-8 text-center">{stat.emoji}</span>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-medium text-gray-600">{stat.label}</span>
-                          <span className="text-xs text-gray-400 font-mono">{stat.value}</span>
-                        </div>
-                        <div className="w-full bg-gray-100 rounded-full h-2">
-                          <div
-                            className={`h-2 rounded-full transition-all duration-700 ${stat.color}`}
-                            style={{ width: `${percentage}%` }}
-                          />
-                        </div>
-                      </div>
+            <h3 className="text-base font-bold text-gray-800 mb-4">🧭 あなたの価値観</h3>
+            <div className="space-y-4">
+              {valueDefinitions.map((vd) => {
+                const val = record.values[vd.key];
+                return (
+                  <div key={vd.key}>
+                    <div className="flex justify-between text-xs text-gray-400 mb-1">
+                      <span>{vd.lowLabel}</span>
+                      <span className="font-semibold text-gray-600">{vd.emoji} {vd.label}</span>
+                      <span>{vd.highLabel}</span>
                     </div>
-                  );
-                });
-              })()}
+                    <div className="relative w-full bg-gray-100 rounded-full h-3">
+                      <div
+                        className="absolute top-0 left-0 bg-gradient-to-r from-amber-300 to-orange-400 h-3 rounded-full transition-all duration-700"
+                        style={{ width: `${val}%` }}
+                      />
+                      {/* Center marker */}
+                      <div className="absolute top-0 left-1/2 w-0.5 h-3 bg-gray-300" />
+                    </div>
+                    <p className="text-[10px] text-gray-400 mt-0.5">{vd.description}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
 
         {/* AIレビュー */}
         <DiagnosisAIReviewSection
-          primaryTrait={record.primaryTrait}
-          secondaryTrait={record.secondaryTrait}
-          traits={record.traits}
-          stats={record.stats}
+          primaryStat={record.primaryStat}
+          secondaryStat={record.secondaryStat}
+          values={record.values}
         />
 
         {/* タブ切り替え */}
@@ -254,7 +246,7 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
               <h4 className="text-sm font-bold text-gray-800 mb-3">📋 全タイプ一覧</h4>
               <div className="grid grid-cols-2 gap-2">
                 {diagnosisTypes.map((type) => {
-                  const isActive = type.key === record.primaryTrait;
+                  const isActive = type.key === record.primaryStat;
                   return (
                     <div
                       key={type.key}
@@ -327,34 +319,34 @@ function TextCard({ title, text }: { title: string; text: string }) {
 function getCombinationAdvice(primary: DiagnosisType, secondary: DiagnosisType): string {
   const combos: Record<string, string> = {
     'communication+planning': '人を巻き込みながら企画を実現する力があります。プロデューサーや営業企画で大活躍するタイプ。',
-    'communication+care': '相手への共感力と発信力を兼ね備え、教育やカウンセリング、HR領域で輝くタイプ。',
-    'communication+creative': '表現力とコミュ力の掛け算で、プレゼンやPR、広告の世界で無双できるタイプ。',
-    'communication+challenge': '情熱的にビジョンを語り、人を動かすリーダー。起業や新規事業で天性の才能を発揮。',
-    'communication+analysis': '論理的な説得力と対人スキルを両立。コンサルタントや経営企画で重宝されるタイプ。',
-    'communication+technical': '技術を人に分かりやすく伝えられる希少人材。テクニカルセールスやIT PMで活躍。',
-    'communication+stability': '安定感のある人間関係を築き、長期的な信頼を勝ち取れる。金融営業や公務員向き。',
-    'planning+creative': 'アイデアを形にする実行力がある。企画職やプロデューサー、マーケティングの花形。',
-    'planning+analysis': '戦略を論理的に組み立てられる頭脳派。経営コンサルやマーケティング戦略で無敵。',
-    'planning+challenge': 'ビジョンと行動力を兼ね備えた起業家タイプ。新規事業や経営で力を発揮。',
-    'planning+care': '人のニーズを考えた企画ができる。教育プログラムの設計や福祉サービスの企画に強い。',
-    'planning+technical': '技術的な裏付けのある企画ができる。プロダクトマネージャーやシステム企画で活躍。',
-    'planning+stability': '計画を着実に実行できる安定感。プロジェクトマネージャーや管理職で信頼を得るタイプ。',
-    'analysis+technical': '高い専門性と論理的思考を武器に、研究開発やデータサイエンスでトップクラスの成果を出せるタイプ。',
-    'analysis+stability': '正確さと堅実さが光る。監査、会計、品質管理など、ミスが許されない分野で最大の力を発揮。',
-    'analysis+creative': 'データに基づく独創的なアイデアを出せる希少人材。UXリサーチやデータアートの分野で注目される。',
-    'analysis+challenge': '素早い分析と行動力の掛け算。トレーダーやベンチャーのCTO候補タイプ。',
-    'analysis+care': '人の悩みを論理的に解決できる。カウンセラーや社会課題解決のスペシャリスト向き。',
-    'stability+care': '安心感と思いやりの両立。看護師、教師、公務員など「安定×人への貢献」で長く活躍。',
-    'stability+technical': '着実に専門性を積み上げる職人気質。長年のキャリアで業界の重鎮になるタイプ。',
-    'stability+creative': 'こだわりの品質で作品を作り上げる。伝統工芸やブランドのクラフトマンシップに向く。',
-    'stability+challenge': '普段は堅実だが、ここぞという時に大胆な決断ができるバランス型。管理職として最も信頼されるタイプ。',
-    'challenge+creative': '常識にとらわれない革新者。アーティスト、起業家、新しいジャンルを切り開くパイオニア。',
-    'challenge+technical': '最先端技術に飛び込むイノベーター。AIスタートアップやR&Dで世界を変えるタイプ。',
-    'challenge+care': '社会課題に情熱を持って取り組む社会起業家タイプ。NPOやソーシャルビジネスの旗振り役。',
-    'creative+care': '人の心に響く作品を作れるアーティスト。絵本作家、福祉デザイン、セラピーアートに適性。',
-    'creative+technical': '技術とアートの融合。ゲームクリエイター、CG技術者、インタラクティブアートの世界で輝く。',
-    'creative+stability': 'コツコツと作品を磨き上げる職人アーティスト。品質にこだわるデザイナーやクラフトマン。',
-    'care+technical': '専門技術で人を助ける。医療技術者、リハビリ職、エンジニアリングで社会貢献するタイプ。',
+    'communication+empathy': '相手への共感力と発信力を兼ね備え、教育やカウンセリング、HR領域で輝くタイプ。',
+    'communication+creativity': '表現力とコミュ力の掛け算で、プレゼンやPR、広告の世界で無双できるタイプ。',
+    'communication+initiative': '情熱的にビジョンを語り、人を動かすリーダー。起業や新規事業で天性の才能を発揮。',
+    'communication+logical_thinking': '論理的な説得力と対人スキルを両立。コンサルタントや経営企画で重宝されるタイプ。',
+    'communication+problem_solving': '技術を人に分かりやすく伝えられる希少人材。テクニカルセールスやIT PMで活躍。',
+    'communication+resilience': '安定感のある人間関係を築き、長期的な信頼を勝ち取れる。金融営業や公務員向き。',
+    'planning+creativity': 'アイデアを形にする実行力がある。企画職やプロデューサー、マーケティングの花形。',
+    'planning+logical_thinking': '戦略を論理的に組み立てられる頭脳派。経営コンサルやマーケティング戦略で無敵。',
+    'planning+initiative': 'ビジョンと行動力を兼ね備えた起業家タイプ。新規事業や経営で力を発揮。',
+    'planning+empathy': '人のニーズを考えた企画ができる。教育プログラムの設計や福祉サービスの企画に強い。',
+    'planning+problem_solving': '技術的な裏付けのある企画ができる。プロダクトマネージャーやシステム企画で活躍。',
+    'planning+resilience': '計画を着実に実行できる安定感。プロジェクトマネージャーや管理職で信頼を得るタイプ。',
+    'logical_thinking+problem_solving': '高い専門性と論理的思考を武器に、研究開発やデータサイエンスでトップクラスの成果を出せるタイプ。',
+    'logical_thinking+resilience': '正確さと堅実さが光る。監査、会計、品質管理など、ミスが許されない分野で最大の力を発揮。',
+    'logical_thinking+creativity': 'データに基づく独創的なアイデアを出せる希少人材。UXリサーチやデータアートの分野で注目される。',
+    'logical_thinking+initiative': '素早い分析と行動力の掛け算。トレーダーやベンチャーのCTO候補タイプ。',
+    'logical_thinking+empathy': '人の悩みを論理的に解決できる。カウンセラーや社会課題解決のスペシャリスト向き。',
+    'resilience+empathy': '安心感と思いやりの両立。看護師、教師、公務員など「安定×人への貢献」で長く活躍。',
+    'resilience+problem_solving': '着実に専門性を積み上げる職人気質。長年のキャリアで業界の重鎮になるタイプ。',
+    'resilience+creativity': 'こだわりの品質で作品を作り上げる。伝統工芸やブランドのクラフトマンシップに向く。',
+    'resilience+initiative': '普段は堅実だが、ここぞという時に大胆な決断ができるバランス型。管理職として最も信頼されるタイプ。',
+    'initiative+creativity': '常識にとらわれない革新者。アーティスト、起業家、新しいジャンルを切り開くパイオニア。',
+    'initiative+problem_solving': '最先端技術に飛び込むイノベーター。AIスタートアップやR&Dで世界を変えるタイプ。',
+    'initiative+empathy': '社会課題に情熱を持って取り組む社会起業家タイプ。NPOやソーシャルビジネスの旗振り役。',
+    'creativity+empathy': '人の心に響く作品を作れるアーティスト。絵本作家、福祉デザイン、セラピーアートに適性。',
+    'creativity+problem_solving': '技術とアートの融合。ゲームクリエイター、CG技術者、インタラクティブアートの世界で輝く。',
+    'creativity+resilience': 'コツコツと作品を磨き上げる職人アーティスト。品質にこだわるデザイナーやクラフトマン。',
+    'empathy+problem_solving': '専門技術で人を助ける。医療技術者、リハビリ職、エンジニアリングで社会貢献するタイプ。',
   };
 
   const key1 = `${primary.key}+${secondary.key}`;

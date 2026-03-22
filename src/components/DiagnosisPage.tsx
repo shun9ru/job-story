@@ -1,33 +1,19 @@
 import { useState, useMemo } from 'react';
-import { getRandomQuestions, getDiagnosisType, getSecondaryTrait } from '../data/diagnosis';
-import type { TraitKey, StatKey, GameMode } from '../types';
+import { getRandomQuestions, getDiagnosisType, getPrimaryStatFromValues, getSecondaryStatFromValues } from '../data/diagnosis';
+import type { StatKey, ValueKey, GameMode } from '../types';
+import { initialStats, initialValues, valueDefinitions } from '../data/stats';
+import { BgImage } from './BgImage';
 
 interface DiagnosisPageProps {
   gameMode: GameMode;
   diagnosisOnly?: boolean;
-  onAnswer: (effects: Partial<Record<TraitKey, number>>) => void;
+  onAnswer: (effects: Partial<Record<StatKey, number>>) => void;
   onComplete: (
-    traits: Record<TraitKey, number>,
-    primaryKey: TraitKey,
-    secondaryKey: TraitKey,
     stats: Record<StatKey, number>,
+    values: Record<ValueKey, number>,
+    primaryKey: StatKey,
+    secondaryKey: StatKey,
   ) => void;
-}
-
-/** トレイトスコアからベースのステータスを算出 */
-function traitsToBaseStats(traits: Record<TraitKey, number>): Record<StatKey, number> {
-  return {
-    satisfaction: 0,
-    income: 0,
-    growth: traits.challenge,
-    stability: traits.stability,
-    communication: traits.communication,
-    planning: traits.planning,
-    analysis: traits.analysis,
-    creative: traits.creative,
-    care: traits.care,
-    technical: traits.technical,
-  };
 }
 
 /** 簡易性格診断画面（ランダム出題） */
@@ -36,54 +22,38 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const [traits, setTraits] = useState<Record<TraitKey, number>>({
-    communication: 0,
-    planning: 0,
-    analysis: 0,
-    stability: 0,
-    challenge: 0,
-    creative: 0,
-    care: 0,
-    technical: 0,
-  });
-  // satisfaction / income / growth の追加ステータス蓄積
-  const [extraStats, setExtraStats] = useState<Record<StatKey, number>>({
-    satisfaction: 0,
-    income: 0,
-    growth: 0,
-    stability: 0,
-    communication: 0,
-    planning: 0,
-    analysis: 0,
-    creative: 0,
-    care: 0,
-    technical: 0,
-  });
+  const [stats, setStats] = useState<Record<StatKey, number>>({ ...initialStats });
+  const [values, setValues] = useState<Record<ValueKey, number>>({ ...initialValues });
 
   const totalQuestions = questions.length;
   const question = currentIndex < totalQuestions ? questions[currentIndex] : null;
 
   const handleSelect = (
-    effects: Partial<Record<TraitKey, number>>,
+    effects: Partial<Record<StatKey, number>>,
     statEffects?: Partial<Record<StatKey, number>>,
+    valueEffects?: Partial<Record<ValueKey, number>>,
   ) => {
-    const newTraits = { ...traits };
+    const newStats = { ...stats };
     for (const [key, value] of Object.entries(effects)) {
-      newTraits[key as TraitKey] += value!;
+      newStats[key as StatKey] += value!;
     }
-    setTraits(newTraits);
-
     if (statEffects) {
-      setExtraStats((prev) => {
-        const next = { ...prev };
-        for (const [key, value] of Object.entries(statEffects)) {
-          next[key as StatKey] += value!;
-        }
-        return next;
-      });
+      for (const [key, value] of Object.entries(statEffects)) {
+        newStats[key as StatKey] += value!;
+      }
+    }
+    setStats(newStats);
+
+    // Apply value effects (clamp 0-100)
+    if (valueEffects) {
+      const newValues = { ...values };
+      for (const [key, value] of Object.entries(valueEffects)) {
+        newValues[key as ValueKey] = Math.max(0, Math.min(100, newValues[key as ValueKey] + value!));
+      }
+      setValues(newValues);
     }
 
-    onAnswer(effects);
+    onAnswer({});
 
     if (currentIndex + 1 >= totalQuestions) {
       setShowResult(true);
@@ -92,33 +62,28 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
     }
   };
 
-  /** トレイト + 追加statEffects を合算した最終ステータス */
-  const computeFinalStats = (): Record<StatKey, number> => {
-    const base = traitsToBaseStats(traits);
-    const final = { ...base };
-    for (const [key, value] of Object.entries(extraStats)) {
-      final[key as StatKey] += value;
-    }
-    return final;
-  };
-
   // 結果表示
   if (showResult) {
-    const primaryKey = (Object.entries(traits) as [TraitKey, number][]).sort(
-      (a, b) => b[1] - a[1],
-    )[0][0];
+    const primaryKey = getPrimaryStatFromValues(values);
     const diagType = getDiagnosisType(primaryKey);
-    const secondaryKey = getSecondaryTrait(traits);
+    const secondaryKey = getSecondaryStatFromValues(values);
     const subType = getDiagnosisType(secondaryKey);
-    const finalStats = computeFinalStats();
 
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center animate-bounce-in">
-          <p className="text-sm text-indigo-500 font-semibold mb-2">
+      <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-violet-100 via-indigo-50 to-pink-50 relative overflow-hidden">
+        {/* Celebration background */}
+        <div className="animated-bg">
+          <div className="absolute top-[10%] left-[10%] w-48 h-48 rounded-full bg-purple-200/20 animate-float-slow" />
+          <div className="absolute bottom-[20%] right-[10%] w-40 h-40 rounded-full bg-pink-200/20 animate-float-medium" />
+        </div>
+        <div className="absolute top-[8%] right-[15%] text-2xl animate-float-slow opacity-30 select-none">🎉</div>
+        <div className="absolute bottom-[12%] left-[12%] text-2xl animate-float-medium opacity-25 select-none">🌟</div>
+
+        <div className="max-w-md w-full bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl shadow-indigo-100/50 p-8 text-center animate-bounce-in relative z-10 border border-white/50">
+          <p className="text-sm bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-semibold mb-2">
             診断結果
           </p>
-          <div className="text-6xl mb-3">{diagType.emoji}</div>
+          <div className="text-6xl mb-3 animate-scale-in">{diagType.emoji}</div>
           <h2 className="text-2xl font-bold text-gray-800 mb-1">
             あなたは「{diagType.label}」
           </h2>
@@ -130,15 +95,40 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
           </p>
 
           {/* サブタイプ */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-full mb-5 border border-indigo-100">
             <span className="text-lg">{subType.emoji}</span>
             <span className="text-xs text-gray-500">
               サブタイプ: <span className="font-semibold text-gray-700">{subType.label}</span>
             </span>
           </div>
 
+          {/* 価値観プレビュー */}
+          <div className="text-left bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 mb-5 border border-amber-100">
+            <p className="text-xs font-bold text-amber-700 mb-3">🧭 あなたの価値観</p>
+            <div className="space-y-2.5">
+              {valueDefinitions.map((vd) => {
+                const val = values[vd.key];
+                return (
+                  <div key={vd.key}>
+                    <div className="flex justify-between text-[10px] text-gray-400 mb-0.5">
+                      <span>{vd.lowLabel}</span>
+                      <span className="font-medium text-gray-600">{vd.emoji} {vd.label}</span>
+                      <span>{vd.highLabel}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                      <div
+                        className="bg-gradient-to-r from-amber-300 to-orange-400 h-1.5 rounded-full transition-all duration-500"
+                        style={{ width: `${val}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* 強み3つをプレビュー */}
-          <div className="text-left bg-emerald-50 rounded-xl p-4 mb-6">
+          <div className="text-left bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4 mb-6 border border-emerald-100">
             <p className="text-xs font-bold text-emerald-700 mb-2">💪 あなたの強み</p>
             <ul className="space-y-1">
               {diagType.strengths.slice(0, 3).map((s, i) => (
@@ -155,8 +145,8 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
           </p>
 
           <button
-            onClick={() => onComplete(traits, primaryKey, secondaryKey, finalStats)}
-            className="px-8 py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-full shadow transition-all duration-200 active:scale-95 cursor-pointer"
+            onClick={() => onComplete({ ...initialStats }, values, primaryKey, secondaryKey)}
+            className="btn-glow px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold rounded-full shadow-lg shadow-indigo-200/50 transition-all duration-200 active:scale-95 cursor-pointer"
           >
             {diagnosisOnly
               ? '詳しい結果を見る 🔮'
@@ -170,11 +160,17 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-amber-50">
-      <div className="max-w-lg w-full animate-fade-in">
+    <BgImage imageKey="diagnosis" overlay={0.45} className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-violet-100 via-indigo-50 via-50% to-amber-50 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="animated-bg">
+        <div className="absolute top-[20%] right-[8%] w-40 h-40 rounded-full bg-purple-200/15 animate-float-slow" />
+        <div className="absolute bottom-[15%] left-[8%] w-48 h-48 rounded-full bg-amber-200/10 animate-float-medium" />
+      </div>
+
+      <div className="max-w-lg w-full animate-fade-in relative z-10">
         {/* モードバッジ */}
         <div className="text-center mb-4">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/80 rounded-full text-xs font-medium text-gray-500 shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/80 backdrop-blur rounded-full text-xs font-medium text-gray-500 shadow-sm border border-white/50">
             {diagnosisOnly ? '🔮 性格診断' : gameMode === 'childhood' ? '🎒 子供時代→就活コース' : '💼 社会人編'}
           </span>
         </div>
@@ -185,9 +181,9 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
             <span>質問 {currentIndex + 1} / {totalQuestions}</span>
             <span>🔮 性格診断</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200/60 rounded-full h-2.5 backdrop-blur">
             <div
-              className="bg-indigo-400 h-2 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-indigo-400 to-purple-400 h-2.5 rounded-full transition-all duration-500 progress-glow"
               style={{
                 width: `${((currentIndex + 1) / totalQuestions) * 100}%`,
               }}
@@ -196,9 +192,9 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
         </div>
 
         {/* 質問カード */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 animate-slide-up" key={question!.id}>
+        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl shadow-indigo-100/30 p-6 sm:p-8 animate-slide-up border border-white/50" key={question!.id}>
           {question!.emoji && (
-            <div className="text-3xl mb-3">{question!.emoji}</div>
+            <div className="text-3xl mb-3 animate-scale-in">{question!.emoji}</div>
           )}
           <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-6 leading-relaxed">
             {question!.text}
@@ -208,8 +204,8 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
             {question!.options.map((option, i) => (
               <button
                 key={i}
-                onClick={() => handleSelect(option.effects, option.statEffects)}
-                className="w-full text-left p-4 border-2 border-gray-100 rounded-xl hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 active:scale-[0.98] cursor-pointer group"
+                onClick={() => handleSelect(option.effects, option.statEffects, option.valueEffects)}
+                className="w-full text-left p-4 border-2 border-gray-100/80 rounded-xl hover:border-indigo-300 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition-all duration-200 active:scale-[0.98] cursor-pointer group bg-white/60"
               >
                 <div className="flex items-center gap-3">
                   {option.emoji && (
@@ -226,6 +222,6 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
           </div>
         </div>
       </div>
-    </div>
+    </BgImage>
   );
 }

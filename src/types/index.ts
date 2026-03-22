@@ -15,6 +15,52 @@ export interface Job {
   tags: string[];
 }
 
+/** スキルステータスのキー（18項目・4カテゴリ） */
+export type StatKey =
+  // ① 思考力（Thinking Skills）
+  | 'logical_thinking'    // 論理的思考力
+  | 'problem_solving'     // 問題解決力
+  | 'critical_thinking'   // 批判的思考力
+  | 'creativity'          // 創造力
+  | 'learning_agility'    // 学習力
+  // ② 自己管理力（Self Management）
+  | 'initiative'          // 主体性
+  | 'grit'                // 継続力
+  | 'self_management'     // 自己管理能力
+  | 'resilience'          // レジリエンス
+  | 'self_awareness'      // 自己理解
+  // ③ 対人能力（Social Skills）
+  | 'communication'       // コミュニケーション力
+  | 'listening'           // 傾聴力
+  | 'empathy'             // 共感力
+  | 'teamwork'            // 協働力
+  | 'leadership'          // リーダーシップ
+  // ④ 実行力（Execution Skills）
+  | 'planning'            // 計画力
+  | 'decision_making'     // 意思決定力
+  | 'action';             // 行動力
+
+/** スキルカテゴリ */
+export type SkillCategory = 'thinking' | 'self_management' | 'social' | 'execution';
+
+/** 価値観キー（診断専用・5項目） */
+export type ValueKey =
+  | 'income_orientation'       // 年収志向
+  | 'stability_orientation'    // 安定志向
+  | 'growth_orientation'       // 成長志向
+  | 'work_life_balance'        // ワークライフバランス志向
+  | 'social_contribution';     // 社会貢献志向
+
+/** 価値観の表示情報 */
+export interface ValueInfo {
+  key: ValueKey;
+  label: string;
+  emoji: string;
+  lowLabel: string;   // 0側のラベル
+  highLabel: string;  // 100側のラベル
+  description: string;
+}
+
 /** 診断の質問 */
 export interface DiagnosisQuestion {
   id: string;
@@ -23,26 +69,15 @@ export interface DiagnosisQuestion {
   options: {
     text: string;
     emoji?: string;
-    effects: Partial<Record<TraitKey, number>>;
-    /** 10軸ステータスへの効果（satisfaction, income など TraitKey に含まれない軸用） */
+    effects: Partial<Record<StatKey, number>>;
     statEffects?: Partial<Record<StatKey, number>>;
+    valueEffects?: Partial<Record<ValueKey, number>>;
   }[];
 }
 
-/** プレイヤーの性格傾向キー（8種類） */
-export type TraitKey =
-  | 'communication'
-  | 'planning'
-  | 'analysis'
-  | 'stability'
-  | 'challenge'
-  | 'creative'
-  | 'care'
-  | 'technical';
-
-/** 診断タイプ（MBTI級の詳細解説） */
+/** 診断タイプ（性格傾向の詳細解説） */
 export interface DiagnosisType {
-  key: TraitKey;
+  key: StatKey;
   label: string;
   emoji: string;
   tagline: string;
@@ -54,8 +89,8 @@ export interface DiagnosisType {
   idealEnvironment: string;
   stressSource: string;
   growthAdvice: string;
-  compatibleTypes: TraitKey[];
-  challengingTypes: TraitKey[];
+  compatibleTypes: StatKey[];
+  challengingTypes: StatKey[];
   suitableJobs: string[];
   famousPersonas: string[];
 }
@@ -64,11 +99,10 @@ export interface DiagnosisType {
 export interface DiagnosisRecord {
   id: string;
   date: string;
-  primaryTrait: TraitKey;
-  secondaryTrait: TraitKey;
-  traits: Record<TraitKey, number>;
-  /** 診断から得られた10軸ステータス */
-  stats?: Record<StatKey, number>;
+  primaryStat: StatKey;
+  secondaryStat: StatKey;
+  stats: Record<StatKey, number>;
+  values: Record<ValueKey, number>;
   gameMode?: GameMode;
 }
 
@@ -109,28 +143,12 @@ export interface Choice {
   nextEventId?: string;
 }
 
-/** プレイヤーステータスのキー */
-export type StatKey =
-  | 'satisfaction'
-  | 'income'
-  | 'growth'
-  | 'stability'
-  | 'communication'
-  | 'planning'
-  | 'analysis'
-  | 'creative'
-  | 'care'
-  | 'technical';
-
 /** プレイヤーの状態 */
 export interface PlayerState {
   stats: Record<StatKey, number>;
-  /** 診断から得られたステータス（ストーリーとは別管理） */
-  diagnosisStats?: Record<StatKey, number>;
   discoveredJobIds: string[];
   selectedChoices: { eventId: string; choiceId: string }[];
-  diagnosisTraits: Record<TraitKey, number>;
-  primaryTrait: TraitKey;
+  primaryStat: StatKey;
 }
 
 /** ステータス表示用の情報 */
@@ -140,4 +158,12 @@ export interface StatInfo {
   emoji: string;
   color: string;
   description: string;
+  category: SkillCategory;
+}
+
+/** カテゴリ表示用の情報 */
+export interface SkillCategoryInfo {
+  key: SkillCategory;
+  label: string;
+  emoji: string;
 }

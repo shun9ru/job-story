@@ -2,16 +2,18 @@ import { useState, useMemo, useCallback } from 'react';
 import type { StatKey } from '../types';
 import { analyzePersonality, generateAIPersonality } from '../utils/personality';
 import type { PersonalityResult } from '../utils/personality';
-import { getFromCache, saveToCache } from '../lib/ai-cache';
+import { getFromCache, saveToCache, getDailyRemaining, consumeDailyQuota, refundDailyQuota } from '../lib/ai-cache';
+import { statDefinitions, skillCategories } from '../data/stats';
 
 const CACHE_NS = 'personality';
 
 interface PersonalityAnalysisProps {
   stats: Record<StatKey, number>;
+  diagnosisStats?: Record<StatKey, number>;
 }
 
 /** パーソナリティ分析セクション */
-export function PersonalityAnalysis({ stats }: PersonalityAnalysisProps) {
+export function PersonalityAnalysis({ stats, diagnosisStats }: PersonalityAnalysisProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   // キャッシュチェック
@@ -21,9 +23,10 @@ export function PersonalityAnalysis({ stats }: PersonalityAnalysisProps) {
   );
 
   const [aiResult, setAiResult] = useState<PersonalityResult | null>(cached);
-  const [aiStatus, setAiStatus] = useState<'idle' | 'loading' | 'done' | 'error'>(
+  const [aiStatus, setAiStatus] = useState<'idle' | 'loading' | 'done' | 'error' | 'rate-limited'>(
     cached ? 'done' : 'idle',
   );
+  const [cooldown, setCooldown] = useState(false);
 
   // フォールバック（固定文）
   const fallback = useMemo(() => analyzePersonality(stats), [stats]);
@@ -33,9 +36,16 @@ export function PersonalityAnalysis({ stats }: PersonalityAnalysisProps) {
 
   // AI生成
   const runAI = useCallback(async () => {
+    if (cooldown) return;
+    if (!consumeDailyQuota()) {
+      setAiStatus('rate-limited');
+      return;
+    }
     setAiStatus('loading');
     setAiResult(null);
     setOpenIndex(null);
+    setCooldown(true);
+    setTimeout(() => setCooldown(false), 10_000);
     try {
       const generated = await generateAIPersonality(stats);
       setAiResult(generated);
@@ -43,9 +53,10 @@ export function PersonalityAnalysis({ stats }: PersonalityAnalysisProps) {
       saveToCache(CACHE_NS, stats as unknown as Record<string, unknown>, generated);
     } catch (e) {
       console.error('AI分析エラー:', e);
+      refundDailyQuota();
       setAiStatus('error');
     }
-  }, [stats]);
+  }, [stats, cooldown]);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
@@ -66,7 +77,8 @@ export function PersonalityAnalysis({ stats }: PersonalityAnalysisProps) {
         {aiStatus === 'error' && (
           <button
             onClick={runAI}
-            className="text-xs text-amber-500 hover:text-amber-600 cursor-pointer font-medium"
+            disabled={cooldown}
+            className="text-xs text-amber-500 hover:text-amber-600 cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             再生成
           </button>
@@ -86,6 +98,58 @@ export function PersonalityAnalysis({ stats }: PersonalityAnalysisProps) {
         <h4 className="text-lg font-bold text-gray-800 mt-2">{result.title}</h4>
         <p className="text-xs text-indigo-500 font-medium mt-1">{result.tagline}</p>
       </div>
+
+      {/* スキル分布（カテゴリ別） */}
+      {diagnosisStats && (
+        <div className="mb-4">
+          <p className="text-xs font-bold text-gray-600 mb-3 flex items-center gap-1.5">
+            🔮 性格診断スキル分布
+          </p>
+          {skillCategories.map((cat) => {
+            const defs = statDefinitions.filter((d) => d.category === cat.key);
+            const hasValues = defs.some((d) => diagnosisStats[d.key] > 0);
+            if (!hasValues) return null;
+            return (
+              <div key={cat.key} className="mb-3">
+                <p className="text-[10px] text-gray-400 font-medium mb-1.5 flex items-center gap-1">
+                  <span>{cat.emoji}</span>{cat.label}
+                </p>
+                <div className="space-y-1.5">
+                  {defs.map((def) => {
+                    const value = diagnosisStats[def.key];
+                    const maxVal = Math.max(...Object.values(diagnosisStats), 1);
+                    const pct = Math.round((value / maxVal) * 100);
+                    return (
+                      <div key={def.key} className="flex items-center gap-2">
+                        <span className="text-sm w-5 text-center">{def.emoji}</span>
+                        <span className="text-[11px] text-gray-500 w-16 shrink-0">{def.label}</span>
+                        <div className="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden">
+                          <div
+                            className={`${def.color} h-full rounded-full transition-all duration-500`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <span className="text-[11px] font-bold text-gray-600 w-6 text-right">{value}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* レート制限 */}
+      {aiStatus === 'rate-limited' && (
+        <div className="text-center py-4 mb-2">
+          <p className="text-2xl mb-2">⏳</p>
+          <p className="text-xs text-gray-500">
+            本日のAI生成回数の上限に達しました。<br />
+            明日またお試しください。
+          </p>
+        </div>
+      )}
 
       {/* アコーディオンセクション */}
       <div className="space-y-1">
@@ -120,19 +184,23 @@ export function PersonalityAnalysis({ stats }: PersonalityAnalysisProps) {
 
       {/* AI生成ボタン */}
       {aiStatus === 'idle' && (
-        <button
-          onClick={runAI}
-          className="w-full mt-4 py-2.5 text-xs font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg transition-all cursor-pointer shadow-sm"
-        >
-          🤖 AIでもっと詳しく分析する
-        </button>
+        <div>
+          <button
+            onClick={runAI}
+            className="w-full mt-4 py-2.5 text-xs font-medium text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg transition-all cursor-pointer shadow-sm"
+          >
+            🤖 AIでもっと詳しく分析する
+          </button>
+          <p className="text-[10px] text-gray-300 mt-1 text-center">本日の残り回数: {getDailyRemaining()}回</p>
+        </div>
       )}
       {aiStatus === 'done' && (
         <button
           onClick={runAI}
-          className="w-full mt-4 py-2 text-xs font-medium text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
+          disabled={cooldown || getDailyRemaining() <= 0}
+          className="w-full mt-4 py-2 text-xs font-medium text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          別の視点で再分析する
+          {cooldown ? '⏳ しばらくお待ちください...' : `別の視点で再分析する（残り${getDailyRemaining()}回）`}
         </button>
       )}
     </div>

@@ -1,53 +1,63 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { TraitKey, StatKey } from '../types';
+import type { StatKey, ValueKey } from '../types';
 import { generateDiagnosisAIReview } from '../utils/personality';
 import type { DiagnosisAIReview } from '../utils/personality';
-import { getFromCache, saveToCache } from '../lib/ai-cache';
+import { getFromCache, saveToCache, getDailyRemaining, consumeDailyQuota, refundDailyQuota } from '../lib/ai-cache';
 
 const CACHE_NS = 'diag_review';
 
 interface DiagnosisAIReviewProps {
-  primaryTrait: TraitKey;
-  secondaryTrait: TraitKey;
-  traits: Record<TraitKey, number>;
-  stats?: Record<StatKey, number>;
+  primaryStat: StatKey;
+  secondaryStat: StatKey;
+  values: Record<ValueKey, number>;
 }
 
 /** 診断結果のAIレビューセクション */
 export function DiagnosisAIReviewSection({
-  primaryTrait,
-  secondaryTrait,
-  traits,
-  stats,
+  primaryStat,
+  secondaryStat,
+  values,
 }: DiagnosisAIReviewProps) {
   // キャッシュキー用の入力
   const cacheInput = useMemo(
-    () => ({ primaryTrait, secondaryTrait, traits, stats } as unknown as Record<string, unknown>),
-    [primaryTrait, secondaryTrait, traits, stats],
+    () => ({ primaryStat, secondaryStat, values } as unknown as Record<string, unknown>),
+    [primaryStat, secondaryStat, values],
   );
 
   const cached = useMemo(() => getFromCache<DiagnosisAIReview>(CACHE_NS, cacheInput), [cacheInput]);
 
   const [review, setReview] = useState<DiagnosisAIReview | null>(cached);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>(
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error' | 'rate-limited'>(
     cached ? 'done' : 'idle',
   );
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [cooldown, setCooldown] = useState(false);
+
+  const remaining = getDailyRemaining();
 
   const generate = useCallback(async () => {
+    if (cooldown) return;
+    if (!consumeDailyQuota()) {
+      setStatus('rate-limited');
+      return;
+    }
     setStatus('loading');
     setReview(null);
     setOpenIndex(null);
+    // 再生成後30秒のクールダウン
+    setCooldown(true);
+    setTimeout(() => setCooldown(false), 10_000);
     try {
-      const result = await generateDiagnosisAIReview(primaryTrait, secondaryTrait, traits, stats);
+      const result = await generateDiagnosisAIReview(primaryStat, secondaryStat, values);
       setReview(result);
       setStatus('done');
       saveToCache(CACHE_NS, cacheInput, result);
     } catch (e) {
       console.error('AI診断レビューエラー:', e);
+      refundDailyQuota();
       setStatus('error');
     }
-  }, [primaryTrait, secondaryTrait, traits, stats, cacheInput]);
+  }, [primaryStat, secondaryStat, values, cacheInput, cooldown]);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
@@ -67,7 +77,8 @@ export function DiagnosisAIReviewSection({
         {status === 'error' && (
           <button
             onClick={generate}
-            className="text-xs text-amber-500 hover:text-amber-600 cursor-pointer font-medium"
+            disabled={cooldown}
+            className="text-xs text-amber-500 hover:text-amber-600 cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             再生成
           </button>
@@ -78,7 +89,7 @@ export function DiagnosisAIReviewSection({
       {status === 'idle' && (
         <div className="text-center py-6">
           <p className="text-xs text-gray-400 mb-4">
-            AIがあなたの診断結果を深掘りしてレビューします
+            AIがあなたの価値観診断を深掘りしてレビューします
           </p>
           <button
             onClick={generate}
@@ -86,6 +97,7 @@ export function DiagnosisAIReviewSection({
           >
             🤖 AIレビューを生成する
           </button>
+          <p className="text-[10px] text-gray-300 mt-2">本日の残り回数: {remaining}回</p>
         </div>
       )}
 
@@ -93,7 +105,7 @@ export function DiagnosisAIReviewSection({
       {status === 'loading' && (
         <div className="py-4">
           <p className="text-xs text-gray-400 mb-4">
-            AIがあなたの診断結果を分析しています...
+            AIがあなたの価値観を分析しています...
           </p>
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
@@ -104,6 +116,17 @@ export function DiagnosisAIReviewSection({
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* レート制限 */}
+      {status === 'rate-limited' && (
+        <div className="text-center py-6">
+          <p className="text-2xl mb-2">⏳</p>
+          <p className="text-xs text-gray-500">
+            本日のAI生成回数の上限に達しました。<br />
+            明日またお試しください。
+          </p>
         </div>
       )}
 
@@ -154,9 +177,10 @@ export function DiagnosisAIReviewSection({
           {/* 再生成ボタン */}
           <button
             onClick={generate}
-            className="w-full mt-4 py-2 text-xs font-medium text-purple-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all cursor-pointer"
+            disabled={cooldown || getDailyRemaining() <= 0}
+            className="w-full mt-4 py-2 text-xs font-medium text-purple-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            別の視点で再レビューする
+            {cooldown ? '⏳ しばらくお待ちください...' : `別の視点で再レビューする（残り${getDailyRemaining()}回）`}
           </button>
         </>
       )}

@@ -5,7 +5,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'management-consultant',
     title: '経営コンサルタント',
-    industry: 'コンサルティング',
+    industry: '金融・コンサル',
     shortDescription: '社長が頭を抱える難題を、20代のあなたがホワイトボード1枚で解き明かす仕事',
     description: [
       '想像してみて。大企業の役員会議室で、売上が100億円落ちた原因を社長に聞かれる。あなたはデータを広げ、「原因はここです」と指し示す――それが入社3年目の日常',
@@ -45,7 +45,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'it-consultant',
     title: 'ITコンサルタント',
-    industry: 'コンサルティング・IT',
+    industry: 'IT・テクノロジー',
     shortDescription: '「このシステム変えたら売上2倍になりますよ」と企業の未来をテクノロジーで書き換える仕事',
     description: [
       'ある日の現場：紙の伝票が山積みの倉庫会社。あなたが設計したシステムが導入された翌月、残業時間が半分になり社員が泣いて喜んだ――ITの力で「働く人の毎日」を変えられる実感がある',
@@ -86,7 +86,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'hr-consultant',
     title: '人事コンサルタント',
-    industry: 'コンサルティング',
+    industry: '金融・コンサル',
     shortDescription: '「この会社、なんか雰囲気悪いな」を科学的に解明して、組織をよみがえらせる仕事',
     description: [
       '離職率30%の会社に入り込み、社員300人にインタビュー。見えてきたのは「頑張っても評価されない」という叫び。あなたが設計した新しい評価制度で、翌年の離職率が10%に激減する――組織を根っこから変える醍醐味',
@@ -126,7 +126,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'bank-staff',
     title: '銀行員',
-    industry: '金融',
+    industry: '金融・コンサル',
     shortDescription: '町のパン屋の夢も、100億円の工場建設も、あなたの「融資OK」で動き出す仕事',
     description: [
       '駅前で10年愛されたラーメン屋の店主が「2号店を出したい」と相談に来る。事業計画を一緒に練り上げ、融資を実行。半年後、行列のできる2号店の前を通るたび「自分が関わったんだ」と誇らしくなる',
@@ -166,7 +166,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'securities-sales',
     title: '証券営業',
-    industry: '金融',
+    industry: '金融・コンサル',
     shortDescription: '朝7時半、世界の市場が動く瞬間を読み、顧客の資産を守り増やす「お金の参謀」',
     description: [
       '朝、ニューヨーク市場の急落ニュースが飛び込む。すぐに顧客リストを開き、影響を受けるポートフォリオを特定。「今すぐ対応しましょう」の一本の電話が、顧客の数千万円を守る――毎日がリアルタイムの頭脳戦',
@@ -207,7 +207,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'fp',
     title: 'ファイナンシャルプランナー',
-    industry: '金融・保険',
+    industry: '金融・コンサル',
     shortDescription: '「子どもを大学に行かせたい」「老後が不安」――人生の夢と不安に、お金の地図を描く仕事',
     description: [
       '新婚夫婦が相談に来る。「マイホームと子どもの教育、両方叶えられますか？」。あなたは二人の収入、支出、夢を丁寧に聞き取り、30年先までのキャッシュフローを描く。「これなら大丈夫ですね！」と笑顔になった瞬間、この仕事の意味を実感する',
@@ -247,7 +247,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'actuary',
     title: 'アクチュアリー',
-    industry: '金融・保険',
+    industry: '金融・コンサル',
     shortDescription: '数学で「未来のリスク」を予測する、金融界最高峰の頭脳職',
     description: [
       '「20代男性が交通事故に遭う確率は？」「巨大台風が来年関東を直撃する確率は？」――こんな「未来の不確実性」を数式で捉えるのがアクチュアリー。あなたの計算した数字が、何百万人の保険料を決める。数学がそのまま社会を動かす、ロマンあふれる仕事',
@@ -287,7 +287,7 @@ export const consultingFinanceJobs: Job[] = [
   {
     id: 'investment-banker',
     title: '投資銀行部門',
-    industry: '金融',
+    industry: '金融・コンサル',
     shortDescription: '企業の合併、数千億円の資金調達――経済ニュースの裏側を動かす黒子',
     description: [
       'ある朝、日経新聞の一面に「A社がB社を3,000億円で買収」の見出し。実はその裏で半年間、あなたのチームが企業価値を算定し、交渉を支え、契約書を仕上げていた――ニュースを「読む側」から「作る側」になれる仕事',

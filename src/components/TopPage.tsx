@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { GameResultRecord } from '../utils/storage';
 import { getDiagnosisType } from '../data/diagnosis';
 import type { DiagnosisRecord } from '../types';
+import { BgImage } from './BgImage';
 
 interface TopPageProps {
   userId: string;
@@ -13,16 +15,76 @@ interface TopPageProps {
   onViewGameResult: (result: GameResultRecord) => void;
   onEncyclopedia: () => void;
   onLogout: () => void;
+  onToggleGameFavorite: (id: string) => void;
+  onDeleteGameResult: (id: string) => void;
+  onDeleteDiagnosis: (id: string) => void;
 }
 
 /** トップ画面 */
-export function TopPage({ userId, diagRecords, gameResults, dataLoaded, onStartStory, onStartDiagnosis, onViewDiagnosis, onViewGameResult, onEncyclopedia, onLogout }: TopPageProps) {
+export function TopPage({
+  userId,
+  diagRecords,
+  gameResults,
+  dataLoaded,
+  onStartStory,
+  onStartDiagnosis,
+  onViewDiagnosis,
+  onViewGameResult,
+  onEncyclopedia,
+  onLogout,
+  onToggleGameFavorite,
+  onDeleteGameResult,
+  onDeleteDiagnosis,
+}: TopPageProps) {
+  const [tab, setTab] = useState<'home' | 'history'>('home');
+  const [showAllGames, setShowAllGames] = useState(false);
+  const [showAllDiag, setShowAllDiag] = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+
+  // お気に入り順 → 日付降順でソート
+  const sortedGameResults = [...gameResults].sort((a, b) => {
+    if (a.favorite && !b.favorite) return -1;
+    if (!a.favorite && b.favorite) return 1;
+    return 0;
+  });
+
+  const displayedGames = showAllGames ? sortedGameResults : sortedGameResults.slice(0, 5);
+  const displayedDiag = showAllDiag ? diagRecords : diagRecords.slice(0, 5);
+
+  const handleDeleteGame = (id: string) => {
+    if (confirmDeleteId === id) {
+      onDeleteGameResult(id);
+      setConfirmDeleteId(null);
+    } else {
+      setConfirmDeleteId(id);
+      setTimeout(() => setConfirmDeleteId(null), 3000);
+    }
+  };
+
+  const handleDeleteDiag = (id: string) => {
+    if (confirmDeleteId === id) {
+      onDeleteDiagnosis(id);
+      setConfirmDeleteId(null);
+    } else {
+      setConfirmDeleteId(id);
+      setTimeout(() => setConfirmDeleteId(null), 3000);
+    }
+  };
+
+  const historyCount = gameResults.length + diagRecords.length;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gradient-to-br from-indigo-50 via-white to-amber-50">
+    <BgImage imageKey="top" overlay={0.5} className="min-h-screen flex flex-col bg-gradient-to-br from-violet-100 via-indigo-50 via-50% to-amber-50 relative overflow-hidden">
+      {/* Animated background */}
+      <div className="animated-bg">
+        <div className="absolute top-[10%] right-[5%] w-72 h-72 rounded-full bg-purple-200/15 animate-float-slow" />
+        <div className="absolute bottom-[20%] left-[5%] w-56 h-56 rounded-full bg-amber-200/15 animate-float-medium" />
+        <div className="absolute top-[40%] left-[50%] w-40 h-40 rounded-full bg-pink-200/10 animate-float-fast" />
+      </div>
+
       {/* ユーザー情報バー */}
-      <div className="absolute top-4 right-4 flex items-center gap-3">
-        <span className="text-sm text-gray-500">
+      <div className="absolute top-4 right-4 flex items-center gap-3 z-10">
+        <span className="text-sm text-gray-500 bg-white/60 backdrop-blur px-3 py-1 rounded-full">
           <span className="text-indigo-500 font-semibold">{userId}</span> でログイン中
         </span>
         <button
@@ -33,151 +95,285 @@ export function TopPage({ userId, diagRecords, gameResults, dataLoaded, onStartS
         </button>
       </div>
 
-      <div className="text-center animate-fade-in">
-        {/* ロゴ・タイトル */}
-        <div className="mb-6 flex items-center justify-center gap-3">
-          <span className="text-4xl">🎒</span>
-          <span className="text-3xl text-gray-300">→</span>
-          <span className="text-4xl">🎓</span>
-          <span className="text-3xl text-gray-300">→</span>
-          <span className="text-4xl">💼</span>
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-3 tracking-tight">
-          Job Story
-        </h1>
-        <p className="text-lg sm:text-xl text-gray-500 mb-2">
-          キャリア探索シミュレーション
-        </p>
-        <p className="text-sm text-gray-400 mb-10 max-w-md mx-auto leading-relaxed">
-          子供時代の「好き」から、未来の仕事を見つけよう。
-          <br />
-          選択であなただけのストーリーが生まれる。
-        </p>
-
-        {/* メインボタン2つ */}
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+      {/* タブナビゲーション */}
+      <div className="w-full flex justify-center pt-14 pb-2 relative z-10">
+        <div className="flex bg-white/60 backdrop-blur-lg rounded-full p-1 shadow-sm border border-white/50">
           <button
-            onClick={onStartStory}
-            className="px-8 py-4 bg-indigo-500 hover:bg-indigo-600 text-white text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 cursor-pointer"
+            onClick={() => setTab('home')}
+            className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-200 cursor-pointer ${
+              tab === 'home'
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md shadow-indigo-200/50'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-white/80'
+            }`}
           >
-            🎒 ストーリーで探す
+            🏠 ホーム
           </button>
           <button
-            onClick={onStartDiagnosis}
-            className="px-8 py-4 bg-purple-500 hover:bg-purple-600 text-white text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 cursor-pointer"
+            onClick={() => setTab('history')}
+            className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+              tab === 'history'
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md shadow-indigo-200/50'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-white/80'
+            }`}
           >
-            🔮 性格診断だけ
+            📋 プレイ履歴
+            {historyCount > 0 && (
+              <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                tab === 'history'
+                  ? 'bg-white/30 text-white'
+                  : 'bg-indigo-100 text-indigo-600'
+              }`}>
+                {historyCount}
+              </span>
+            )}
           </button>
-        </div>
-
-        {/* 職種図鑑ボタン */}
-        <button
-          onClick={onEncyclopedia}
-          className="mt-4 px-8 py-3 bg-white hover:bg-indigo-50 text-indigo-600 text-sm font-semibold rounded-full border-2 border-indigo-200 hover:border-indigo-400 shadow-sm hover:shadow transition-all duration-200 active:scale-95 cursor-pointer"
-        >
-          📖 職種図鑑
-        </button>
-
-        {/* 補足テキスト */}
-        <div className="mt-6 text-xs text-gray-400 space-y-1">
-          <p>ストーリー：診断＋シミュレーション（約5〜10分）</p>
-          <p>性格診断：10問の質問で性格タイプを分析（約2分）</p>
         </div>
       </div>
 
-      {/* 履歴セクション */}
-      {!dataLoaded && (
-        <div className="mt-10 text-sm text-gray-400 animate-pulse">データを読み込み中...</div>
+      {/* ホームタブ */}
+      {tab === 'home' && (
+        <div className="flex-1 flex flex-col items-center justify-center px-4 relative z-10">
+          <div className="text-center animate-fade-in">
+            {/* Floating emoji row */}
+            <div className="mb-6 flex items-center justify-center gap-2">
+              <span className="text-4xl animate-float-slow inline-block">🎒</span>
+              <span className="text-xl text-indigo-300 animate-sparkle">✦</span>
+              <span className="text-4xl animate-float-medium inline-block">🎓</span>
+              <span className="text-xl text-amber-300 animate-sparkle" style={{ animationDelay: '0.5s' }}>✦</span>
+              <span className="text-4xl animate-float-fast inline-block">💼</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-3 tracking-tight animate-gradient-shift">
+              Job Story
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-500 mb-2">
+              キャリア探索シミュレーション
+            </p>
+            <p className="text-sm text-gray-400 mb-10 max-w-md mx-auto leading-relaxed">
+              子供時代の「好き」から、未来の仕事を見つけよう。
+              <br />
+              選択であなただけのストーリーが生まれる。
+            </p>
+
+            {/* Main action buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <button
+                onClick={onStartStory}
+                className="btn-glow px-8 py-4 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white text-base font-semibold rounded-full shadow-lg shadow-indigo-200/50 hover:shadow-xl hover:shadow-indigo-300/50 transition-all duration-200 active:scale-95 cursor-pointer card-hover"
+              >
+                🎒 ストーリーで探す
+              </button>
+              <button
+                onClick={onStartDiagnosis}
+                className="btn-glow px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-base font-semibold rounded-full shadow-lg shadow-purple-200/50 hover:shadow-xl hover:shadow-purple-300/50 transition-all duration-200 active:scale-95 cursor-pointer card-hover"
+              >
+                🔮 性格診断だけ
+              </button>
+            </div>
+
+            {/* Encyclopedia button */}
+            <button
+              onClick={onEncyclopedia}
+              className="mt-4 px-8 py-3 bg-white/80 backdrop-blur hover:bg-white text-indigo-600 text-sm font-semibold rounded-full border-2 border-indigo-200 hover:border-indigo-400 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95 cursor-pointer card-hover"
+            >
+              📖 職種図鑑
+            </button>
+
+            {/* Info text */}
+            <div className="mt-6 text-xs text-gray-400 space-y-1">
+              <p>ストーリー：診断＋シミュレーション（約5〜10分）</p>
+              <p>性格診断：10問の質問で性格タイプを分析（約2分）</p>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-auto pb-6 pt-8 text-xs text-gray-300">
+            あなたの人生ストーリーを、ここから。
+          </div>
+        </div>
       )}
-      {dataLoaded && (gameResults.length > 0 || diagRecords.length > 0) && (
-        <div className="mt-10 w-full max-w-sm space-y-6 animate-slide-up">
-          {/* ゲーム結果履歴 */}
-          {gameResults.length > 0 && (
-            <div>
-              <h3 className="text-xs font-semibold text-gray-400 mb-3 text-center">
-                🏆 過去のプレイ結果
-              </h3>
-              <div className="space-y-2">
-                {gameResults.slice(0, 3).map((result) => {
-                  const type = getDiagnosisType(result.primaryTrait);
-                  const jobCount = result.discoveredJobIds?.length ?? result.discoveredJobCount ?? 0;
-                  return (
-                    <button
-                      key={result.id}
-                      onClick={() => onViewGameResult(result)}
-                      className="w-full flex items-center gap-3 p-3 bg-white/80 backdrop-blur rounded-xl border border-gray-100 hover:border-indigo-200 hover:bg-white transition-all cursor-pointer group"
-                    >
-                      <span className="text-2xl group-hover:scale-110 transition-transform">
-                        {result.gameMode === 'childhood' ? '🎒' : '💼'}
-                      </span>
-                      <div className="flex-1 min-w-0 text-left">
-                        <div className="text-sm font-semibold text-gray-700">
-                          {type.emoji} {type.label}
-                        </div>
-                        <div className="text-xs text-gray-400 truncate">
-                          {jobCount}職種発見
-                        </div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <div className="text-xs text-gray-400">{result.date}</div>
-                        <span className="text-gray-300 text-sm group-hover:text-indigo-400 transition-colors">
-                          詳細 →
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+
+      {/* 履歴タブ */}
+      {tab === 'history' && (
+        <div className="flex-1 flex flex-col items-center px-4 pt-4 pb-8 overflow-y-auto relative z-10">
+          {!dataLoaded && (
+            <div className="mt-10 text-sm text-gray-400 animate-pulse">データを読み込み中...</div>
+          )}
+          {dataLoaded && historyCount === 0 && (
+            <div className="flex-1 flex flex-col items-center justify-center text-gray-400">
+              <span className="text-4xl mb-4">📭</span>
+              <p className="text-sm">まだプレイ履歴がありません</p>
+              <button
+                onClick={() => setTab('home')}
+                className="mt-4 text-sm text-indigo-500 hover:text-indigo-700 cursor-pointer"
+              >
+                ホームに戻ってプレイする →
+              </button>
             </div>
           )}
+          {dataLoaded && historyCount > 0 && (
+            <div className="w-full max-w-md space-y-6 animate-fade-in">
+              {/* ゲーム結果履歴 */}
+              {gameResults.length > 0 && (
+                <div>
+                  <h3 className="text-xs font-semibold text-gray-400 mb-3 flex items-center gap-2">
+                    🏆 プレイ結果
+                    <span className="bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded-full">
+                      {gameResults.length}件
+                    </span>
+                  </h3>
+                  <div className="space-y-2">
+                    {displayedGames.map((result) => {
+                      const type = getDiagnosisType(result.primaryStat);
+                      const jobCount = result.discoveredJobIds?.length ?? result.discoveredJobCount ?? 0;
+                      const isConfirmingDelete = confirmDeleteId === result.id;
+                      return (
+                        <div
+                          key={result.id}
+                          className={`relative flex items-center gap-3 p-3 bg-white/80 backdrop-blur-sm rounded-xl border transition-all card-hover ${
+                            result.favorite
+                              ? 'border-amber-200 bg-amber-50/50 shadow-sm shadow-amber-100/50'
+                              : 'border-white/50 hover:border-indigo-200 hover:bg-white'
+                          }`}
+                        >
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onToggleGameFavorite(result.id);
+                            }}
+                            className="text-lg hover:scale-125 transition-transform cursor-pointer shrink-0"
+                            title={result.favorite ? 'お気に入り解除' : 'お気に入り'}
+                          >
+                            {result.favorite ? '⭐' : '☆'}
+                          </button>
 
-          {/* 診断履歴 */}
-          {diagRecords.length > 0 && (
-            <div>
-              <h3 className="text-xs font-semibold text-gray-400 mb-3 text-center">
-                📋 過去の診断結果
-              </h3>
-              <div className="space-y-2">
-                {diagRecords.slice(0, 3).map((record) => {
-                  const type = getDiagnosisType(record.primaryTrait);
-                  return (
-                    <button
-                      key={record.id}
-                      onClick={() => onViewDiagnosis(record)}
-                      className="w-full flex items-center gap-3 p-3 bg-white/80 backdrop-blur rounded-xl border border-gray-100 hover:border-indigo-200 hover:bg-white transition-all cursor-pointer group"
-                    >
-                      <span className="text-2xl group-hover:scale-110 transition-transform">
-                        {type.emoji}
-                      </span>
-                      <div className="text-left flex-1">
-                        <div className="text-sm font-semibold text-gray-700">
-                          {type.label}
-                        </div>
-                        <div className="text-xs text-gray-400">
-                          {record.date}
-                          {record.gameMode && (
-                            <span className="ml-2">
-                              {record.gameMode === 'childhood' ? '🎒' : '💼'}
+                          <button
+                            onClick={() => onViewGameResult(result)}
+                            className="flex items-center gap-3 flex-1 min-w-0 text-left cursor-pointer"
+                          >
+                            <span className="text-2xl hover:scale-110 transition-transform">
+                              {result.gameMode === 'childhood' ? '🎒' : '💼'}
                             </span>
-                          )}
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm font-semibold text-gray-700">
+                                {type.emoji} {type.label}
+                              </div>
+                              <div className="text-xs text-gray-400 truncate">
+                                {jobCount}職種発見
+                              </div>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <div className="text-xs text-gray-400">{result.date}</div>
+                              <span className="text-gray-300 text-sm hover:text-indigo-400 transition-colors">
+                                詳細 →
+                              </span>
+                            </div>
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteGame(result.id);
+                            }}
+                            className={`text-xs px-2 py-1 rounded-lg transition-all cursor-pointer shrink-0 ${
+                              isConfirmingDelete
+                                ? 'bg-red-500 text-white'
+                                : 'text-gray-300 hover:text-red-400 hover:bg-red-50'
+                            }`}
+                            title="削除"
+                          >
+                            {isConfirmingDelete ? '削除?' : '×'}
+                          </button>
                         </div>
-                      </div>
-                      <span className="text-gray-300 text-sm group-hover:text-indigo-400 transition-colors">
-                        詳細 →
-                      </span>
+                      );
+                    })}
+                  </div>
+                  {gameResults.length > 5 && (
+                    <button
+                      onClick={() => setShowAllGames((v) => !v)}
+                      className="w-full mt-2 py-2 text-xs text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
+                    >
+                      {showAllGames ? '▲ 閉じる' : `▼ すべて表示（${gameResults.length}件）`}
                     </button>
-                  );
-                })}
-              </div>
+                  )}
+                </div>
+              )}
+
+              {/* 診断履歴 */}
+              {diagRecords.length > 0 && (
+                <div>
+                  <h3 className="text-xs font-semibold text-gray-400 mb-3 flex items-center gap-2">
+                    🔮 診断結果
+                    <span className="bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">
+                      {diagRecords.length}件
+                    </span>
+                  </h3>
+                  <div className="space-y-2">
+                    {displayedDiag.map((record) => {
+                      const type = getDiagnosisType(record.primaryStat);
+                      const isConfirmingDelete = confirmDeleteId === record.id;
+                      return (
+                        <div
+                          key={record.id}
+                          className="relative flex items-center gap-3 p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-white/50 hover:border-indigo-200 hover:bg-white transition-all card-hover"
+                        >
+                          <button
+                            onClick={() => onViewDiagnosis(record)}
+                            className="flex items-center gap-3 flex-1 min-w-0 text-left cursor-pointer"
+                          >
+                            <span className="text-2xl hover:scale-110 transition-transform">
+                              {type.emoji}
+                            </span>
+                            <div className="flex-1">
+                              <div className="text-sm font-semibold text-gray-700">
+                                {type.label}
+                              </div>
+                              <div className="text-xs text-gray-400">
+                                {record.date}
+                                {record.gameMode && (
+                                  <span className="ml-2">
+                                    {record.gameMode === 'childhood' ? '🎒' : '💼'}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <span className="text-gray-300 text-sm hover:text-indigo-400 transition-colors">
+                              詳細 →
+                            </span>
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteDiag(record.id);
+                            }}
+                            className={`text-xs px-2 py-1 rounded-lg transition-all cursor-pointer shrink-0 ${
+                              isConfirmingDelete
+                                ? 'bg-red-500 text-white'
+                                : 'text-gray-300 hover:text-red-400 hover:bg-red-50'
+                            }`}
+                            title="削除"
+                          >
+                            {isConfirmingDelete ? '削除?' : '×'}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {diagRecords.length > 5 && (
+                    <button
+                      onClick={() => setShowAllDiag((v) => !v)}
+                      className="w-full mt-2 py-2 text-xs text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
+                    >
+                      {showAllDiag ? '▲ 閉じる' : `▼ すべて表示（${diagRecords.length}件）`}
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
       )}
-
-      {/* フッター */}
-      <div className="absolute bottom-6 text-xs text-gray-300">
-        あなたの人生ストーリーを、ここから。
-      </div>
-    </div>
+    </BgImage>
   );
 }

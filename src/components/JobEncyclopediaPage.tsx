@@ -1,8 +1,10 @@
 import { useState, useMemo } from 'react';
-import type { Job } from '../types';
+import type { Job, StatKey } from '../types';
 import type { ExperienceReflection } from '../utils/storage';
 import { jobs, getJobById, getIndustries } from '../data/jobs/index';
 import { getJobExperience } from '../data/job-experiences';
+import { statDefinitions } from '../data/stats';
+import { computeJobProfile } from './SkillRadarChart';
 import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
 
@@ -23,6 +25,7 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [filterIndustry, setFilterIndustry] = useState<string>('all');
   const [expandedReflection, setExpandedReflection] = useState<string | null>(null);
+  const [sortStat, setSortStat] = useState<StatKey | 'none'>('none');
 
   const industries = useMemo(() => getIndustries(), []);
 
@@ -39,10 +42,35 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
     return discoveredJobs.filter((j) => j.industry === filterIndustry);
   }, [discoveredJobs, filterIndustry]);
 
+  /** 全職種のスキルプロファイル（キャッシュ） */
+  const jobProfiles = useMemo(() => {
+    const map = new Map<string, Record<string, number>>();
+    for (const job of jobs) {
+      map.set(job.id, computeJobProfile(job.tags, job.skillsGained, job.suitableFor));
+    }
+    return map;
+  }, []);
+
   const filteredAllJobs = useMemo(() => {
-    if (filterIndustry === 'all') return jobs;
-    return jobs.filter((j) => j.industry === filterIndustry);
-  }, [filterIndustry]);
+    let list = filterIndustry === 'all' ? [...jobs] : jobs.filter((j) => j.industry === filterIndustry);
+    if (sortStat !== 'none') {
+      list = [...list].sort((a, b) => {
+        const pa = jobProfiles.get(a.id)?.[sortStat] ?? 0;
+        const pb = jobProfiles.get(b.id)?.[sortStat] ?? 0;
+        return pb - pa;
+      });
+    }
+    return list;
+  }, [filterIndustry, sortStat, jobProfiles]);
+
+  const filteredDiscoveredJobsSorted = useMemo(() => {
+    if (sortStat === 'none') return filteredDiscoveredJobs;
+    return [...filteredDiscoveredJobs].sort((a, b) => {
+      const pa = jobProfiles.get(a.id)?.[sortStat] ?? 0;
+      const pb = jobProfiles.get(b.id)?.[sortStat] ?? 0;
+      return pb - pa;
+    });
+  }, [filteredDiscoveredJobs, sortStat, jobProfiles]);
 
   /** 発見済み業界の集計 */
   const industryStats = useMemo(() => {
@@ -54,7 +82,7 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
   }, [discoveredJobs]);
 
   const totalJobs = jobs.length;
-  const discoveredCount = allDiscoveredJobIds.length;
+  const discoveredCount = discoveredJobs.length;
   const discoveredPercent = totalJobs > 0 ? Math.round((discoveredCount / totalJobs) * 100) : 0;
 
   const tabs: { key: TabKey; label: string; emoji: string; count?: number }[] = [
@@ -170,6 +198,39 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
           </div>
         )}
 
+        {/* スキルソート（発見済み・全職種タブ用） */}
+        {activeTab !== 'reflections' && (
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-medium text-gray-500 shrink-0">📊 スキル順</span>
+              {sortStat !== 'none' && (
+                <button
+                  onClick={() => setSortStat('none')}
+                  className="text-[10px] text-gray-400 hover:text-gray-600 cursor-pointer"
+                >
+                  ✕ 解除
+                </button>
+              )}
+            </div>
+            <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
+              {statDefinitions.map((def) => (
+                <button
+                  key={def.key}
+                  onClick={() => setSortStat(sortStat === def.key ? 'none' : def.key)}
+                  className={`shrink-0 text-[11px] px-2.5 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
+                    sortStat === def.key
+                      ? 'bg-indigo-500 text-white shadow-sm'
+                      : 'bg-white text-gray-500 border border-gray-200 hover:border-indigo-300'
+                  }`}
+                >
+                  <span>{def.emoji}</span>
+                  <span>{def.label.length > 5 ? def.label.slice(0, 5) + '..' : def.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* コンテンツ */}
         {activeTab === 'discovered' && (
           <div className="animate-fade-in">
@@ -187,20 +248,28 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-3">
-                {filteredDiscoveredJobs.map((job) => {
+                {filteredDiscoveredJobsSorted.map((job) => {
                   const hasExperience = !!getJobExperience(job.id);
                   const reflection = reflections.find((r) => r.jobId === job.id);
+                  const statVal = sortStat !== 'none' ? jobProfiles.get(job.id)?.[sortStat] : undefined;
                   return (
                     <div key={job.id} className="relative">
                       <JobCard job={job} onClick={setSelectedJob} />
                       {/* バッジ */}
                       <div className="absolute top-2 right-2 flex gap-1">
-                        {hasExperience && (
+                        {statVal !== undefined && (
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                            statVal >= 70 ? 'bg-emerald-500 text-white' : statVal >= 50 ? 'bg-amber-400 text-white' : 'bg-gray-300 text-white'
+                          }`}>
+                            {statVal}%
+                          </span>
+                        )}
+                        {hasExperience && !statVal && (
                           <span className="text-[10px] bg-indigo-500 text-white px-1.5 py-0.5 rounded-full">
                             🎮 体験可
                           </span>
                         )}
-                        {reflection && (
+                        {reflection && !statVal && (
                           <span className="text-[10px] bg-green-500 text-white px-1.5 py-0.5 rounded-full">
                             📝 済
                           </span>
@@ -341,6 +410,7 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
             <div className="grid grid-cols-2 gap-3">
               {filteredAllJobs.map((job) => {
                 const isDiscovered = allDiscoveredJobIds.includes(job.id);
+                const statVal = sortStat !== 'none' ? jobProfiles.get(job.id)?.[sortStat] : undefined;
                 return (
                   <div key={job.id} className="relative">
                     {!isDiscovered && (
@@ -352,13 +422,20 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
                       </div>
                     )}
                     <JobCard job={job} onClick={isDiscovered ? setSelectedJob : () => {}} />
-                    {isDiscovered && (
-                      <div className="absolute top-2 right-2">
+                    <div className="absolute top-2 right-2 flex gap-1">
+                      {statVal !== undefined && (
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                          statVal >= 70 ? 'bg-emerald-500 text-white' : statVal >= 50 ? 'bg-amber-400 text-white' : 'bg-gray-300 text-white'
+                        }`}>
+                          {statVal}%
+                        </span>
+                      )}
+                      {isDiscovered && !statVal && (
                         <span className="text-[10px] bg-green-500 text-white px-1.5 py-0.5 rounded-full">
                           発見済み
                         </span>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 );
               })}

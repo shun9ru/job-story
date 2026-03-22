@@ -5,7 +5,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'web-engineer',
     title: 'Webエンジニア',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: 'あなたが書いたコードが、何百万人の「当たり前」を変える',
     description: [
       '「このボタン押しやすいな」「この機能便利だな」——あなたが作ったWebサービスやアプリを、毎日何万人もの人が使う。自分のコードが世の中を少し良くする実感がある仕事',
@@ -47,7 +47,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'infra-engineer',
     title: 'インフラエンジニア',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: 'インターネットという巨大な街の「電気・水道」を設計する仕事',
     description: [
       'あなたがいなければ、Webサービスもアプリも動かない。目には見えないけれど、世の中のITサービスを根っこから支える「縁の下の力持ち」',
@@ -88,7 +88,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'data-scientist',
     title: 'データサイエンティスト',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: '膨大なデータの中から「宝の地図」を見つけ出す探偵',
     description: [
       '何百万件ものデータの中に隠れたパターンを発見し、「なぜこの商品が売れたのか」「次に何がヒットするか」を予測する。まるでデータの海に潜る探偵のような仕事',
@@ -129,7 +129,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'security-engineer',
     title: 'セキュリティエンジニア',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: 'サイバー空間を守る「デジタル世界のボディガード」',
     description: [
       '世界中のハッカーが日々仕掛けてくるサイバー攻撃から、企業や個人の大切な情報を守る。まさに現代の「騎士」のような存在',
@@ -170,7 +170,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'it-pm',
     title: 'ITプロジェクトマネージャー',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: '数十人のチームを率いて、巨大なITプロジェクトを完成させる「総指揮官」',
     description: [
       '予算数億円、メンバー数十人——そんな大規模プロジェクトの舵を取る。まるで映画監督のように、全体を見渡しながら最高の作品（システム）を完成に導く',
@@ -212,7 +212,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'ai-engineer',
     title: 'AI・機械学習エンジニア',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: '「AIに何ができるか」を自分の手で定義する、未来を作るエンジニア',
     description: [
       'ChatGPTのような対話AI、顔認証、自動運転——いま世界を変えているAI技術を、自分の手で作り上げる。「未来はこうなる」を自分で実装できる仕事',
@@ -253,7 +253,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'game-programmer',
     title: 'ゲームプログラマー',
-    industry: 'ゲーム・エンタメ',
+    industry: 'クリエイティブ・メディア',
     shortDescription: '世界中の人を夢中にさせるゲーム体験を、コードで生み出す魔法使い',
     description: [
       'キャラクターが走る、ジャンプする、感情を見せる——その一つひとつの動きをプログラムで命を吹き込む。あなたのコードが、何百万人のプレイヤーを笑顔にする',
@@ -294,7 +294,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'qa-engineer',
     title: 'QA（品質保証）エンジニア',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: '「このバグ、見つけたの私です」——製品の品質を最後に守る番人',
     description: [
       'リリース前の最後の砦。「このバグを見逃したら、何万人のユーザーが困る」——その責任感と、バグを発見したときの「やった！」という快感が入り混じる仕事',
@@ -336,7 +336,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'tech-support',
     title: 'テクニカルサポート',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: '「困った！」を「解決した！」に変える、ITのお医者さん',
     description: [
       '「パソコンが動かない」「設定方法がわからない」——そんなユーザーの「困った」に寄り添い、一緒に問題を解決する。相手の「ありがとう！助かりました！」が何よりのやりがい',
@@ -377,7 +377,7 @@ export const itTechJobs: Job[] = [
   {
     id: 'se',
     title: 'システムエンジニア（SE）',
-    industry: 'IT・通信',
+    industry: 'IT・テクノロジー',
     shortDescription: '企業の「こうしたい」を、ITの力で形にする設計士',
     description: [
       '銀行のATM、コンビニのPOS、航空会社の予約システム——私たちの生活を支える巨大システムを、ゼロから設計して作り上げる。完成したシステムが社会インフラになる壮大さ',

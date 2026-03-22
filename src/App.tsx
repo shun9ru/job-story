@@ -78,6 +78,9 @@ function App() {
     goToEncyclopedia,
     backFromEncyclopedia,
     addReflection,
+    toggleGameFavorite,
+    deleteGameResultById,
+    deleteDiagnosisById,
   } = useGameState();
 
   const goHome = useCallback(() => setScreen('top'), [setScreen]);
@@ -101,6 +104,9 @@ function App() {
             onViewGameResult={viewGameResult}
             onEncyclopedia={goToEncyclopedia}
             onLogout={logout}
+            onToggleGameFavorite={toggleGameFavorite}
+            onDeleteGameResult={deleteGameResultById}
+            onDeleteDiagnosis={deleteDiagnosisById}
           />
         );
 
@@ -153,6 +159,7 @@ function App() {
             player={player}
             recommendedJobs={getRecommendedJobs()}
             educationPath={educationPath}
+            diagnosisValues={diagnosisRecords[0]?.values}
             onRestart={resetGame}
             onSwitchMode={switchMode}
           />
