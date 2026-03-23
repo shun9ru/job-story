@@ -84,12 +84,12 @@ export function TopPage({
 
       {/* ユーザー情報バー */}
       <div className="absolute top-4 right-4 flex items-center gap-3 z-10">
-        <span className="text-sm text-gray-500 bg-white/60 backdrop-blur px-3 py-1 rounded-full">
-          <span className="text-indigo-500 font-semibold">{userId}</span> でログイン中
+        <span className="text-sm text-white/80 bg-black/30 backdrop-blur px-3 py-1 rounded-full">
+          <span className="text-indigo-300 font-semibold">{userId}</span> でログイン中
         </span>
         <button
           onClick={onLogout}
-          className="text-xs text-gray-400 hover:text-red-400 transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-red-50"
+          className="text-xs text-white/50 hover:text-red-300 transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-red-500/20"
         >
           ログアウト
         </button>
@@ -97,13 +97,13 @@ export function TopPage({
 
       {/* タブナビゲーション */}
       <div className="w-full flex justify-center pt-14 pb-2 relative z-10">
-        <div className="flex bg-white/60 backdrop-blur-lg rounded-full p-1 shadow-sm border border-white/50">
+        <div className="flex bg-black/30 backdrop-blur-lg rounded-full p-1 shadow-sm border border-white/20">
           <button
             onClick={() => setTab('home')}
             className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-200 cursor-pointer ${
               tab === 'home'
                 ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md shadow-indigo-200/50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/80'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
             }`}
           >
             🏠 ホーム
@@ -113,7 +113,7 @@ export function TopPage({
             className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
               tab === 'history'
                 ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md shadow-indigo-200/50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/80'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
             }`}
           >
             📋 プレイ履歴
@@ -143,13 +143,13 @@ export function TopPage({
               <span className="text-4xl animate-float-fast inline-block">💼</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-3 tracking-tight animate-gradient-shift">
+            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent mb-3 tracking-tight animate-gradient-shift drop-shadow-lg">
               Job Story
             </h1>
-            <p className="text-lg sm:text-xl text-gray-500 mb-2">
+            <p className="text-lg sm:text-xl text-white/90 mb-2 drop-shadow-md">
               キャリア探索シミュレーション
             </p>
-            <p className="text-sm text-gray-400 mb-10 max-w-md mx-auto leading-relaxed">
+            <p className="text-sm text-white/70 mb-10 max-w-md mx-auto leading-relaxed drop-shadow-md">
               子供時代の「好き」から、未来の仕事を見つけよう。
               <br />
               選択であなただけのストーリーが生まれる。
@@ -174,20 +174,20 @@ export function TopPage({
             {/* Encyclopedia button */}
             <button
               onClick={onEncyclopedia}
-              className="mt-4 px-8 py-3 bg-white/80 backdrop-blur hover:bg-white text-indigo-600 text-sm font-semibold rounded-full border-2 border-indigo-200 hover:border-indigo-400 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95 cursor-pointer card-hover"
+              className="mt-4 px-8 py-3 bg-white/15 backdrop-blur hover:bg-white/25 text-white text-sm font-semibold rounded-full border-2 border-white/30 hover:border-white/50 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95 cursor-pointer card-hover"
             >
               📖 職種図鑑
             </button>
 
             {/* Info text */}
-            <div className="mt-6 text-xs text-gray-400 space-y-1">
+            <div className="mt-6 text-xs text-white/50 space-y-1">
               <p>ストーリー：診断＋シミュレーション（約5〜10分）</p>
               <p>性格診断：10問の質問で性格タイプを分析（約2分）</p>
             </div>
           </div>
 
           {/* Footer */}
-          <div className="mt-auto pb-6 pt-8 text-xs text-gray-300">
+          <div className="mt-auto pb-6 pt-8 text-xs text-white/40">
             あなたの人生ストーリーを、ここから。
           </div>
         </div>
@@ -197,15 +197,15 @@ export function TopPage({
       {tab === 'history' && (
         <div className="flex-1 flex flex-col items-center px-4 pt-4 pb-8 overflow-y-auto relative z-10">
           {!dataLoaded && (
-            <div className="mt-10 text-sm text-gray-400 animate-pulse">データを読み込み中...</div>
+            <div className="mt-10 text-sm text-white/60 animate-pulse">データを読み込み中...</div>
           )}
           {dataLoaded && historyCount === 0 && (
-            <div className="flex-1 flex flex-col items-center justify-center text-gray-400">
+            <div className="flex-1 flex flex-col items-center justify-center text-white/60">
               <span className="text-4xl mb-4">📭</span>
               <p className="text-sm">まだプレイ履歴がありません</p>
               <button
                 onClick={() => setTab('home')}
-                className="mt-4 text-sm text-indigo-500 hover:text-indigo-700 cursor-pointer"
+                className="mt-4 text-sm text-indigo-300 hover:text-indigo-200 cursor-pointer"
               >
                 ホームに戻ってプレイする →
               </button>
@@ -216,9 +216,9 @@ export function TopPage({
               {/* ゲーム結果履歴 */}
               {gameResults.length > 0 && (
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 mb-3 flex items-center gap-2">
+                  <h3 className="text-xs font-semibold text-white/70 mb-3 flex items-center gap-2">
                     🏆 プレイ結果
-                    <span className="bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded-full">
+                    <span className="bg-indigo-500/30 text-indigo-200 px-2 py-0.5 rounded-full">
                       {gameResults.length}件
                     </span>
                   </h3>
@@ -291,7 +291,7 @@ export function TopPage({
                   {gameResults.length > 5 && (
                     <button
                       onClick={() => setShowAllGames((v) => !v)}
-                      className="w-full mt-2 py-2 text-xs text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
+                      className="w-full mt-2 py-2 text-xs text-indigo-300 hover:text-indigo-200 hover:bg-white/10 rounded-lg transition-all cursor-pointer"
                     >
                       {showAllGames ? '▲ 閉じる' : `▼ すべて表示（${gameResults.length}件）`}
                     </button>
@@ -302,9 +302,9 @@ export function TopPage({
               {/* 診断履歴 */}
               {diagRecords.length > 0 && (
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 mb-3 flex items-center gap-2">
+                  <h3 className="text-xs font-semibold text-white/70 mb-3 flex items-center gap-2">
                     🔮 診断結果
-                    <span className="bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">
+                    <span className="bg-purple-500/30 text-purple-200 px-2 py-0.5 rounded-full">
                       {diagRecords.length}件
                     </span>
                   </h3>
@@ -363,7 +363,7 @@ export function TopPage({
                   {diagRecords.length > 5 && (
                     <button
                       onClick={() => setShowAllDiag((v) => !v)}
-                      className="w-full mt-2 py-2 text-xs text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
+                      className="w-full mt-2 py-2 text-xs text-indigo-300 hover:text-indigo-200 hover:bg-white/10 rounded-lg transition-all cursor-pointer"
                     >
                       {showAllDiag ? '▲ 閉じる' : `▼ すべて表示（${diagRecords.length}件）`}
                     </button>
