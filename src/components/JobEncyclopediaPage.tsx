@@ -93,7 +93,7 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
   ];
 
   return (
-    <BgImage imageKey="encyclopedia" overlay={0.4} className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-amber-50">
+    <BgImage imageKey="encyclopedia" overlay={0.4} fixedBg className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-amber-50">
       {/* ヘッダー */}
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-gray-100">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
