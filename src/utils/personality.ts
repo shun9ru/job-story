@@ -331,7 +331,6 @@ export function generateLocalPersonality(stats: Record<StatKey, number>): Person
   const top2 = sorted[1];
   const top3 = sorted[2];
   const bottom1 = sorted[sorted.length - 1];
-  const _bottom2 = sorted[sorted.length - 2];
 
   const maxVal = top1[1];
   const minVal = bottom1[1];
@@ -361,14 +360,6 @@ export function generateLocalPersonality(stats: Record<StatKey, number>): Person
   }).sort((a, b) => b.avg - a.avg);
 
   const strongCat = categoryScores[0].cat;
-  const _weakCat = categoryScores[categoryScores.length - 1].cat;
-
-  const _catLabel: Record<string, string> = {
-    thinking: '思考力',
-    self_mgmt: '自己管理力',
-    social: '対人能力',
-    execution: '実行力',
-  };
 
   // タイプ判定（analyzePersonalityとは異なる切り口）
   const archetype = getArchetype(top1[0], top2[0], balanceType);
@@ -500,38 +491,6 @@ function getHiddenTalentAdvice(key: StatKey): string {
   return advice[key] ?? 'この力を意識的に使う場面を作ると、新しいキャリアの可能性が広がります。';
 }
 
-function _getCategoryAdvice(strong: string, weak: string): string {
-  const pairs: Record<string, string> = {
-    'thinking+social': '頭で考える力は十分。次はそれを「人に伝える」経験を積むと、あなたのアイデアがもっと広がります。グループワークやプレゼンの機会を意識して増やしてみてください。',
-    'thinking+execution': '分析力は申し分なし。あとは「やってみる」スピードを少し上げるだけ。完璧を目指しすぎず、7割の完成度で動く練習をしてみてください。',
-    'thinking+self_mgmt': '思考力が高い分、考えすぎて疲れることも。定期的に「考えない時間」を作り、リフレッシュする習慣を持つと持続力が上がります。',
-    'social+thinking': '人との関わりが得意な分、もう少しデータや論理で裏付けを取る習慣をつけると、説得力がさらに増します。',
-    'social+execution': 'コミュニケーションは強い。あとは「段取り力」を磨くと、チームを率いるリーダーとしてさらに飛躍できます。',
-    'social+self_mgmt': '人付き合いを大切にしつつ、自分だけの時間もしっかり確保して。セルフケアがあなたの対人力を長く支えます。',
-    'execution+thinking': '実行力は十分。「なぜうまくいったか」を振り返る分析の時間を加えると、成功の再現性が上がります。',
-    'execution+social': '行動が速い分、周りを置いてけぼりにしていないか確認を。巻き込み力を意識すると、もっと大きな成果に。',
-    'self_mgmt+thinking': '自分を律する力がある。あとは知的好奇心をもう少し解放して、新しい分野にも手を出してみてください。',
-    'self_mgmt+social': '安定感が武器。もう少し周囲との対話を増やすと、さらに信頼される存在になれます。',
-  };
-
-  const key = `${strong}+${weak}`;
-  return pairs[key] ?? `「${strong === 'thinking' ? '思考力' : strong === 'social' ? '対人能力' : strong === 'execution' ? '実行力' : '自己管理力'}」をベースに、「${weak === 'thinking' ? '思考力' : weak === 'social' ? '対人能力' : weak === 'execution' ? '実行力' : '自己管理力'}」を少し意識するだけで、大きなレベルアップが期待できます。`;
-}
-
-function _getWeaknessReframe(bottom: StatKey, top: StatKey): string {
-  const reframes: Partial<Record<StatKey, string>> = {
-    logical_thinking: `あなたは${STAT_LABEL_MAP[top]}で勝負するタイプ。論理に頼らなくても結果を出せるのは、それだけ他の力が強い証拠です。必要な時にロジカルシンキングの「フレームワーク」を1つだけ覚えておくと、苦手意識が和らぎます。`,
-    communication: `一人で深く考え抜ける力は大きな武器。コミュニケーションは「スキル」なので、場数を踏めば必ず伸びます。まずは1対1の対話から始めてみてください。`,
-    creativity: `独創性より「着実さ」で勝負するあなた。クリエイティビティは0から生むだけでなく、既存のものを組み合わせることでも発揮できます。`,
-    empathy: `共感力が控えめでも、あなたの${STAT_LABEL_MAP[top]}は人を助ける別の形になります。「共感」ではなく「問題解決」で人をサポートするスタイルもアリ。`,
-    planning: `即興力と瞬発力があなたの持ち味。「計画通りにいかない場面」でこそ輝くタイプです。最低限のToDoリストだけ作って、あとは柔軟に動くのがあなた流。`,
-    initiative: `慎重さは美徳。まずは「小さな実験」から始める習慣をつけると、リスクを抑えながら挑戦できます。`,
-    resilience: `変化を恐れない柔軟性があなたの強み。「安定」は外部環境だけでなく、強いスキルを持つことでも得られます。`,
-  };
-
-  return reframes[bottom] ?? `${STAT_LABEL_MAP[bottom]}が伸びしろということは、少しの努力で大きなリターンが得られる「コスパの良い成長領域」です。${STAT_LABEL_MAP[top]}という確かな軸があるからこそ、安心して新しいスキルに挑戦できます。`;
-}
-
 function getJobHuntingStrategy(top1: StatKey, top2: StatKey, balance: string): string {
   const gakulikaMap: Partial<Record<StatKey, string>> = {
     logical_thinking: '「課題を分析し、仮説を立てて検証した」プロセスを軸に語る',
@@ -597,18 +556,6 @@ function getFirstYearAdvantage(top1: StatKey, top2: StatKey, bottom: StatKey): s
 
   const adv = advantages[top1] ?? `${STAT_LABEL_MAP[top1]}の高さが、入社初日から周囲との差を生みます`;
   return `${adv}。\n\nまた${STAT_LABEL_MAP[top2]}との掛け合わせにより、単なる「○○が得意な新人」ではなく「${STAT_LABEL_MAP[top1]}も${STAT_LABEL_MAP[top2]}もできる希少な人材」としてポジションを確立できます。${STAT_LABEL_MAP[bottom]}は入社後にOJTで自然と鍛えられるので、今は気にしなくて大丈夫です。`;
-}
-
-function _getGrowthStrategy(top: StatKey, bottom: StatKey, balance: string): string {
-  if (balance === 'allrounder') {
-    return `あなたはバランス型なので、まず「一番好き・楽しい」と感じるスキルを1つ選んで集中的に伸ばすのがおすすめ。\n\n具体的には：\n• 3ヶ月間、${STAT_LABEL_MAP[top]}に関連する活動に集中する\n• その分野で「小さな実績」を1つ作る\n• 実績を軸に、他のスキルとの掛け合わせを考える\n\nオールラウンダーの最大の武器は「何にでも適応できる柔軟性」。その上に1本の柱を立てることで、替えのきかない存在になれます。`;
-  }
-
-  if (balance === 'specialist') {
-    return `あなたは${STAT_LABEL_MAP[top]}に特化したスペシャリスト型。この尖りを武器に：\n\n• まず${STAT_LABEL_MAP[top]}を「誰にも負けないレベル」に磨き上げる\n• 次に${STAT_LABEL_MAP[bottom]}を「最低限困らないレベル」まで引き上げる\n• 得意分野を活かせる環境を優先して選ぶ\n\n苦手分野は仲間に任せるのも立派な戦略。「自分の得意で貢献し、苦手は助けてもらう」チーム戦略を意識してみてください。`;
-  }
-
-  return `バランス型スペシャリストのあなたには「T字型成長」がおすすめ：\n\n• 縦軸：${STAT_LABEL_MAP[top]}をさらに深める（専門性）\n• 横軸：${STAT_LABEL_MAP[bottom]}を少しずつ広げる（汎用性）\n\n具体的には、${STAT_LABEL_MAP[top]}に関連するインターンやプロジェクトに参加しつつ、月1回は${STAT_LABEL_MAP[bottom]}を使う場面を意識的に作ってみてください。`;
 }
 
 // ============================================================
@@ -679,7 +626,7 @@ JSON形式(これ以外は出力しないで):
 /** API失敗時にローカルで診断レビュー風テキストを生成する */
 export function generateLocalDiagnosisReview(
   primaryStat: StatKey,
-  secondaryStat: StatKey,
+  _secondaryStat: StatKey,
   values: Record<ValueKey, number>,
 ): DiagnosisAIReview {
   const valEntries = Object.entries(values) as [ValueKey, number][];
@@ -716,12 +663,9 @@ export function generateLocalDiagnosisReview(
     },
   };
 
-  const _topDesc = valDescMap[topVal[0]];
   const secondDesc = valDescMap[secondVal[0]];
-  const _lowDesc = valDescMap[lowVal[0]];
 
   const primaryLabel = STAT_LABEL_MAP[primaryStat];
-  const _secondaryLabel = STAT_LABEL_MAP[secondaryStat];
   const headline = `${VALUE_LABEL_MAP[topVal[0]]}×${VALUE_LABEL_MAP[secondVal[0]]}のキャリア探求者`;
 
   // 価値観の深層心理を読み解く
