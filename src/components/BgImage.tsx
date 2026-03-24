@@ -1,36 +1,41 @@
 import { useState } from 'react';
 
+/** モバイル判定のブレークポイント (px) */
+const MOBILE_BREAKPOINT = 768;
+
 /** 背景画像マッピング */
-const BG_IMAGES: Record<string, string> = {
+const BG_IMAGES: Record<string, { pc: string; mobile: string }> = {
   // ページ別
-  top: '/images/backgrounds/top.jpg',
-  diagnosis: '/images/backgrounds/diagnosis.jpg',
-  result: '/images/backgrounds/result.jpg',
-  encyclopedia: '/images/backgrounds/encyclopedia.jpg',
+  top: { pc: '/images/backgrounds/top.jpg', mobile: '/images/backgrounds/mobile/top.jpg' },
+  diagnosis: { pc: '/images/backgrounds/diagnosis.jpg', mobile: '/images/backgrounds/mobile/diagnosis.jpg' },
+  result: { pc: '/images/backgrounds/result.jpg', mobile: '/images/backgrounds/mobile/result.jpg' },
+  encyclopedia: { pc: '/images/backgrounds/encyclopedia.jpg', mobile: '/images/backgrounds/mobile/encyclopedia.jpg' },
   // ライフステージ別
-  elementary: '/images/backgrounds/elementary.jpg',
-  'middle-school': '/images/backgrounds/middle-school.jpg',
-  'high-school': '/images/backgrounds/high-school.jpg',
-  university: '/images/backgrounds/university.jpg',
-  vocational: '/images/backgrounds/vocational.jpg',
-  shukatsu: '/images/backgrounds/shukatsu.jpg',
-  'early-career': '/images/backgrounds/early-career.jpg',
-  'mid-career': '/images/backgrounds/mid-career.jpg',
-  future: '/images/backgrounds/future.jpg',
+  elementary: { pc: '/images/backgrounds/elementary.jpg', mobile: '/images/backgrounds/mobile/elementary.jpg' },
+  'middle-school': { pc: '/images/backgrounds/middle-school.jpg', mobile: '/images/backgrounds/mobile/middle-school.jpg' },
+  'high-school': { pc: '/images/backgrounds/high-school.jpg', mobile: '/images/backgrounds/mobile/high-school.jpg' },
+  university: { pc: '/images/backgrounds/university.jpg', mobile: '/images/backgrounds/mobile/university.jpg' },
+  vocational: { pc: '/images/backgrounds/vocational.jpg', mobile: '/images/backgrounds/mobile/vocational.jpg' },
+  shukatsu: { pc: '/images/backgrounds/shukatsu.jpg', mobile: '/images/backgrounds/mobile/shukatsu.jpg' },
+  'early-career': { pc: '/images/backgrounds/early-career.jpg', mobile: '/images/backgrounds/mobile/early-career.jpg' },
+  'mid-career': { pc: '/images/backgrounds/mid-career.jpg', mobile: '/images/backgrounds/mobile/mid-career.jpg' },
+  future: { pc: '/images/backgrounds/future.jpg', mobile: '/images/backgrounds/mobile/future.jpg' },
   // 業種別
-  'IT・テクノロジー': '/images/backgrounds/industry-it.jpg',
-  'クリエイティブ・メディア': '/images/backgrounds/industry-creative.jpg',
-  'ビジネス・営業': '/images/backgrounds/industry-business.jpg',
-  '金融・コンサル': '/images/backgrounds/industry-finance.jpg',
-  'メーカー': '/images/backgrounds/industry-maker.jpg',
-  '医療・福祉': '/images/backgrounds/industry-medical.jpg',
-  '教育・法律・公務': '/images/backgrounds/industry-education.jpg',
-  'サービス・ライフスタイル': '/images/backgrounds/industry-service.jpg',
-  '建設・インフラ': '/images/backgrounds/industry-infra.jpg',
+  'IT・テクノロジー': { pc: '/images/backgrounds/industry-it.jpg', mobile: '/images/backgrounds/mobile/industry-it.jpg' },
+  'クリエイティブ・メディア': { pc: '/images/backgrounds/industry-creative.jpg', mobile: '/images/backgrounds/mobile/industry-creative.jpg' },
+  'ビジネス・営業': { pc: '/images/backgrounds/industry-business.jpg', mobile: '/images/backgrounds/mobile/industry-business.jpg' },
+  '金融・コンサル': { pc: '/images/backgrounds/industry-finance.jpg', mobile: '/images/backgrounds/mobile/industry-finance.jpg' },
+  'メーカー': { pc: '/images/backgrounds/industry-maker.jpg', mobile: '/images/backgrounds/mobile/industry-maker.jpg' },
+  '医療・福祉': { pc: '/images/backgrounds/industry-medical.jpg', mobile: '/images/backgrounds/mobile/industry-medical.jpg' },
+  '教育・法律・公務': { pc: '/images/backgrounds/industry-education.jpg', mobile: '/images/backgrounds/mobile/industry-education.jpg' },
+  'サービス・ライフスタイル': { pc: '/images/backgrounds/industry-service.jpg', mobile: '/images/backgrounds/mobile/industry-service.jpg' },
+  '建設・インフラ': { pc: '/images/backgrounds/industry-infra.jpg', mobile: '/images/backgrounds/mobile/industry-infra.jpg' },
 };
 
 export function getBgImageUrl(key: string): string | undefined {
-  return BG_IMAGES[key];
+  const entry = BG_IMAGES[key];
+  if (!entry) return undefined;
+  return window.innerWidth <= MOBILE_BREAKPOINT ? entry.mobile : entry.pc;
 }
 
 interface BgImageProps {
@@ -48,26 +53,33 @@ interface BgImageProps {
 export function BgImage({ imageKey, overlay = 0.55, fixedBg = false, children, className = '' }: BgImageProps) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
-  const url = BG_IMAGES[imageKey];
 
-  if (!url || error) {
+  const entry = BG_IMAGES[imageKey];
+
+  if (!entry || error) {
     return <>{children}</>;
   }
+
+  const pcUrl = entry.pc;
+  const mobileUrl = entry.mobile;
 
   return (
     <div className={`relative ${className}`}>
       {/* 背景画像（fixedモード: ビューポート固定、コンテンツだけスクロール） */}
       <div className={fixedBg ? 'fixed inset-0 z-0' : 'absolute inset-0 z-0'}>
-        <img
-          src={url}
-          alt=""
-          loading="eager"
-          onLoad={() => setLoaded(true)}
-          onError={() => setError(true)}
-          className={`w-full h-full object-cover transition-opacity duration-700 ${
-            loaded ? 'opacity-100' : 'opacity-0'
-          }`}
-        />
+        <picture>
+          <source media={`(max-width: ${MOBILE_BREAKPOINT}px)`} srcSet={mobileUrl} />
+          <img
+            src={pcUrl}
+            alt=""
+            loading="eager"
+            onLoad={() => setLoaded(true)}
+            onError={() => setError(true)}
+            className={`w-full h-full object-cover transition-opacity duration-700 ${
+              loaded ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        </picture>
         {/* オーバーレイ */}
         <div
           className="absolute inset-0"
