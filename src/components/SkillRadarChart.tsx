@@ -1,6 +1,9 @@
 import { useState, useMemo } from 'react';
-import type { StatKey, ValueKey } from '../types';
+import type { StatKey, ValueKey, Job } from '../types';
 import { statDefinitions, initialStats, valueDefinitions, tagStatMap, tagValueMap, initialValues } from '../data/stats';
+import { getJobById } from '../data/jobs/index';
+import { JobCard } from './JobCard';
+import { JobDetailModal } from './JobDetailModal';
 
 // ============================================================
 // 統合軸（スキル18 + 価値観5 = 23軸）
@@ -340,7 +343,7 @@ export function computeJobProfile(
 }
 
 /** マッチ度計算（プレイヤーのプロファイルと職業プロファイルの形状一致度） */
-function calcMatchRate(
+export function calcMatchRate(
   playerStats: Record<StatKey, number>,
   jobProfile: Record<UnifiedKey, number>,
 ): number {
@@ -402,6 +405,7 @@ export function SkillMapSection({
 }) {
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [detailJob, setDetailJob] = useState<Job | null>(null);
 
   const rankedJobs: RankedJob[] = useMemo(() => {
     return discoveredJobs
@@ -451,9 +455,6 @@ export function SkillMapSection({
     return result;
   }, [playerStats, playerMax, playerValues, selectedJob]);
 
-  const INITIAL_COUNT = 10;
-  const displayJobs = showAll ? rankedJobs : rankedJobs.slice(0, INITIAL_COUNT);
-  const hasMore = rankedJobs.length > INITIAL_COUNT;
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 animate-slide-up">
@@ -476,62 +477,115 @@ export function SkillMapSection({
         </div>
       )}
 
-      {/* マッチ度ランキング */}
-      <div className="mt-5">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-bold text-gray-600">
-            📊 適性マッチ度ランキング（{rankedJobs.length}職種）
+      {/* 向いていそうな職種 TOP5 */}
+      {rankedJobs.length > 0 && (
+        <div className="mt-5">
+          <p className="text-sm font-bold text-gray-800 mb-1 flex items-center gap-2">🏆 向いていそうな職種 TOP5</p>
+          <p className="text-xs text-gray-400 mb-3">
+            あなたのスキルと価値観から適性マッチ度を算出しました。タップで詳しく見られます。
           </p>
-        </div>
-        <div className="space-y-1.5">
-          {displayJobs.map((job, i) => {
-            const rank = i + 1;
-            const isSelected = selectedJobId === job.id;
-            return (
-              <button
-                key={job.id}
-                onClick={() => setSelectedJobId(isSelected ? null : job.id)}
-                className={`w-full text-left px-3 py-2 rounded-lg transition-all cursor-pointer ${
-                  isSelected ? 'bg-amber-50 ring-1 ring-amber-300' : 'hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
-                    <span className={`w-6 text-center font-bold ${
-                      rank === 1 ? 'text-yellow-500' : rank === 2 ? 'text-gray-400' : rank === 3 ? 'text-amber-600' : 'text-gray-300'
+          <div className="space-y-2.5">
+            {rankedJobs.slice(0, 5).map((job, index) => {
+              const fullJob = getJobById(job.id);
+              const isComparing = selectedJobId === job.id;
+              return (
+                <div key={job.id} className={`rounded-xl transition-all ${isComparing ? 'ring-2 ring-amber-300 bg-amber-50/50' : ''}`}>
+                  <div className="flex items-center gap-3 px-1 py-1">
+                    <span className={`text-lg font-bold w-6 text-center shrink-0 ${
+                      index === 0 ? 'text-yellow-500' : index === 1 ? 'text-gray-400' : index === 2 ? 'text-amber-600' : 'text-gray-300'
                     }`}>
-                      {rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `${rank}`}
+                      {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}`}
                     </span>
-                    {job.title}
-                  </span>
-                  <span className={`text-xs font-bold ${
-                    job.matchRate >= 80 ? 'text-emerald-600' : job.matchRate >= 60 ? 'text-amber-600' : 'text-gray-500'
-                  }`}>
-                    {job.matchRate}%
-                  </span>
+                    <div className="flex-1 min-w-0">
+                      {fullJob ? (
+                        <JobCard job={fullJob} onClick={setDetailJob} />
+                      ) : (
+                        <span className="text-xs text-gray-600">{job.title}</span>
+                      )}
+                    </div>
+                    <span className={`text-xs font-bold shrink-0 ${
+                      job.matchRate >= 80 ? 'text-emerald-600' : job.matchRate >= 60 ? 'text-amber-600' : 'text-gray-500'
+                    }`}>
+                      {job.matchRate}%
+                    </span>
+                  </div>
+                  <div className="pl-10 pb-1.5">
+                    <button
+                      onClick={() => setSelectedJobId(isComparing ? null : job.id)}
+                      className={`text-[10px] px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                        isComparing
+                          ? 'bg-amber-200 text-amber-800 font-bold'
+                          : 'bg-gray-100 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600'
+                      }`}
+                    >
+                      {isComparing ? '📊 比較中 ✕' : '📊 レーダーチャートで比較'}
+                    </button>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${
-                      isSelected ? 'bg-amber-400' : job.matchRate >= 80 ? 'bg-emerald-400' : job.matchRate >= 60 ? 'bg-amber-400' : 'bg-gray-300'
-                    }`}
-                    style={{ width: `${job.matchRate}%` }}
-                  />
-                </div>
-              </button>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+      )}
 
-        {hasMore && (
+      {/* 6位以降のランキング */}
+      {rankedJobs.length > 5 && (
+        <div className="mt-4">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-bold text-gray-600">
+              📊 その他の適性ランキング（{rankedJobs.length - 5}職種）
+            </p>
+          </div>
+          {showAll && (
+            <div className="space-y-1.5">
+              {rankedJobs.slice(5).map((job, i) => {
+                const rank = i + 6;
+                const isSelected = selectedJobId === job.id;
+                return (
+                  <button
+                    key={job.id}
+                    onClick={() => setSelectedJobId(isSelected ? null : job.id)}
+                    className={`w-full text-left px-3 py-2 rounded-lg transition-all cursor-pointer ${
+                      isSelected ? 'bg-amber-50 ring-1 ring-amber-300' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+                        <span className="w-6 text-center font-bold text-gray-300">{rank}</span>
+                        {job.title}
+                      </span>
+                      <span className={`text-xs font-bold ${
+                        job.matchRate >= 80 ? 'text-emerald-600' : job.matchRate >= 60 ? 'text-amber-600' : 'text-gray-500'
+                      }`}>
+                        {job.matchRate}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          isSelected ? 'bg-amber-400' : job.matchRate >= 80 ? 'bg-emerald-400' : job.matchRate >= 60 ? 'bg-amber-400' : 'bg-gray-300'
+                        }`}
+                        style={{ width: `${job.matchRate}%` }}
+                      />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
           <button
             onClick={() => setShowAll((v) => !v)}
-            className="w-full mt-3 py-2 text-xs font-medium text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
+            className="w-full mt-2 py-2 text-xs font-medium text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer"
           >
-            {showAll ? '▲ 閉じる' : `▼ すべて表示（残り${rankedJobs.length - INITIAL_COUNT}件）`}
+            {showAll ? '▲ 閉じる' : `▼ すべて表示（${rankedJobs.length - 5}件）`}
           </button>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* 職種詳細モーダル */}
+      {detailJob && (
+        <JobDetailModal job={detailJob} onClose={() => setDetailJob(null)} />
+      )}
     </div>
   );
 }

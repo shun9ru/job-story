@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import type { PlayerState, Job, StatKey, ValueKey, GameMode } from '../types';
+import { useState, useMemo } from 'react';
+import type { PlayerState, Job, StatKey, ValueKey, GameMode, ChoiceHistoryItem } from '../types';
 import { getDiagnosisType } from '../data/diagnosis';
 import { getJobById } from '../data/jobs/index';
 import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
-import { SkillMapSection } from './SkillRadarChart';
+import { SkillMapSection, computeJobProfile, calcMatchRate } from './SkillRadarChart';
 import { PersonalityAnalysis } from './PersonalityAnalysis';
+import { CareerConsultation } from './CareerConsultation';
+import { BgImage } from './BgImage';
 
 // ============================================================
 // 共通の結果表示データ型
@@ -15,10 +17,12 @@ import { PersonalityAnalysis } from './PersonalityAnalysis';
 export interface ResultData {
   gameMode: GameMode;
   primaryStat: StatKey;
+  secondaryStat?: StatKey;
   stats: Record<StatKey, number>;
   discoveredJobIds: string[];
   recommendedJobIds?: string[];
   diagnosisValues?: Record<ValueKey, number>;
+  choiceHistory?: ChoiceHistoryItem[];
   educationPath?: 'university' | 'vocational' | 'work';
   date?: string;
 }
@@ -43,6 +47,18 @@ export function ResultContent({ data }: { data: ResultData }) {
 
   const allJobs = [...recommendedJobs, ...discoveredJobs]
     .filter((j, i, arr) => arr.findIndex((x) => x.id === j.id) === i);
+
+  // 適性マッチ度ランキング（SkillMapSectionと同じアルゴリズム）
+  const matchRankedJobTitles = useMemo(() => {
+    return allJobs
+      .map((job) => {
+        const profile = computeJobProfile(job.tags, job.skillsGained, job.suitableFor);
+        return { title: job.title, rate: calcMatchRate(data.stats, profile) };
+      })
+      .sort((a, b) => b.rate - a.rate)
+      .slice(0, 5)
+      .map((j) => `${j.title}（適性${j.rate}%）`);
+  }, [allJobs, data.stats]);
 
   const summaryText = generateSummary(data);
 
@@ -81,51 +97,19 @@ export function ResultContent({ data }: { data: ResultData }) {
         </div>
       </div>
 
-      {/* サマリー + タイプ統合 */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-indigo-50/50 p-6 animate-slide-up border border-white/50">
-        <SectionTitle>🔮 あなたのプロファイル</SectionTitle>
-
-        <div className="text-center mb-4">
-          <span className="text-4xl">{diagType.emoji}</span>
-          <h3 className="text-xl font-bold text-gray-800 mt-2">{diagType.label}</h3>
-          <p className="text-indigo-500 text-xs font-medium mt-1">{diagType.tagline}</p>
-        </div>
-
-        <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line mb-4">
-          {summaryText}
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="bg-emerald-50 rounded-xl p-3">
-            <p className="text-xs font-bold text-emerald-700 mb-1.5">💪 強み</p>
-            <ul className="space-y-1">
-              {diagType.strengths.slice(0, 3).map((s, i) => (
-                <li key={i} className="text-xs text-emerald-600 flex items-start gap-1.5">
-                  <span className="text-emerald-400 mt-0.5">•</span>{s}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="bg-amber-50 rounded-xl p-3">
-            <p className="text-xs font-bold text-amber-700 mb-1.5">🌱 伸びしろ</p>
-            <ul className="space-y-1">
-              {diagType.weaknesses.slice(0, 3).map((s, i) => (
-                <li key={i} className="text-xs text-amber-600 flex items-start gap-1.5">
-                  <span className="text-amber-400 mt-0.5">•</span>{s}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-3 bg-indigo-50 rounded-xl p-3">
-          <p className="text-xs font-bold text-indigo-700 mb-1">💡 アドバイス</p>
-          <p className="text-xs text-indigo-600 leading-relaxed">{diagType.growthAdvice}</p>
-        </div>
-      </div>
-
-      {/* AI パーソナリティ分析 */}
-      <PersonalityAnalysis stats={data.stats} />
+      {/* パーソナリティ分析（プロファイル統合） */}
+      <PersonalityAnalysis
+        stats={data.stats}
+        profile={{
+          emoji: diagType.emoji,
+          label: diagType.label,
+          tagline: diagType.tagline,
+          summary: summaryText,
+          strengths: diagType.strengths.slice(0, 3),
+          weaknesses: diagType.weaknesses.slice(0, 3),
+          growthAdvice: diagType.growthAdvice,
+        }}
+      />
 
       {/* スキル＆価値観マップ */}
       <SkillMapSection
@@ -140,40 +124,16 @@ export function ResultContent({ data }: { data: ResultData }) {
         }))}
       />
 
-      {/* 向いてそうな職種 TOP5 */}
-      {recommendedJobs.length > 0 && (
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-indigo-50/50 p-6 animate-slide-up border border-white/50">
-          <SectionTitle>🏆 向いていそうな職種 TOP{recommendedJobs.length}</SectionTitle>
-          <p className="text-xs text-gray-400 mb-4">
-            あなたの選択とステータスから分析しました。タップで詳しく見られます。
-          </p>
-          <div className="space-y-3">
-            {recommendedJobs.map((job, index) => (
-              <div key={job.id} className="flex items-center gap-3">
-                <span className={`text-lg font-bold w-6 text-center ${
-                  index === 0 ? 'text-yellow-500' : index === 1 ? 'text-gray-400' : index === 2 ? 'text-amber-600' : 'text-gray-300'
-                }`}>
-                  {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}`}
-                </span>
-                <div className="flex-1">
-                  <JobCard job={job} onClick={setSelectedJob} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 発見した職種一覧 */}
-      {discoveredJobs.length > 0 && (
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl shadow-indigo-50/50 p-6 animate-slide-up border border-white/50">
-          <SectionTitle>💡 発見した職種（{discoveredJobs.length}件）</SectionTitle>
-          <div className="flex flex-wrap gap-2">
-            {discoveredJobs.map((job) => (
-              <JobCard key={job.id} job={job} onClick={setSelectedJob} compact />
-            ))}
-          </div>
-        </div>
+      {/* 就活なんでも相談 */}
+      {data.diagnosisValues && (
+        <CareerConsultation
+          primaryStat={data.primaryStat}
+          secondaryStat={data.secondaryStat ?? data.primaryStat}
+          stats={data.stats}
+          values={data.diagnosisValues}
+          recommendedJobs={matchRankedJobTitles}
+          choiceHistory={data.choiceHistory}
+        />
       )}
 
       {/* メッセージ */}
@@ -203,6 +163,7 @@ interface ResultPageProps {
   recommendedJobs: Job[];
   educationPath?: 'university' | 'vocational' | 'work';
   diagnosisValues?: Record<ValueKey, number>;
+  diagnosisSecondaryStat?: StatKey;
   onRestart: () => void;
   onSwitchMode: () => void;
 }
@@ -213,22 +174,25 @@ export function ResultPage({
   recommendedJobs,
   educationPath,
   diagnosisValues,
+  diagnosisSecondaryStat,
   onRestart,
   onSwitchMode,
 }: ResultPageProps) {
   const data: ResultData = {
     gameMode,
     primaryStat: player.primaryStat,
+    secondaryStat: diagnosisSecondaryStat,
     stats: player.stats,
     discoveredJobIds: player.discoveredJobIds,
     recommendedJobIds: recommendedJobs.map((j) => j.id),
     diagnosisValues,
+    choiceHistory: player.choiceHistory.length > 0 ? player.choiceHistory : undefined,
     educationPath,
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-indigo-50 via-50% to-amber-50 relative overflow-hidden">
-      <div className="animated-bg">
+    <BgImage imageKey="result" overlay={0.45} fixedBg className="min-h-screen bg-gradient-to-br from-violet-100 via-indigo-50 via-50% to-amber-50 relative">
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-[5%] right-[5%] w-56 h-56 rounded-full bg-purple-200/15 animate-float-slow" />
         <div className="absolute top-[40%] left-[3%] w-40 h-40 rounded-full bg-amber-200/10 animate-float-medium" />
       </div>
@@ -256,7 +220,7 @@ export function ResultPage({
           </div>
         </div>
       </main>
-    </div>
+    </BgImage>
   );
 }
 
@@ -301,6 +265,13 @@ function generateSummary(data: ResultData): string {
 
 function getTimeline(gameMode: GameMode, educationPath?: string) {
   if (gameMode === 'childhood') {
+    if (educationPath === 'work-middle') {
+      return [
+        { emoji: '🎒', label: '小学校' },
+        { emoji: '📖', label: '中学校' },
+        { emoji: '💪', label: '就職' },
+      ];
+    }
     const base = [
       { emoji: '🎒', label: '小学校' },
       { emoji: '📖', label: '中学校' },

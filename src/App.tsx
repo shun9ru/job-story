@@ -55,6 +55,8 @@ function App() {
     gameResults,
     dataLoaded,
     diagnosisOnly,
+    latestDiagnosisValues,
+    latestDiagnosisSecondaryStat,
     educationPath,
     login,
     logout,
@@ -159,19 +161,25 @@ function App() {
             player={player}
             recommendedJobs={getRecommendedJobs()}
             educationPath={educationPath}
-            diagnosisValues={diagnosisRecords[0]?.values}
+            diagnosisValues={latestDiagnosisValues ?? diagnosisRecords[0]?.values}
+            diagnosisSecondaryStat={latestDiagnosisSecondaryStat ?? diagnosisRecords[0]?.secondaryStat}
             onRestart={resetGame}
             onSwitchMode={switchMode}
           />
         );
 
-      case 'game-result-detail':
+      case 'game-result-detail': {
+        // 履歴表示時：latestを優先し、なければDBの記録から補完
+        const matchingDiag = diagnosisRecords.find((d) => d.gameMode === viewingGameResult?.gameMode) ?? diagnosisRecords[0];
         return viewingGameResult ? (
           <GameResultDetailPage
             result={viewingGameResult}
+            diagnosisValues={latestDiagnosisValues ?? matchingDiag?.values}
+            diagnosisSecondaryStat={latestDiagnosisSecondaryStat ?? matchingDiag?.secondaryStat}
             onBack={backFromGameResult}
           />
         ) : null;
+      }
 
       case 'encyclopedia':
         return (

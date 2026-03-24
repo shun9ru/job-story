@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { DiagnosisType, StatKey, DiagnosisRecord } from '../types';
 import { diagnosisTypes, getDiagnosisType } from '../data/diagnosis';
 import { statDefinitions, valueDefinitions } from '../data/stats';
+import { jobs } from '../data/jobs/index';
 import { DiagnosisAIReviewSection } from './DiagnosisAIReview';
+import { CareerConsultation } from './CareerConsultation';
+import { computeJobProfile, calcMatchRate } from './SkillRadarChart';
+import { BgImage } from './BgImage';
 
 interface DiagnosisDetailPageProps {
   record: DiagnosisRecord;
@@ -16,15 +20,32 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
   const primary = getDiagnosisType(record.primaryStat);
   const secondary = getDiagnosisType(record.secondaryStat);
 
+  // 適性マッチ度ランキングと同じアルゴリズム（calcMatchRate）でTOP職種を算出
+  const topJobTitles = useMemo(() => {
+    return jobs
+      .map((job) => {
+        const profile = computeJobProfile(job.tags, job.skillsGained, job.suitableFor);
+        return { title: job.title, rate: calcMatchRate(record.stats, profile) };
+      })
+      .sort((a, b) => b.rate - a.rate)
+      .slice(0, 5)
+      .map((j) => `${j.title}（適性${j.rate}%）`);
+  }, [record.stats]);
+
   // スコアのソート（バーチャート用）
   const sortedStats = (Object.entries(record.stats) as [StatKey, number][])
     .sort((a, b) => b[1] - a[1]);
   const maxStat = sortedStats[0][1] || 1;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <BgImage imageKey="result" overlay={0.45} fixedBg className="min-h-screen bg-gradient-to-br from-violet-100 via-indigo-50 via-50% to-amber-50 relative">
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[5%] right-[5%] w-56 h-56 rounded-full bg-purple-200/15 animate-float-slow" />
+        <div className="absolute top-[40%] left-[3%] w-40 h-40 rounded-full bg-amber-200/10 animate-float-medium" />
+      </div>
+
       {/* ヘッダー */}
-      <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b border-gray-100 px-4 py-3">
+      <header className="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-gray-100 px-4 py-3">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
           <button
             onClick={onBack}
@@ -37,7 +58,7 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6 relative z-10">
         {/* メインタイプ */}
         <div className="bg-white rounded-2xl shadow-lg p-6 text-center animate-bounce-in">
           <span className="text-6xl">{primary.emoji}</span>
@@ -47,13 +68,10 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
             {primary.description}
           </p>
 
-          {/* サブタイプ */}
-          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-full">
-            <span className="text-lg">{secondary.emoji}</span>
-            <span className="text-xs text-gray-500">
-              サブタイプ: <span className="font-semibold text-gray-700">{secondary.label}</span>
-            </span>
-          </div>
+          {/* サブタイプ（控えめに表示） */}
+          <p className="mt-3 text-[11px] text-gray-400">
+            隠れた傾向: <span className="text-gray-500">{secondary.emoji} {secondary.label}</span>
+          </p>
         </div>
 
         {/* スコアバーチャート */}
@@ -118,6 +136,15 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
             </div>
           </div>
         )}
+
+        {/* 就活なんでも相談 */}
+        <CareerConsultation
+          primaryStat={record.primaryStat}
+          secondaryStat={record.secondaryStat}
+          stats={record.stats}
+          values={record.values}
+          recommendedJobs={topJobTitles}
+        />
 
         {/* AIレビュー */}
         <DiagnosisAIReviewSection
@@ -281,7 +308,7 @@ export function DiagnosisDetailPage({ record, onBack }: DiagnosisDetailPageProps
           </button>
         </div>
       </main>
-    </div>
+    </BgImage>
   );
 }
 

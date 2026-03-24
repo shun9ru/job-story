@@ -38,12 +38,14 @@ interface BgImageProps {
   imageKey: string;
   /** 暗くするオーバーレイの不透明度 (0-1, デフォルト 0.55) */
   overlay?: number;
+  /** trueにすると背景をビューポートに固定し、コンテンツだけスクロールする */
+  fixedBg?: boolean;
   children: React.ReactNode;
   className?: string;
 }
 
 /** 背景画像付きコンテナ。画像がない場合は children のみ表示 */
-export function BgImage({ imageKey, overlay = 0.55, children, className = '' }: BgImageProps) {
+export function BgImage({ imageKey, overlay = 0.55, fixedBg = false, children, className = '' }: BgImageProps) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const url = BG_IMAGES[imageKey];
@@ -54,8 +56,8 @@ export function BgImage({ imageKey, overlay = 0.55, children, className = '' }: 
 
   return (
     <div className={`relative ${className}`}>
-      {/* 背景画像 */}
-      <div className="absolute inset-0 z-0">
+      {/* 背景画像（fixedモード: ビューポート固定、コンテンツだけスクロール） */}
+      <div className={fixedBg ? 'fixed inset-0 z-0' : 'absolute inset-0 z-0'}>
         <img
           src={url}
           alt=""

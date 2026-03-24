@@ -1,4 +1,4 @@
-import type { DiagnosisRecord, GameMode, StatKey, ValueKey } from '../types';
+import type { DiagnosisRecord, GameMode, StatKey, ValueKey, ChoiceHistoryItem } from '../types';
 import { initialValues } from '../data/stats';
 import { supabase } from '../lib/supabase';
 
@@ -42,6 +42,7 @@ export interface GameResultRecord {
   stats: Record<StatKey, number>;
   discoveredJobIds: string[];
   recommendedJobIds: string[];
+  choiceHistory?: ChoiceHistoryItem[];
   favorite?: boolean;
   /** @deprecated */
   discoveredJobCount?: number;
@@ -102,8 +103,8 @@ export async function saveDiagnosisRecord(record: DiagnosisRecord): Promise<void
     const { error } = await supabase.from('diagnosis_records').insert(row);
     if (error) {
       if (error.code === 'PGRST204' || error.code === '42703') {
-        // stats/game_mode カラムが未追加 → 除外して再試行
-        const { stats: _, game_mode: __, ...rowWithout } = row;
+        // 一部カラム不明 → stats/game_modeだけ除外して再試行（valuesは保持）
+        const { stats: _s, game_mode: _g, ...rowWithout } = row;
         const { error: retryError } = await supabase.from('diagnosis_records').insert(rowWithout);
         if (retryError) {
           console.error('Error saving diagnosis record (retry):', retryError);
@@ -293,6 +294,8 @@ export async function getExperienceReflections(): Promise<ExperienceReflection[]
       .limit(50);
 
     if (error) {
+      // テーブル未作成の場合は無視
+      if (error.code === 'PGRST205' || error.code === '42P01') return [];
       console.error('Error fetching experience reflections:', error);
       return [];
     }

@@ -11,8 +11,8 @@ const allQuestions: DiagnosisQuestion[] = [
     emoji: '🎉',
     options: [
       { text: '「いいね！どこ行く？」とすぐノリノリ', emoji: '🙌', effects: { communication: 11, teamwork: 4, planning: 4, decision_making: 1 }, valueEffects: { work_life_balance: 3 } },
-      { text: '「何するか決めてから考えたい」と計画派', emoji: '📋', effects: { planning: 11, decision_making: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '「家でゆっくりしたいかも…」と正直に言う', emoji: '🏠', effects: { resilience: 6, self_management: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: -5, work_life_balance: 8 } },
+      { text: '「何するか決めてから考えたい」と計画派', emoji: '📋', effects: { planning: 11, decision_making: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { stability_orientation: 4 } },
+      { text: '「家でゆっくりしたいかも…」と正直に言う', emoji: '🏠', effects: { resilience: 6, self_management: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { work_life_balance: 5 } },
     ],
   },
   {
@@ -20,9 +20,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'グループワークで自然と担当しがちな役割は？',
     emoji: '👥',
     options: [
-      { text: 'みんなの意見をまとめるリーダー役', emoji: '👑', effects: { communication: 7, teamwork: 3, planning: 7, decision_making: 3 }, valueEffects: { work_life_balance: 3 } },
+      { text: 'みんなの意見をまとめるリーダー役', emoji: '👑', effects: { communication: 7, teamwork: 3, planning: 7, decision_making: 3 }, valueEffects: { income_orientation: 4 } },
       { text: '面白いアイデアを出すアイデアマン', emoji: '💡', effects: { creativity: 11, initiative: 4, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 3 } },
-      { text: '情報を集めて分析する調査担当', emoji: '🔍', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 8 } },
+      { text: '情報を集めて分析する調査担当', emoji: '🔍', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { stability_orientation: 4 } },
     ],
   },
   {
@@ -30,9 +30,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '初対面の人が大勢いるパーティに行ったら？',
     emoji: '🥳',
     options: [
-      { text: '自分から話しかけてどんどん友達を作る', emoji: '🤝', effects: { communication: 11, teamwork: 4, resilience: 3, self_management: 2 }, valueEffects: { work_life_balance: 3 } },
-      { text: '知り合いの近くで様子を見ながら少しずつ話す', emoji: '👀', effects: { resilience: 6, self_management: 4, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
-      { text: '一人で飲み物を持って静かに過ごす', emoji: '🥤', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: '自分から話しかけてどんどん友達を作る', emoji: '🤝', effects: { communication: 11, teamwork: 4, resilience: 3, self_management: 2 }, valueEffects: { social_contribution: 3 } },
+      { text: '知り合いの近くで様子を見ながら少しずつ話す', emoji: '👀', effects: { resilience: 6, self_management: 4, empathy: 6, listening: 4 }, valueEffects: { stability_orientation: 4 } },
+      { text: '一人で飲み物を持って静かに過ごす', emoji: '🥤', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { work_life_balance: 3 } },
     ],
   },
   {
@@ -40,9 +40,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '友達が落ち込んでいる。どうする？',
     emoji: '😢',
     options: [
-      { text: 'まず声をかけて話を聞く', emoji: '👂', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, valueEffects: { social_contribution: 5 } },
-      { text: '原因を分析して解決策を一緒に考える', emoji: '🧠', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: 8 } },
-      { text: '気分転換に楽しいことに誘う', emoji: '🎈', effects: { initiative: 9, action: 4, creativity: 7 }, valueEffects: { work_life_balance: 5 } },
+      { text: 'まず声をかけて話を聞く', emoji: '👂', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, valueEffects: { social_contribution: 4 } },
+      { text: '原因を分析して解決策を一緒に考える', emoji: '🧠', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { income_orientation: 4 } },
+      { text: '気分転換に楽しいことに誘う', emoji: '🎈', effects: { initiative: 9, action: 4, creativity: 7 }, valueEffects: { work_life_balance: 4 } },
     ],
   },
   {
@@ -50,9 +50,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'チームの意見が割れた。あなたはどう動く？',
     emoji: '⚡',
     options: [
-      { text: '両方の意見をまとめて折衷案を出す', emoji: '🤝', effects: { communication: 11, teamwork: 4, planning: 4, decision_making: 1 }, valueEffects: { work_life_balance: 3 } },
-      { text: 'データを集めてどちらが正しいか検証する', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '自分の直感を信じて押し通す', emoji: '🔥', effects: { initiative: 10, action: 6, creativity: 4 }, valueEffects: { stability_orientation: -5 } },
+      { text: '両方の意見をまとめて折衷案を出す', emoji: '🤝', effects: { communication: 11, teamwork: 4, planning: 4, decision_making: 1 }, valueEffects: { stability_orientation: 4 } },
+      { text: 'データを集めてどちらが正しいか検証する', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { income_orientation: 4 } },
+      { text: '自分の直感を信じて押し通す', emoji: '🔥', effects: { initiative: 10, action: 6, creativity: 4 }, valueEffects: { growth_orientation: -3 } },
     ],
   },
 
@@ -62,9 +62,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '自由研究のテーマを選ぶなら？',
     emoji: '🔬',
     options: [
-      { text: 'まだ誰もやってない新しいことに挑戦', emoji: '🚀', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { stability_orientation: -8, growth_orientation: 5 } },
-      { text: 'データを集めてじっくり分析したい', emoji: '📈', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 8 } },
-      { text: 'みんなが楽しめるイベントを企画したい', emoji: '🎪', effects: { planning: 7, decision_making: 3, communication: 7, teamwork: 3 }, valueEffects: { social_contribution: 3 } },
+      { text: 'まだ誰もやってない新しいことに挑戦', emoji: '🚀', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: 'データを集めてじっくり分析したい', emoji: '📈', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { income_orientation: 4 } },
+      { text: 'みんなが楽しめるイベントを企画したい', emoji: '🎪', effects: { planning: 7, decision_making: 3, communication: 7, teamwork: 3 }, valueEffects: { social_contribution: 4 } },
     ],
   },
   {
@@ -72,9 +72,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '数学のテストで難問が出た。どうする？',
     emoji: '📐',
     options: [
-      { text: '別のアプローチを試してなんとか解く', emoji: '💪', effects: { logical_thinking: 6, critical_thinking: 4, initiative: 6, action: 4 }, valueEffects: { growth_orientation: 5 } },
-      { text: '飛ばして確実に取れる問題を先にやる', emoji: '📝', effects: { planning: 7, decision_making: 3, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 13 } },
-      { text: 'ひらめきで解法が浮かぶのを待つ', emoji: '✨', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: '別のアプローチを試してなんとか解く', emoji: '💪', effects: { logical_thinking: 6, critical_thinking: 4, initiative: 6, action: 4 }, valueEffects: { growth_orientation: 4 } },
+      { text: '飛ばして確実に取れる問題を先にやる', emoji: '📝', effects: { planning: 7, decision_making: 3, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 4 } },
+      { text: 'ひらめきで解法が浮かぶのを待つ', emoji: '✨', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { work_life_balance: 3 } },
     ],
   },
   {
@@ -82,9 +82,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'ニュースで一番気になるジャンルは？',
     emoji: '📰',
     options: [
-      { text: '最新テクノロジーやガジェット', emoji: '🤖', effects: { problem_solving: 9, learning_agility: 6, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 3 } },
-      { text: '経済・ビジネス・マーケット', emoji: '💹', effects: { logical_thinking: 6, critical_thinking: 4, planning: 7, decision_making: 3 }, valueEffects: { income_orientation: 8 } },
-      { text: '社会問題・福祉・教育', emoji: '🌍', effects: { empathy: 9, listening: 6, resilience: 3, self_management: 2 }, valueEffects: { social_contribution: 8 } },
+      { text: '最新テクノロジーやガジェット', emoji: '🤖', effects: { problem_solving: 9, learning_agility: 6, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 4 } },
+      { text: '経済・ビジネス・マーケット', emoji: '💹', effects: { logical_thinking: 6, critical_thinking: 4, planning: 7, decision_making: 3 }, valueEffects: { income_orientation: 5 } },
+      { text: '社会問題・福祉・教育', emoji: '🌍', effects: { empathy: 9, listening: 6, resilience: 3, self_management: 2 }, valueEffects: { social_contribution: 5 } },
     ],
   },
   {
@@ -93,8 +93,8 @@ const allQuestions: DiagnosisQuestion[] = [
     emoji: '🎮',
     options: [
       { text: '謎解き！ロジックで攻略するのが快感', emoji: '🧩', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: 'クリエイティブ！自由に世界を作りたい', emoji: '🎨', effects: { creativity: 11, initiative: 4, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 3 } },
-      { text: '協力プレイ！仲間と一緒にクリアしたい', emoji: '🎯', effects: { resilience: 6, self_management: 4, empathy: 6, listening: 4 }, valueEffects: { work_life_balance: 5 } },
+      { text: 'クリエイティブ！自由に世界を作りたい', emoji: '🎨', effects: { creativity: 11, initiative: 4, planning: 4, decision_making: 1 }, valueEffects: { work_life_balance: 4 } },
+      { text: '協力プレイ！仲間と一緒にクリアしたい', emoji: '🎯', effects: { resilience: 6, self_management: 4, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
     ],
   },
   {
@@ -102,9 +102,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '新しいことを学ぶとき、どう進める？',
     emoji: '📚',
     options: [
-      { text: 'まず全体像を把握してから体系的に学ぶ', emoji: '🗂️', effects: { planning: 11, decision_making: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { growth_orientation: 8 } },
-      { text: 'とりあえず手を動かしてやってみる', emoji: '🛠️', effects: { initiative: 6, action: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: 8 } },
-      { text: '詳しい人に教えてもらう', emoji: '🧑‍🏫', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, valueEffects: { stability_orientation: -5 } },
+      { text: 'まず全体像を把握してから体系的に学ぶ', emoji: '🗂️', effects: { planning: 11, decision_making: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { stability_orientation: 4 } },
+      { text: 'とりあえず手を動かしてやってみる', emoji: '🛠️', effects: { initiative: 6, action: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: 4 } },
+      { text: '詳しい人に教えてもらう', emoji: '🧑‍🏫', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
     ],
   },
 
@@ -114,9 +114,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '将来の働き方で一番理想に近いのは？',
     emoji: '💭',
     options: [
-      { text: '毎日違うことができてワクワクする環境', emoji: '🌈', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 6, grit: 4 }, valueEffects: { social_contribution: 3 } },
-      { text: '自分のアイデアを形にできる環境', emoji: '🎨', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '安定して長く働ける環境', emoji: '🏠', effects: { resilience: 9, self_management: 6, empathy: 3, listening: 2 }, statEffects: { decision_making: 3, action: 2, self_awareness: 4, empathy: 1 }, valueEffects: { stability_orientation: 8 } },
+      { text: '毎日違うことができてワクワクする環境', emoji: '🌈', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 4 } },
+      { text: '自分のアイデアを形にできる環境', emoji: '🎨', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { income_orientation: 4 } },
+      { text: '安定して長く働ける環境', emoji: '🏠', effects: { resilience: 9, self_management: 6, empathy: 3, listening: 2 }, statEffects: { decision_making: 3, action: 2, self_awareness: 4, empathy: 1 }, valueEffects: { stability_orientation: 6 } },
     ],
   },
   {
@@ -124,9 +124,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'アルバイトを選ぶとき、一番大事にすることは？',
     emoji: '💼',
     options: [
-      { text: '人とたくさん関われること', emoji: '👫', effects: { communication: 11, teamwork: 4, empathy: 3, listening: 2 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 3 } },
-      { text: '自分のスキルが身につくこと', emoji: '📈', effects: { problem_solving: 6, learning_agility: 4, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '安定したシフトと給料', emoji: '💰', effects: { resilience: 9, self_management: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 6, action: 4 }, valueEffects: { income_orientation: 5, stability_orientation: 8 } },
+      { text: '人とたくさん関われること', emoji: '👫', effects: { communication: 11, teamwork: 4, empathy: 3, listening: 2 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 4 } },
+      { text: '自分のスキルが身につくこと', emoji: '📈', effects: { problem_solving: 6, learning_agility: 4, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 4 } },
+      { text: '安定したシフトと給料', emoji: '💰', effects: { resilience: 9, self_management: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 6, action: 4 }, valueEffects: { income_orientation: 4 } },
     ],
   },
   {
@@ -134,9 +134,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '10年後の自分、どんなイメージが一番嬉しい？',
     emoji: '🔮',
     options: [
-      { text: '専門家として頼られる存在', emoji: '🏅', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, statEffects: { decision_making: 3, action: 2, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
-      { text: '新しい事業を立ち上げた起業家', emoji: '🚀', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, statEffects: { decision_making: 6, action: 4, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 5 } },
-      { text: '人を支え、感謝される仕事をしている人', emoji: '❤️', effects: { empathy: 6, listening: 4, resilience: 3, self_management: 2, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 5 } },
+      { text: '専門家として頼られる存在', emoji: '🏅', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, statEffects: { decision_making: 3, action: 2, learning_agility: 3, grit: 2 }, valueEffects: { income_orientation: 4 } },
+      { text: '新しい事業を立ち上げた起業家', emoji: '🚀', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, statEffects: { decision_making: 6, action: 4, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: '人を支え、感謝される仕事をしている人', emoji: '❤️', effects: { empathy: 6, listening: 4, resilience: 3, self_management: 2, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 4 } },
     ],
   },
   {
@@ -144,9 +144,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「すごい！」と言われたいのは何？',
     emoji: '🌟',
     options: [
-      { text: '面白いアイデアや企画を生み出すこと', emoji: '💡', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '難しい問題を解決すること', emoji: '🔧', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '人をまとめてチームを成功に導くこと', emoji: '👔', effects: { communication: 7, teamwork: 3, initiative: 6, action: 4 }, statEffects: { decision_making: 3, action: 2, self_awareness: 4, empathy: 1 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
+      { text: '面白いアイデアや企画を生み出すこと', emoji: '💡', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { work_life_balance: 3 } },
+      { text: '難しい問題を解決すること', emoji: '🔧', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { income_orientation: 3 } },
+      { text: '人をまとめてチームを成功に導くこと', emoji: '👔', effects: { communication: 7, teamwork: 3, initiative: 6, action: 4 }, statEffects: { decision_making: 3, action: 2, self_awareness: 4, empathy: 1 }, valueEffects: { stability_orientation: 4 } },
     ],
   },
   {
@@ -154,8 +154,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'お金がたくさんあったら何に使う？',
     emoji: '💎',
     options: [
-      { text: '世界中を旅して新しい経験をしたい', emoji: '✈️', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { income_orientation: 5 } },
-      { text: '投資して資産をさらに増やしたい', emoji: '📈', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, statEffects: { decision_making: 9, action: 6 }, valueEffects: { income_orientation: 8 } },
+      { text: '世界中を旅して新しい経験をしたい', emoji: '✈️', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { work_life_balance: 4 } },
+      { text: '投資して資産をさらに増やしたい', emoji: '📈', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, statEffects: { decision_making: 9, action: 6 }, valueEffects: { income_orientation: 5 } },
       { text: '困っている人や社会のために使いたい', emoji: '🤲', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 5 } },
     ],
   },
@@ -166,9 +166,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '休日の過ごし方、一番リラックスできるのは？',
     emoji: '☀️',
     options: [
-      { text: '友達とカフェや遊びに出かける', emoji: '☕', effects: { communication: 7, teamwork: 3, planning: 7, decision_making: 3 }, valueEffects: { work_life_balance: 5 } },
-      { text: '一人で本を読んだり映画を観る', emoji: '📖', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 3 } },
-      { text: '趣味のモノづくりや創作活動に没頭', emoji: '🎨', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, valueEffects: { work_life_balance: 8 } },
+      { text: '友達とカフェや遊びに出かける', emoji: '☕', effects: { communication: 7, teamwork: 3, planning: 7, decision_making: 3 }, valueEffects: { work_life_balance: 4 } },
+      { text: '一人で本を読んだり映画を観る', emoji: '📖', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 4 } },
+      { text: '趣味のモノづくりや創作活動に没頭', emoji: '🎨', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, valueEffects: { work_life_balance: 5 } },
     ],
   },
   {
@@ -176,9 +176,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '旅行の計画、どう立てる？',
     emoji: '🗺️',
     options: [
-      { text: 'スケジュールをきっちり組む派', emoji: '📋', effects: { planning: 11, decision_making: 4, resilience: 3, self_management: 2 }, valueEffects: { work_life_balance: 5 } },
-      { text: 'ざっくり決めて現地でノリで動く派', emoji: '🎲', effects: { initiative: 9, action: 4, creativity: 7 }, valueEffects: { stability_orientation: 8 } },
-      { text: '同行者の希望に合わせる派', emoji: '🤝', effects: { empathy: 6, listening: 4, communication: 7, teamwork: 3 }, valueEffects: { stability_orientation: -5 } },
+      { text: 'スケジュールをきっちり組む派', emoji: '📋', effects: { planning: 11, decision_making: 4, resilience: 3, self_management: 2 }, valueEffects: { stability_orientation: 4 } },
+      { text: 'ざっくり決めて現地でノリで動く派', emoji: '🎲', effects: { initiative: 9, action: 4, creativity: 7 }, valueEffects: { work_life_balance: 4 } },
+      { text: '同行者の希望に合わせる派', emoji: '🤝', effects: { empathy: 6, listening: 4, communication: 7, teamwork: 3 }, valueEffects: { social_contribution: 3 } },
     ],
   },
   {
@@ -186,8 +186,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '失敗したとき、まず何を考える？',
     emoji: '😔',
     options: [
-      { text: '原因を分析して次に活かす', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 8 } },
-      { text: 'すぐ切り替えて次に挑戦する', emoji: '🔥', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { stability_orientation: -8, growth_orientation: 5 } },
+      { text: '原因を分析して次に活かす', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: 'すぐ切り替えて次に挑戦する', emoji: '🔥', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3 } },
       { text: '周りに相談して気持ちを整理する', emoji: '💬', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -196,9 +196,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '朝型？夜型？',
     emoji: '⏰',
     options: [
-      { text: '朝型！早起きして計画的に動く', emoji: '🌅', effects: { planning: 7, decision_making: 3, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 3 } },
-      { text: '夜型！深夜に集中力が上がる', emoji: '🌙', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { stability_orientation: 8 } },
-      { text: '特にこだわりなく、流れに任せる', emoji: '🌊', effects: { initiative: 6, action: 4, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
+      { text: '朝型！早起きして計画的に動く', emoji: '🌅', effects: { planning: 7, decision_making: 3, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 4 } },
+      { text: '夜型！深夜に集中力が上がる', emoji: '🌙', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { income_orientation: 3 } },
+      { text: '特にこだわりなく、流れに任せる', emoji: '🌊', effects: { initiative: 6, action: 4, empathy: 6, listening: 4 }, valueEffects: { work_life_balance: 3 } },
     ],
   },
   {
@@ -206,9 +206,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '部屋の整理整頓、どのタイプ？',
     emoji: '🏠',
     options: [
-      { text: 'いつもキレイ。決まった場所に物を置く', emoji: '✨', effects: { resilience: 9, self_management: 6, planning: 4, decision_making: 1 }, valueEffects: { stability_orientation: 3 } },
-      { text: '散らかるけど、どこに何があるかは把握してる', emoji: '🗂️', effects: { logical_thinking: 6, critical_thinking: 4, creativity: 7, initiative: 3 }, valueEffects: { stability_orientation: 8 } },
-      { text: '正直あまり片付けは得意じゃない', emoji: '😅', effects: { initiative: 6, action: 4, communication: 7, teamwork: 3 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
+      { text: 'いつもキレイ。決まった場所に物を置く', emoji: '✨', effects: { resilience: 9, self_management: 6, planning: 4, decision_making: 1 }, valueEffects: { stability_orientation: 4 } },
+      { text: '散らかるけど、どこに何があるかは把握してる', emoji: '🗂️', effects: { logical_thinking: 6, critical_thinking: 4, creativity: 7, initiative: 3 }, valueEffects: { income_orientation: 3 } },
+      { text: '正直あまり片付けは得意じゃない', emoji: '😅', effects: { initiative: 6, action: 4, communication: 7, teamwork: 3 }, valueEffects: { stability_orientation: -3, work_life_balance: -3 } },
     ],
   },
 
@@ -219,8 +219,8 @@ const allQuestions: DiagnosisQuestion[] = [
     emoji: '✏️',
     options: [
       { text: '大好き！自分の世界を表現したい', emoji: '🎨', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '作るよりも分析したり仕組みを考える方が好き', emoji: '⚙️', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: 8 } },
-      { text: '作るのは苦手だけど人と関わる活動は好き', emoji: '💬', effects: { communication: 11, teamwork: 4, empathy: 3, listening: 2 }, valueEffects: { work_life_balance: 3 } },
+      { text: '作るよりも分析したり仕組みを考える方が好き', emoji: '⚙️', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { income_orientation: 3 } },
+      { text: '作るのは苦手だけど人と関わる活動は好き', emoji: '💬', effects: { communication: 11, teamwork: 4, empathy: 3, listening: 2 }, valueEffects: { social_contribution: 3 } },
     ],
   },
   {
@@ -228,9 +228,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'SNSの使い方、どれに近い？',
     emoji: '📱',
     options: [
-      { text: '自分からどんどん発信する派', emoji: '📢', effects: { creativity: 7, initiative: 3, communication: 7, teamwork: 3 }, valueEffects: { growth_orientation: 3 } },
-      { text: '気になる情報を集めるのがメイン', emoji: '🔍', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '友達とのやり取りがメイン', emoji: '💌', effects: { resilience: 6, self_management: 4, communication: 7, teamwork: 3 }, valueEffects: { stability_orientation: 3 } },
+      { text: '自分からどんどん発信する派', emoji: '📢', effects: { creativity: 7, initiative: 3, communication: 7, teamwork: 3 }, valueEffects: { income_orientation: 3 } },
+      { text: '気になる情報を集めるのがメイン', emoji: '🔍', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { stability_orientation: 4 } },
+      { text: '友達とのやり取りがメイン', emoji: '💌', effects: { resilience: 6, self_management: 4, communication: 7, teamwork: 3 }, valueEffects: { work_life_balance: 3 } },
     ],
   },
   {
@@ -238,8 +238,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '好きな映画・ドラマのジャンルは？',
     emoji: '🎬',
     options: [
-      { text: 'SF・ファンタジー・アクション', emoji: '🚀', effects: { planning: 7, decision_making: 3, creativity: 7, initiative: 3 }, valueEffects: { growth_orientation: 3 } },
-      { text: 'ミステリー・サスペンス・推理もの', emoji: '🔎', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3 } },
+      { text: 'SF・ファンタジー・アクション', emoji: '🚀', effects: { planning: 7, decision_making: 3, creativity: 7, initiative: 3 }, valueEffects: { work_life_balance: 3 } },
+      { text: 'ミステリー・サスペンス・推理もの', emoji: '🔎', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { stability_orientation: 4 } },
       { text: 'ヒューマンドラマ・恋愛もの', emoji: '💕', effects: { empathy: 3, listening: 2, resilience: 3, self_management: 2, communication: 7, teamwork: 3 }, valueEffects: { work_life_balance: 3 } },
     ],
   },
@@ -248,8 +248,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'ペットを飼うとしたら？',
     emoji: '🐕',
     options: [
-      { text: '犬！一緒に外で遊びたい', emoji: '🐶', effects: { initiative: 9, action: 6, resilience: 3, self_management: 2 }, valueEffects: { work_life_balance: 5 } },
-      { text: '猫！マイペースに癒されたい', emoji: '🐱', effects: { creativity: 7, initiative: 3, resilience: 6, self_management: 4 }, valueEffects: { growth_orientation: -5 } },
+      { text: '犬！一緒に外で遊びたい', emoji: '🐶', effects: { initiative: 9, action: 6, resilience: 3, self_management: 2 }, valueEffects: { work_life_balance: 4 } },
+      { text: '猫！マイペースに癒されたい', emoji: '🐱', effects: { creativity: 7, initiative: 3, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 3 } },
       { text: '熱帯魚や爬虫類！観察して楽しみたい', emoji: '🐠', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, valueEffects: { growth_orientation: 3 } },
     ],
   },
@@ -258,9 +258,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '文化祭で一番やりたい役割は？',
     emoji: '🎪',
     options: [
-      { text: '実行委員長として全体を統括', emoji: '📢', effects: { planning: 7, decision_making: 3, communication: 7, teamwork: 3 }, valueEffects: { stability_orientation: 3 } },
-      { text: 'ステージや装飾のデザイン担当', emoji: '🎨', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '裏方でみんなをサポート', emoji: '🫶', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, valueEffects: { social_contribution: 3 } },
+      { text: '実行委員長として全体を統括', emoji: '📢', effects: { planning: 7, decision_making: 3, communication: 7, teamwork: 3 }, valueEffects: { income_orientation: 3 } },
+      { text: 'ステージや装飾のデザイン担当', emoji: '🎨', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, valueEffects: { work_life_balance: 3 } },
+      { text: '裏方でみんなをサポート', emoji: '🫶', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, valueEffects: { social_contribution: 4 } },
     ],
   },
 
@@ -270,8 +270,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '締め切りが迫ってる！どう動く？',
     emoji: '⏳',
     options: [
-      { text: '計画を立て直して効率的に片付ける', emoji: '📋', effects: { planning: 11, decision_making: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { stability_orientation: 3 } },
-      { text: '火事場の馬鹿力で一気にやりきる', emoji: '🔥', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
+      { text: '計画を立て直して効率的に片付ける', emoji: '📋', effects: { planning: 11, decision_making: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { stability_orientation: 4 } },
+      { text: '火事場の馬鹿力で一気にやりきる', emoji: '🔥', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, valueEffects: { growth_orientation: 3 } },
       { text: '人に手伝ってもらって乗り越える', emoji: '🤝', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -281,8 +281,8 @@ const allQuestions: DiagnosisQuestion[] = [
     emoji: '😤',
     options: [
       { text: '友達に会って話を聞いてもらう', emoji: '💬', effects: { communication: 7, teamwork: 3, resilience: 3, self_management: 2, empathy: 3, listening: 2 }, valueEffects: { social_contribution: 3 } },
-      { text: '一人で没頭できる趣味に集中', emoji: '🎧', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { work_life_balance: 8 } },
-      { text: '運動やアウトドアで体を動かす', emoji: '🏃', effects: { initiative: 6, action: 4, resilience: 6, self_management: 4 }, valueEffects: { work_life_balance: 5 } },
+      { text: '一人で没頭できる趣味に集中', emoji: '🎧', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { work_life_balance: 4 } },
+      { text: '運動やアウトドアで体を動かす', emoji: '🏃', effects: { initiative: 6, action: 4, resilience: 6, self_management: 4 }, valueEffects: { growth_orientation: -3 } },
     ],
   },
   {
@@ -290,8 +290,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '大きな決断を迫られたとき、どう決める？',
     emoji: '🤔',
     options: [
-      { text: 'データや事実をもとに論理的に判断', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 3 } },
-      { text: '直感とワクワク感を大切にする', emoji: '✨', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
+      { text: 'データや事実をもとに論理的に判断', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, planning: 4, decision_making: 1 }, valueEffects: { stability_orientation: 3 } },
+      { text: '直感とワクワク感を大切にする', emoji: '✨', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, valueEffects: { work_life_balance: 3 } },
       { text: '信頼できる人に相談してから決める', emoji: '💬', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -302,9 +302,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '新しいスキルを身につけるとしたら何を学ぶ？',
     emoji: '📖',
     options: [
-      { text: 'プログラミングやデータサイエンス', emoji: '💻', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { growth_orientation: 8 } },
-      { text: 'デザインや映像制作', emoji: '🎨', effects: { creativity: 11, initiative: 4, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 3 } },
-      { text: 'コーチングやカウンセリング', emoji: '🤝', effects: { empathy: 6, listening: 4, communication: 7, teamwork: 3 }, valueEffects: { social_contribution: 3 } },
+      { text: 'プログラミングやデータサイエンス', emoji: '💻', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { income_orientation: 4 } },
+      { text: 'デザインや映像制作', emoji: '🎨', effects: { creativity: 11, initiative: 4, planning: 4, decision_making: 1 }, valueEffects: { work_life_balance: 3 } },
+      { text: 'コーチングやカウンセリング', emoji: '🤝', effects: { empathy: 6, listening: 4, communication: 7, teamwork: 3 }, valueEffects: { social_contribution: 4 } },
     ],
   },
   {
@@ -312,9 +312,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '読書するならどんな本？',
     emoji: '📚',
     options: [
-      { text: 'ビジネス書・自己啓発本', emoji: '📈', effects: { planning: 7, decision_making: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { income_orientation: 8 } },
-      { text: 'サイエンス・テクノロジー系', emoji: '🔬', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { income_orientation: 8 } },
-      { text: '小説・エッセイ・アート本', emoji: '📖', effects: { creativity: 7, initiative: 3, empathy: 6, listening: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: 'ビジネス書・自己啓発本', emoji: '📈', effects: { planning: 7, decision_making: 3, problem_solving: 6, learning_agility: 4 }, valueEffects: { income_orientation: 4 } },
+      { text: 'サイエンス・テクノロジー系', emoji: '🔬', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: '小説・エッセイ・アート本', emoji: '📖', effects: { creativity: 7, initiative: 3, empathy: 6, listening: 4 }, valueEffects: { work_life_balance: 3 } },
     ],
   },
   {
@@ -322,9 +322,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '授業で一番好きなスタイルは？',
     emoji: '🏫',
     options: [
-      { text: 'ディスカッションや発表が多い授業', emoji: '💬', effects: { communication: 11, teamwork: 4, planning: 4, decision_making: 1 }, valueEffects: { work_life_balance: 3 } },
+      { text: 'ディスカッションや発表が多い授業', emoji: '💬', effects: { communication: 11, teamwork: 4, planning: 4, decision_making: 1 }, valueEffects: { social_contribution: 3 } },
       { text: '実験や実習がメインの授業', emoji: '🧪', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '自由課題で自分のペースで進められる授業', emoji: '🎨', effects: { creativity: 7, initiative: 3, resilience: 6, self_management: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: '自由課題で自分のペースで進められる授業', emoji: '🎨', effects: { creativity: 7, initiative: 3, resilience: 6, self_management: 4 }, valueEffects: { work_life_balance: 4 } },
     ],
   },
   {
@@ -332,9 +332,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'もし1年間自由に使えるとしたら？',
     emoji: '🌟',
     options: [
-      { text: '世界一周して色んな文化に触れたい', emoji: '🌍', effects: { initiative: 9, action: 6, communication: 4, teamwork: 1 }, valueEffects: { work_life_balance: 5 } },
-      { text: '何か一つのスキルをプロレベルまで磨きたい', emoji: '🏆', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '地域の役に立つ活動やプロジェクトをしたい', emoji: '🤲', effects: { empathy: 9, listening: 6, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 8, work_life_balance: -5 } },
+      { text: '世界一周して色んな文化に触れたい', emoji: '🌍', effects: { initiative: 9, action: 6, communication: 4, teamwork: 1 }, valueEffects: { work_life_balance: 4 } },
+      { text: '何か一つのスキルをプロレベルまで磨きたい', emoji: '🏆', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: '地域の役に立つ活動やプロジェクトをしたい', emoji: '🤲', effects: { empathy: 9, listening: 6, planning: 4, decision_making: 1 }, valueEffects: { social_contribution: 4 } },
     ],
   },
 
@@ -344,9 +344,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'グループで何かを作るとき、一番楽しい瞬間は？',
     emoji: '🎊',
     options: [
-      { text: 'みんなでアイデアを出し合うブレスト', emoji: '💡', effects: { communication: 7, teamwork: 3, creativity: 7, initiative: 3 }, valueEffects: { growth_orientation: 3 } },
-      { text: '計画通りに物事が進んでいる瞬間', emoji: '📋', effects: { planning: 11, decision_making: 4, resilience: 3, self_management: 2 }, valueEffects: { stability_orientation: 3 } },
-      { text: '完成した作品をみんなで見る瞬間', emoji: '🎉', effects: { resilience: 6, self_management: 4, creativity: 7, initiative: 3 }, valueEffects: { growth_orientation: 3 } },
+      { text: 'みんなでアイデアを出し合うブレスト', emoji: '💡', effects: { communication: 7, teamwork: 3, creativity: 7, initiative: 3 }, valueEffects: { income_orientation: 3 } },
+      { text: '計画通りに物事が進んでいる瞬間', emoji: '📋', effects: { planning: 11, decision_making: 4, resilience: 3, self_management: 2 }, valueEffects: { stability_orientation: 4 } },
+      { text: '完成した作品をみんなで見る瞬間', emoji: '🎉', effects: { resilience: 6, self_management: 4, creativity: 7, initiative: 3 }, valueEffects: { stability_orientation: 3 } },
     ],
   },
   {
@@ -354,9 +354,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'リーダーシップについてどう思う？',
     emoji: '👑',
     options: [
-      { text: '自分がリーダーになるのが好き', emoji: '🙋', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
-      { text: '参謀としてリーダーを支えたい', emoji: '🧠', effects: { logical_thinking: 6, critical_thinking: 4, planning: 7, decision_making: 3 }, valueEffects: { social_contribution: 5 } },
-      { text: 'メンバーとして自分の専門で貢献したい', emoji: '🔧', effects: { problem_solving: 6, learning_agility: 4, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 3 } },
+      { text: '自分がリーダーになるのが好き', emoji: '🙋', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, valueEffects: { income_orientation: 3 } },
+      { text: '参謀としてリーダーを支えたい', emoji: '🧠', effects: { logical_thinking: 6, critical_thinking: 4, planning: 7, decision_making: 3 }, valueEffects: { stability_orientation: 4 } },
+      { text: 'メンバーとして自分の専門で貢献したい', emoji: '🔧', effects: { problem_solving: 6, learning_agility: 4, resilience: 6, self_management: 4 }, valueEffects: { growth_orientation: 3 } },
     ],
   },
   {
@@ -364,9 +364,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '後輩に何かを教えるのは好き？',
     emoji: '👨‍🏫',
     options: [
-      { text: '好き！成長を見るのが嬉しい', emoji: '😊', effects: { empathy: 6, listening: 4, initiative: 3, action: 2, communication: 4, teamwork: 1 }, valueEffects: { growth_orientation: 8 } },
-      { text: '教えるのは苦手だけどマニュアルを作るのは得意', emoji: '📄', effects: { planning: 7, decision_making: 3, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { stability_orientation: 8 } },
-      { text: '自分がもっと上達することに集中したい', emoji: '🎯', effects: { problem_solving: 6, learning_agility: 4, planning: 7, decision_making: 3 }, valueEffects: { stability_orientation: 8 } },
+      { text: '好き！成長を見るのが嬉しい', emoji: '😊', effects: { empathy: 6, listening: 4, initiative: 3, action: 2, communication: 4, teamwork: 1 }, valueEffects: { social_contribution: 4 } },
+      { text: '教えるのは苦手だけどマニュアルを作るのは得意', emoji: '📄', effects: { planning: 7, decision_making: 3, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { stability_orientation: 4 } },
+      { text: '自分がもっと上達することに集中したい', emoji: '🎯', effects: { problem_solving: 6, learning_agility: 4, planning: 7, decision_making: 3 }, valueEffects: { growth_orientation: 4, social_contribution: -3 } },
     ],
   },
 
@@ -376,9 +376,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '素敵なカフェを見つけた。何が一番気になる？',
     emoji: '☕',
     options: [
-      { text: 'インテリアや雰囲気のデザイン', emoji: '🪴', effects: { creativity: 11, initiative: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { work_life_balance: 5 } },
-      { text: 'メニューのコスパや口コミ評価', emoji: '📊', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 3 } },
-      { text: '店員さんの接客やお客さんの雰囲気', emoji: '👋', effects: { resilience: 3, self_management: 2, empathy: 6, listening: 4, communication: 4, teamwork: 1 }, valueEffects: { income_orientation: 8 } },
+      { text: 'インテリアや雰囲気のデザイン', emoji: '🪴', effects: { creativity: 11, initiative: 4, logical_thinking: 3, critical_thinking: 2 }, valueEffects: { work_life_balance: 4 } },
+      { text: 'メニューのコスパや口コミ評価', emoji: '📊', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, valueEffects: { income_orientation: 4 } },
+      { text: '店員さんの接客やお客さんの雰囲気', emoji: '👋', effects: { resilience: 3, self_management: 2, empathy: 6, listening: 4, communication: 4, teamwork: 1 }, valueEffects: { social_contribution: 3 } },
     ],
   },
   {
@@ -386,9 +386,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'プレゼントを選ぶとき、どう選ぶ？',
     emoji: '🎁',
     options: [
-      { text: '相手の好みをリサーチして確実に喜ぶものを', emoji: '🔍', effects: { logical_thinking: 6, critical_thinking: 4, empathy: 6, listening: 4 }, valueEffects: { stability_orientation: 8 } },
-      { text: '自分のセンスで「これだ！」と思うものを', emoji: '✨', effects: { creativity: 7, initiative: 9, action: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '一緒に買いに行って本人に選んでもらう', emoji: '🤝', effects: { communication: 7, teamwork: 3, resilience: 6, self_management: 4 }, valueEffects: { stability_orientation: 3 } },
+      { text: '相手の好みをリサーチして確実に喜ぶものを', emoji: '🔍', effects: { logical_thinking: 6, critical_thinking: 4, empathy: 6, listening: 4 }, valueEffects: { stability_orientation: 3 } },
+      { text: '自分のセンスで「これだ！」と思うものを', emoji: '✨', effects: { creativity: 7, initiative: 9, action: 4 }, valueEffects: { work_life_balance: 3 } },
+      { text: '一緒に買いに行って本人に選んでもらう', emoji: '🤝', effects: { communication: 7, teamwork: 3, resilience: 6, self_management: 4 }, valueEffects: { social_contribution: -3 } },
     ],
   },
   {
@@ -396,8 +396,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '料理をするとき、どんなタイプ？',
     emoji: '🍳',
     options: [
-      { text: 'レシピ通りに正確に作る', emoji: '📋', effects: { resilience: 6, self_management: 4, planning: 7, decision_making: 3 }, valueEffects: { stability_orientation: 8 } },
-      { text: 'アレンジを加えてオリジナルに', emoji: '🎨', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, valueEffects: { stability_orientation: 8 } },
+      { text: 'レシピ通りに正確に作る', emoji: '📋', effects: { resilience: 6, self_management: 4, planning: 7, decision_making: 3 }, valueEffects: { stability_orientation: 4 } },
+      { text: 'アレンジを加えてオリジナルに', emoji: '🎨', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, valueEffects: { work_life_balance: 3 } },
       { text: '誰かと一緒に作るのが楽しい', emoji: '👨‍🍳', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -406,9 +406,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '買い物をするとき、どう決める？',
     emoji: '🛍️',
     options: [
-      { text: '口コミやスペックを比較して慎重に', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, resilience: 3, self_management: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: 'ビビッときたら即決！', emoji: '⚡', effects: { initiative: 9, action: 4, creativity: 7 }, valueEffects: { stability_orientation: 8 } },
-      { text: '友達のおすすめや流行りを参考に', emoji: '👫', effects: { resilience: 6, self_management: 4, empathy: 6, listening: 4 }, valueEffects: { stability_orientation: -5 } },
+      { text: '口コミやスペックを比較して慎重に', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, resilience: 3, self_management: 2 }, valueEffects: { income_orientation: 4 } },
+      { text: 'ビビッときたら即決！', emoji: '⚡', effects: { initiative: 9, action: 4, creativity: 7 }, valueEffects: { income_orientation: -3 } },
+      { text: '友達のおすすめや流行りを参考に', emoji: '👫', effects: { resilience: 6, self_management: 4, empathy: 6, listening: 4 }, valueEffects: { social_contribution: -3, growth_orientation: -3 } },
     ],
   },
   {
@@ -416,9 +416,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '理想のチームの雰囲気は？',
     emoji: '🏢',
     options: [
-      { text: '活発に意見が飛び交う熱い雰囲気', emoji: '🔥', effects: { communication: 7, teamwork: 3, initiative: 6, action: 4 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
-      { text: '黙々と各自が専門性を発揮するプロ集団', emoji: '🎯', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '和気あいあいで助け合える温かいチーム', emoji: '🌸', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, valueEffects: { social_contribution: 5 } },
+      { text: '活発に意見が飛び交う熱い雰囲気', emoji: '🔥', effects: { communication: 7, teamwork: 3, initiative: 6, action: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: '黙々と各自が専門性を発揮するプロ集団', emoji: '🎯', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, valueEffects: { income_orientation: 3 } },
+      { text: '和気あいあいで助け合える温かいチーム', emoji: '🌸', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, valueEffects: { social_contribution: 4 } },
     ],
   },
 
@@ -428,9 +428,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '仕事を選ぶとき一番重視するのは？',
     emoji: '⚖️',
     options: [
-      { text: '自分が心からやりがいを感じられること', emoji: '❤️‍🔥', effects: { initiative: 9, action: 4, creativity: 7 }, statEffects: { self_awareness: 11, empathy: 4, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '安定した収入と生活が得られること', emoji: '🏠', effects: { resilience: 9, self_management: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 9, action: 6, self_awareness: 4, empathy: 1 }, valueEffects: { income_orientation: 8, stability_orientation: 8 } },
-      { text: '社会や誰かの役に立てること', emoji: '🌏', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { income_orientation: 8, stability_orientation: 8 } },
+      { text: '自分が心からやりがいを感じられること', emoji: '❤️‍🔥', effects: { initiative: 9, action: 4, creativity: 7 }, statEffects: { self_awareness: 11, empathy: 4, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: '安定した収入と生活が得られること', emoji: '🏠', effects: { resilience: 9, self_management: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 9, action: 6, self_awareness: 4, empathy: 1 }, valueEffects: { income_orientation: 4 } },
+      { text: '社会や誰かの役に立てること', emoji: '🌏', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { social_contribution: 5 } },
     ],
   },
   {
@@ -438,9 +438,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'ワークライフバランスについてどう思う？',
     emoji: '🔄',
     options: [
-      { text: '仕事もプライベートも全力！メリハリが大事', emoji: '⚡', effects: { planning: 7, decision_making: 3, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 7, empathy: 3, decision_making: 3, action: 2 }, valueEffects: { work_life_balance: 8 } },
-      { text: '好きな仕事なら仕事=人生でもいい', emoji: '🔥', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, statEffects: { learning_agility: 9, grit: 6 }, valueEffects: { work_life_balance: 0 } },
-      { text: '家族や友人との時間が最優先', emoji: '👨‍👩‍👧', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { work_life_balance: -5 } },
+      { text: '仕事もプライベートも全力！メリハリが大事', emoji: '⚡', effects: { planning: 7, decision_making: 3, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 7, empathy: 3, decision_making: 3, action: 2 }, valueEffects: { work_life_balance: 5 } },
+      { text: '好きな仕事なら仕事=人生でもいい', emoji: '🔥', effects: { initiative: 9, action: 6, problem_solving: 3, learning_agility: 2 }, statEffects: { learning_agility: 9, grit: 6 }, valueEffects: { growth_orientation: 4, work_life_balance: -4 } },
+      { text: '家族や友人との時間が最優先', emoji: '👨‍👩‍👧', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { work_life_balance: 5, income_orientation: -3 } },
     ],
   },
   {
@@ -448,9 +448,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「成功」と聞いて真っ先にイメージするのは？',
     emoji: '🏆',
     options: [
-      { text: '自分の名前が広く知られること', emoji: '🌟', effects: { communication: 7, teamwork: 3, initiative: 6, action: 4 }, statEffects: { decision_making: 6, action: 4, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
-      { text: '経済的に自由になること', emoji: '💰', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, statEffects: { decision_making: 9, action: 6 }, valueEffects: { income_orientation: 8 } },
-      { text: '自分の好きなことで生きていけること', emoji: '🎵', effects: { creativity: 11, initiative: 4, resilience: 3, self_management: 2 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { income_orientation: 8, work_life_balance: 5 } },
+      { text: '自分の名前が広く知られること', emoji: '🌟', effects: { communication: 7, teamwork: 3, initiative: 6, action: 4 }, statEffects: { decision_making: 6, action: 4, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: '経済的に自由になること', emoji: '💰', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, statEffects: { decision_making: 9, action: 6 }, valueEffects: { income_orientation: 5 } },
+      { text: '自分の好きなことで生きていけること', emoji: '🎵', effects: { creativity: 11, initiative: 4, resilience: 3, self_management: 2 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { work_life_balance: 4 } },
     ],
   },
   {
@@ -458,8 +458,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '自分の強みを伸ばすか、弱みを克服するか？',
     emoji: '💪',
     options: [
-      { text: '強みを徹底的に伸ばして武器にしたい', emoji: '🗡️', effects: { problem_solving: 6, learning_agility: 4, initiative: 6, action: 4 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
-      { text: '弱みを克服してバランスよくなりたい', emoji: '📐', effects: { resilience: 6, self_management: 4, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 3 } },
+      { text: '強みを徹底的に伸ばして武器にしたい', emoji: '🗡️', effects: { problem_solving: 6, learning_agility: 4, initiative: 6, action: 4 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: '弱みを克服してバランスよくなりたい', emoji: '📐', effects: { resilience: 6, self_management: 4, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 4 } },
       { text: '仲間と補い合えればどちらでもいい', emoji: '🤝', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -468,9 +468,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「お金」と「やりがい」、究極の選択なら？',
     emoji: '💸',
     options: [
-      { text: 'やりがいのある仕事で年収そこそこ', emoji: '✨', effects: { creativity: 7, initiative: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { income_orientation: 8 } },
-      { text: '好きじゃなくても高年収の仕事', emoji: '💎', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, statEffects: { decision_making: 9, action: 6 }, valueEffects: { income_orientation: 8 } },
-      { text: '両方追いたい。妥協したくない！', emoji: '🔥', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 3, action: 2, learning_agility: 6, grit: 4 }, valueEffects: { income_orientation: 8 } },
+      { text: 'やりがいのある仕事で年収そこそこ', emoji: '✨', effects: { creativity: 7, initiative: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 3, income_orientation: -3 } },
+      { text: '好きじゃなくても高年収の仕事', emoji: '💎', effects: { logical_thinking: 6, critical_thinking: 4, resilience: 6, self_management: 4 }, statEffects: { decision_making: 9, action: 6 }, valueEffects: { income_orientation: 5 } },
+      { text: '両方追いたい。妥協したくない！', emoji: '🔥', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 3, action: 2, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
     ],
   },
   {
@@ -479,7 +479,7 @@ const allQuestions: DiagnosisQuestion[] = [
     emoji: '📜',
     options: [
       { text: '声を上げて改善を提案する', emoji: '📢', effects: { initiative: 6, action: 4, communication: 7, teamwork: 3 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
-      { text: 'まずは理由を調べて合理性を検証する', emoji: '🔍', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, statEffects: { learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
+      { text: 'まずは理由を調べて合理性を検証する', emoji: '🔍', effects: { logical_thinking: 9, critical_thinking: 6, problem_solving: 3, learning_agility: 2 }, statEffects: { learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 3 } },
       { text: '周りと相談して穏便に対処する', emoji: '🕊️', effects: { resilience: 6, self_management: 4, empathy: 6, listening: 4 }, statEffects: { self_awareness: 4, empathy: 1 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -488,9 +488,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: 'リスクをどう捉える？',
     emoji: '🎲',
     options: [
-      { text: 'リスクを取らない方がリスク。攻めるべき', emoji: '⚔️', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 6, action: 4, learning_agility: 6, grit: 4 }, valueEffects: { stability_orientation: -8 } },
-      { text: 'リスクを計算した上で合理的に判断する', emoji: '📊', effects: { logical_thinking: 6, critical_thinking: 4, planning: 7, decision_making: 3 }, statEffects: { decision_making: 3, action: 2, self_awareness: 4, empathy: 1 }, valueEffects: { stability_orientation: -8 } },
-      { text: 'できるだけリスクは避けて堅実にいきたい', emoji: '🛡️', effects: { resilience: 9, self_management: 6, empathy: 3, listening: 2 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { stability_orientation: 0 } },
+      { text: 'リスクを取らない方がリスク。攻めるべき', emoji: '⚔️', effects: { initiative: 9, action: 6, planning: 4, decision_making: 1 }, statEffects: { decision_making: 6, action: 4, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 4, stability_orientation: -4 } },
+      { text: 'リスクを計算した上で合理的に判断する', emoji: '📊', effects: { logical_thinking: 6, critical_thinking: 4, planning: 7, decision_making: 3 }, statEffects: { decision_making: 3, action: 2, self_awareness: 4, empathy: 1 }, valueEffects: { income_orientation: 3 } },
+      { text: 'できるだけリスクは避けて堅実にいきたい', emoji: '🛡️', effects: { resilience: 9, self_management: 6, empathy: 3, listening: 2 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { stability_orientation: 6 } },
     ],
   },
   {
@@ -498,9 +498,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '理想の上司や先輩はどんな人？',
     emoji: '👔',
     options: [
-      { text: 'ビジョンを持って引っ張ってくれるカリスマ型', emoji: '🦁', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
-      { text: '丁寧に教えてくれて成長を見守る師匠型', emoji: '🧙', effects: { empathy: 6, listening: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 5, growth_orientation: 8 } },
-      { text: '対等に意見を言い合えるフラットな関係', emoji: '🤜', effects: { communication: 7, teamwork: 3, creativity: 7, initiative: 3 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { growth_orientation: 8 } },
+      { text: 'ビジョンを持って引っ張ってくれるカリスマ型', emoji: '🦁', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 4 } },
+      { text: '丁寧に教えてくれて成長を見守る師匠型', emoji: '🧙', effects: { empathy: 6, listening: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 4 } },
+      { text: '対等に意見を言い合えるフラットな関係', emoji: '🤜', effects: { communication: 7, teamwork: 3, creativity: 7, initiative: 3 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { work_life_balance: 3 } },
     ],
   },
   {
@@ -508,8 +508,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '大きなプロジェクトに関わるなら、どのポジション？',
     emoji: '🏗️',
     options: [
-      { text: '全体を統括するプロジェクトリーダー', emoji: '🎖️', effects: { planning: 7, decision_making: 3, communication: 7, teamwork: 3 }, statEffects: { decision_making: 6, action: 4, learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 3 } },
-      { text: '核心技術を担うスペシャリスト', emoji: '⚙️', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, statEffects: { decision_making: 3, action: 2, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: '全体を統括するプロジェクトリーダー', emoji: '🎖️', effects: { planning: 7, decision_making: 3, communication: 7, teamwork: 3 }, statEffects: { decision_making: 6, action: 4, learning_agility: 3, grit: 2 }, valueEffects: { income_orientation: 4 } },
+      { text: '核心技術を担うスペシャリスト', emoji: '⚙️', effects: { problem_solving: 9, learning_agility: 6, logical_thinking: 3, critical_thinking: 2 }, statEffects: { decision_making: 3, action: 2, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 4 } },
       { text: 'メンバーの連携をつなぐ調整役', emoji: '🔗', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -518,8 +518,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「自分らしさ」って何だと思う？',
     emoji: '🪞',
     options: [
-      { text: '誰にも真似できない個性や表現力', emoji: '🎭', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '信念を貫いてブレないこと', emoji: '🗿', effects: { resilience: 6, self_management: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { stability_orientation: 3 } },
+      { text: '誰にも真似できない個性や表現力', emoji: '🎭', effects: { creativity: 11, initiative: 4, problem_solving: 3, learning_agility: 2 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { work_life_balance: 3 } },
+      { text: '信念を貫いてブレないこと', emoji: '🗿', effects: { resilience: 6, self_management: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { stability_orientation: 4 } },
       { text: '周りの人と築いてきた関係性そのもの', emoji: '🫂', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -528,9 +528,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '転職するきっかけになりそうなのは？',
     emoji: '🚪',
     options: [
-      { text: '成長できない環境にいると感じた時', emoji: '📉', effects: { initiative: 6, action: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 9, grit: 6 }, valueEffects: { growth_orientation: 8 } },
-      { text: '人間関係が辛くなった時', emoji: '😣', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { growth_orientation: 8 } },
-      { text: 'もっと面白い仕事のチャンスを見つけた時', emoji: '🌈', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 3, grit: 2, decision_making: 3, action: 2 }, valueEffects: { growth_orientation: 3 } },
+      { text: '成長できない環境にいると感じた時', emoji: '📉', effects: { initiative: 6, action: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 9, grit: 6 }, valueEffects: { growth_orientation: 4, stability_orientation: -3 } },
+      { text: '人間関係が辛くなった時', emoji: '😣', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { work_life_balance: 4 } },
+      { text: 'もっと面白い仕事のチャンスを見つけた時', emoji: '🌈', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 3, grit: 2, decision_making: 3, action: 2 }, valueEffects: { income_orientation: 3 } },
     ],
   },
   {
@@ -538,9 +538,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '社会問題を解決するなら、どうアプローチする？',
     emoji: '🌱',
     options: [
-      { text: 'テクノロジーで仕組みを変える', emoji: '🤖', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { social_contribution: 5 } },
-      { text: '現場で直接人を支援する', emoji: '🤲', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 3 } },
-      { text: '発信力で世論を動かす', emoji: '📡', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { social_contribution: 5 } },
+      { text: 'テクノロジーで仕組みを変える', emoji: '🤖', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { income_orientation: 3 } },
+      { text: '現場で直接人を支援する', emoji: '🤲', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 4 } },
+      { text: '発信力で世論を動かす', emoji: '📡', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
     ],
   },
   {
@@ -548,9 +548,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「理想の働き方」に一番近いのは？',
     emoji: '🌐',
     options: [
-      { text: 'フリーランスで自由に場所や時間を選びたい', emoji: '🏖️', effects: { creativity: 7, initiative: 9, action: 4 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '大企業で安定した基盤のもと挑戦したい', emoji: '🏢', effects: { resilience: 6, self_management: 4, planning: 7, decision_making: 3 }, statEffects: { decision_making: 6, action: 4, self_awareness: 4, empathy: 1 }, valueEffects: { stability_orientation: 0, growth_orientation: 5 } },
-      { text: 'チームで一体感を持って何かを成し遂げたい', emoji: '🏋️', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { stability_orientation: 8 } },
+      { text: 'フリーランスで自由に場所や時間を選びたい', emoji: '🏖️', effects: { creativity: 7, initiative: 9, action: 4 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { work_life_balance: 4, stability_orientation: -3 } },
+      { text: '大企業で安定した基盤のもと挑戦したい', emoji: '🏢', effects: { resilience: 6, self_management: 4, planning: 7, decision_making: 3 }, statEffects: { decision_making: 6, action: 4, self_awareness: 4, empathy: 1 }, valueEffects: { stability_orientation: 4 } },
+      { text: 'チームで一体感を持って何かを成し遂げたい', emoji: '🏋️', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 3 } },
     ],
   },
   {
@@ -558,8 +558,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '自分が一番「没頭」できるのはどんな時？',
     emoji: '🔥',
     options: [
-      { text: '難しい課題を解いている時', emoji: '🧩', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '何かを一から作り上げている時', emoji: '🛠️', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { growth_orientation: 3 } },
+      { text: '難しい課題を解いている時', emoji: '🧩', effects: { logical_thinking: 6, critical_thinking: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 6, grit: 4 }, valueEffects: { income_orientation: 3 } },
+      { text: '何かを一から作り上げている時', emoji: '🛠️', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { work_life_balance: 3 } },
       { text: '人と深い対話をしている時', emoji: '💬', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -568,9 +568,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '100年後に残したいものは？',
     emoji: '🏛️',
     options: [
-      { text: '革新的な発明や作品', emoji: '💡', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '多くの人を育てた実績', emoji: '🌳', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 3 } },
-      { text: '世の中の仕組みを変えたという事実', emoji: '⚡', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { social_contribution: 5 } },
+      { text: '革新的な発明や作品', emoji: '💡', effects: { creativity: 7, initiative: 3, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { growth_orientation: 4 } },
+      { text: '多くの人を育てた実績', emoji: '🌳', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 4 } },
+      { text: '世の中の仕組みを変えたという事実', emoji: '⚡', effects: { initiative: 6, action: 4, planning: 7, decision_making: 3 }, statEffects: { learning_agility: 6, grit: 4, decision_making: 3, action: 2 }, valueEffects: { income_orientation: 4 } },
     ],
   },
   {
@@ -579,8 +579,8 @@ const allQuestions: DiagnosisQuestion[] = [
     emoji: '🌈',
     options: [
       { text: 'ぜひ！色んな視点から刺激を受けたい', emoji: '🌍', effects: { communication: 7, teamwork: 3, creativity: 7, initiative: 3 }, statEffects: { learning_agility: 6, grit: 4, self_awareness: 4, empathy: 1 }, valueEffects: { growth_orientation: 3 } },
-      { text: '大事だけど、まずは専門性を磨きたい', emoji: '🎯', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { decision_making: 3, action: 2, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '気が合う仲間と深い関係を築く方が好き', emoji: '🫶', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { social_contribution: 3 } },
+      { text: '大事だけど、まずは専門性を磨きたい', emoji: '🎯', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { decision_making: 3, action: 2, learning_agility: 3, grit: 2 }, valueEffects: { income_orientation: 3 } },
+      { text: '気が合う仲間と深い関係を築く方が好き', emoji: '🫶', effects: { empathy: 6, listening: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 7, empathy: 3 }, valueEffects: { stability_orientation: 4 } },
     ],
   },
   {
@@ -588,9 +588,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '5年後、どんな自分でいたい？',
     emoji: '🔭',
     options: [
-      { text: '業界で名前が通る専門家になりたい', emoji: '🏅', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { decision_making: 6, action: 4, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
-      { text: '信頼される仲間に囲まれていたい', emoji: '👨‍👩‍👧‍👦', effects: { empathy: 6, listening: 4, communication: 7, teamwork: 3 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { growth_orientation: 8 } },
-      { text: '自分のビジョンを形にしていたい', emoji: '🚀', effects: { planning: 7, decision_making: 3, creativity: 7, initiative: 3 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3 } },
+      { text: '業界で名前が通る専門家になりたい', emoji: '🏅', effects: { problem_solving: 6, learning_agility: 4, logical_thinking: 6, critical_thinking: 4 }, statEffects: { decision_making: 6, action: 4, learning_agility: 6, grit: 4 }, valueEffects: { income_orientation: 4 } },
+      { text: '信頼される仲間に囲まれていたい', emoji: '👨‍👩‍👧‍👦', effects: { empathy: 6, listening: 4, communication: 7, teamwork: 3 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { work_life_balance: 3 } },
+      { text: '自分のビジョンを形にしていたい', emoji: '🚀', effects: { planning: 7, decision_making: 3, creativity: 7, initiative: 3 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 4 } },
     ],
   },
   {
@@ -598,8 +598,8 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「正解がない問題」にどう向き合う？',
     emoji: '❓',
     options: [
-      { text: 'データと論理で最善解を導く', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, planning: 4, decision_making: 1 }, statEffects: { learning_agility: 3, grit: 2, decision_making: 3, action: 2 }, valueEffects: { growth_orientation: 3 } },
-      { text: '直感を信じて自分なりの答えを出す', emoji: '🌟', effects: { creativity: 7, initiative: 9, action: 4 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3 } },
+      { text: 'データと論理で最善解を導く', emoji: '📊', effects: { logical_thinking: 9, critical_thinking: 6, planning: 4, decision_making: 1 }, statEffects: { learning_agility: 3, grit: 2, decision_making: 3, action: 2 }, valueEffects: { stability_orientation: 3 } },
+      { text: '直感を信じて自分なりの答えを出す', emoji: '🌟', effects: { creativity: 7, initiative: 9, action: 4 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { growth_orientation: 3, income_orientation: -3 } },
       { text: 'いろんな人の意見を聞いて総合的に判断', emoji: '👂', effects: { communication: 7, teamwork: 3, empathy: 6, listening: 4 }, statEffects: { self_awareness: 4, empathy: 1 }, valueEffects: { social_contribution: 3 } },
     ],
   },
@@ -608,9 +608,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '「競争」と「協調」、どちらが自分を伸ばす？',
     emoji: '🤼',
     options: [
-      { text: '競争！ライバルがいると燃える', emoji: '🔥', effects: { initiative: 9, action: 6, logical_thinking: 3, critical_thinking: 2 }, statEffects: { decision_making: 6, action: 4, learning_agility: 6, grit: 4 }, valueEffects: { growth_orientation: 3, stability_orientation: -3 } },
+      { text: '競争！ライバルがいると燃える', emoji: '🔥', effects: { initiative: 9, action: 6, logical_thinking: 3, critical_thinking: 2 }, statEffects: { decision_making: 6, action: 4, learning_agility: 6, grit: 4 }, valueEffects: { income_orientation: 4, work_life_balance: -3 } },
       { text: '協調！仲間と高め合いたい', emoji: '🤝', effects: { empathy: 6, listening: 4, communication: 7, teamwork: 3 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { social_contribution: 3 } },
-      { text: '一人で黙々と自分のペースで伸びたい', emoji: '🧘', effects: { problem_solving: 6, learning_agility: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 3 } },
+      { text: '一人で黙々と自分のペースで伸びたい', emoji: '🧘', effects: { problem_solving: 6, learning_agility: 4, resilience: 6, self_management: 4 }, statEffects: { self_awareness: 4, empathy: 1, learning_agility: 3, grit: 2 }, valueEffects: { stability_orientation: 4 } },
     ],
   },
   {
@@ -618,9 +618,9 @@ const allQuestions: DiagnosisQuestion[] = [
     text: '仕事で「これだけは譲れない」と思うことは？',
     emoji: '🔑',
     options: [
-      { text: '自分の成長を実感できること', emoji: '📈', effects: { initiative: 6, action: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 9, grit: 6 }, valueEffects: { growth_orientation: 8 } },
-      { text: '人から感謝されること', emoji: '🙏', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { growth_orientation: 8 } },
-      { text: '自分のアイデアや工夫を活かせること', emoji: '💡', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { social_contribution: 5 } },
+      { text: '自分の成長を実感できること', emoji: '📈', effects: { initiative: 6, action: 4, problem_solving: 6, learning_agility: 4 }, statEffects: { learning_agility: 9, grit: 6 }, valueEffects: { growth_orientation: 4 } },
+      { text: '人から感謝されること', emoji: '🙏', effects: { empathy: 9, listening: 6, communication: 4, teamwork: 1 }, statEffects: { self_awareness: 11, empathy: 4 }, valueEffects: { social_contribution: 4 } },
+      { text: '自分のアイデアや工夫を活かせること', emoji: '💡', effects: { creativity: 7, initiative: 3, planning: 7, decision_making: 3 }, statEffects: { self_awareness: 7, empathy: 3, learning_agility: 3, grit: 2 }, valueEffects: { work_life_balance: 4 } },
     ],
   },
 ];
@@ -648,23 +648,35 @@ interface ValueTypeRule {
   score: (v: Record<ValueKey, number>) => number;
 }
 
+/** 5軸の平均からの偏差を使うことで、全値が均等に上昇しても偏りが出ない */
+function valueDev(v: Record<ValueKey, number>) {
+  const m = (v.income_orientation + v.stability_orientation + v.growth_orientation + v.work_life_balance + v.social_contribution) / 5;
+  return {
+    i: v.income_orientation - m,
+    s: v.stability_orientation - m,
+    g: v.growth_orientation - m,
+    w: v.work_life_balance - m,
+    c: v.social_contribution - m,
+  };
+}
+
 const valueTypeRules: ValueTypeRule[] = [
-  // 💰 キャリアアチーバー型: 年収志向が高い
-  { key: 'planning', score: (v) => v.income_orientation * 2 + v.growth_orientation * 0.5 - v.work_life_balance * 0.3 },
-  // 🛡️ 安定キーパー型: 安定志向が高い
-  { key: 'resilience', score: (v) => v.stability_orientation * 2 + v.income_orientation * 0.3 - v.growth_orientation * 0.3 },
+  // 💰 キャリアアチーバー型: 年収志向が突出して高い
+  { key: 'planning', score: (v) => { const d = valueDev(v); return d.i * 2.0 + d.g * 0.5 - d.w * 0.3; } },
+  // 🛡️ 安定キーパー型: 安定志向が突出して高い
+  { key: 'resilience', score: (v) => { const d = valueDev(v); return d.s * 2.0 + d.i * 0.3 - d.g * 0.3; } },
   // 🚀 グロースシーカー型: 成長志向が高く安定志向が低い
-  { key: 'initiative', score: (v) => v.growth_orientation * 2 - v.stability_orientation * 0.8 + v.income_orientation * 0.2 },
+  { key: 'initiative', score: (v) => { const d = valueDev(v); return d.g * 2.0 - d.s * 0.8 + d.i * 0.2; } },
   // ☀️ ライフバランサー型: WLB重視
-  { key: 'creativity', score: (v) => v.work_life_balance * 2 - v.income_orientation * 0.3 + v.stability_orientation * 0.3 },
-  // 🌍 ソーシャルチェンジャー型: 社会貢献が高い
-  { key: 'empathy', score: (v) => v.social_contribution * 2 + v.growth_orientation * 0.3 - v.income_orientation * 0.5 },
+  { key: 'creativity', score: (v) => { const d = valueDev(v); return d.w * 2.0 - d.i * 0.3 + d.s * 0.3; } },
+  // 🌍 ソーシャルチェンジャー型: 社会貢献が突出して高い
+  { key: 'empathy', score: (v) => { const d = valueDev(v); return d.c * 2.0 + d.g * 0.3 - d.i * 0.5; } },
   // 🏢 プロフェッショナル型: 成長+安定が両方高い
-  { key: 'logical_thinking', score: (v) => v.growth_orientation * 1.2 + v.stability_orientation * 1.2 - v.work_life_balance * 0.3 },
+  { key: 'logical_thinking', score: (v) => { const d = valueDev(v); return d.g * 1.2 + d.s * 1.2 - d.w * 0.3; } },
   // 🤝 ヒューマニスト型: 社会貢献+WLBが高い
-  { key: 'communication', score: (v) => v.social_contribution * 1.2 + v.work_life_balance * 1.2 - v.income_orientation * 0.5 },
+  { key: 'communication', score: (v) => { const d = valueDev(v); return d.c * 1.2 + d.w * 1.2 - d.i * 0.5; } },
   // 🔥 アントレプレナー型: 年収+成長が高く安定低い
-  { key: 'problem_solving', score: (v) => v.income_orientation * 1.2 + v.growth_orientation * 1.2 - v.stability_orientation * 1.0 },
+  { key: 'problem_solving', score: (v) => { const d = valueDev(v); return d.i * 1.2 + d.g * 1.2 - d.s * 1.0; } },
 ];
 
 export const diagnosisTypes: DiagnosisType[] = [

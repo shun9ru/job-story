@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { getRandomQuestions, getDiagnosisType, getPrimaryStatFromValues, getSecondaryStatFromValues } from '../data/diagnosis';
-import type { StatKey, ValueKey, GameMode } from '../types';
+import type { StatKey, ValueKey, GameMode, ChoiceHistoryItem } from '../types';
 import { initialStats, initialValues, valueDefinitions } from '../data/stats';
 import { BgImage } from './BgImage';
 
@@ -13,6 +13,7 @@ interface DiagnosisPageProps {
     values: Record<ValueKey, number>,
     primaryKey: StatKey,
     secondaryKey: StatKey,
+    choiceHistory: ChoiceHistoryItem[],
   ) => void;
 }
 
@@ -24,6 +25,7 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
   const [showResult, setShowResult] = useState(false);
   const [stats, setStats] = useState<Record<StatKey, number>>({ ...initialStats });
   const [values, setValues] = useState<Record<ValueKey, number>>({ ...initialValues });
+  const historyRef = useRef<ChoiceHistoryItem[]>([]);
 
   const totalQuestions = questions.length;
   const question = currentIndex < totalQuestions ? questions[currentIndex] : null;
@@ -32,7 +34,12 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
     effects: Partial<Record<StatKey, number>>,
     statEffects?: Partial<Record<StatKey, number>>,
     valueEffects?: Partial<Record<ValueKey, number>>,
+    optionText?: string,
   ) => {
+    // 選択履歴を記録
+    if (question && optionText) {
+      historyRef.current.push({ question: question.text, chosen: optionText });
+    }
     const newStats = { ...stats };
     for (const [key, value] of Object.entries(effects)) {
       newStats[key as StatKey] += value!;
@@ -94,13 +101,10 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
             {diagType.description}
           </p>
 
-          {/* サブタイプ */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-full mb-5 border border-indigo-100">
-            <span className="text-lg">{subType.emoji}</span>
-            <span className="text-xs text-gray-500">
-              サブタイプ: <span className="font-semibold text-gray-700">{subType.label}</span>
-            </span>
-          </div>
+          {/* サブタイプ（控えめに表示） */}
+          <p className="text-[11px] text-gray-400 mb-5">
+            隠れた傾向: <span className="text-gray-500">{subType.emoji} {subType.label}</span>
+          </p>
 
           {/* 価値観プレビュー */}
           <div className="text-left bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 mb-5 border border-amber-100">
@@ -145,7 +149,7 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
           </p>
 
           <button
-            onClick={() => onComplete({ ...initialStats }, values, primaryKey, secondaryKey)}
+            onClick={() => onComplete({ ...initialStats }, values, primaryKey, secondaryKey, historyRef.current)}
             className="btn-glow px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold rounded-full shadow-lg shadow-indigo-200/50 transition-all duration-200 active:scale-95 cursor-pointer"
           >
             {diagnosisOnly
@@ -204,7 +208,7 @@ export function DiagnosisPage({ gameMode, diagnosisOnly, onAnswer, onComplete }:
             {question!.options.map((option, i) => (
               <button
                 key={i}
-                onClick={() => handleSelect(option.effects, option.statEffects, option.valueEffects)}
+                onClick={() => handleSelect(option.effects, option.statEffects, option.valueEffects, option.text)}
                 className="w-full text-left p-4 border-2 border-gray-100/80 rounded-xl hover:border-indigo-300 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition-all duration-200 active:scale-[0.98] cursor-pointer group bg-white/60"
               >
                 <div className="flex items-center gap-3">

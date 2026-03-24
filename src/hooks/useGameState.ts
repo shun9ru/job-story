@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import type { PlayerState, StatKey, ValueKey, Choice, GameMode, GameEvent, DiagnosisRecord } from '../types';
+import type { PlayerState, StatKey, ValueKey, Choice, GameMode, GameEvent, DiagnosisRecord, ChoiceHistoryItem } from '../types';
 import { initialStats, calcTagMatchScore } from '../data/stats';
 import { jobs } from '../data/jobs/index';
 import { getPreHighSchoolEvents, getHighSchoolEvents, getPathEvents, getVocationalEvents, getUniversityEvents, PATH_CHOICE_EVENT_ID, HIGHSCHOOL_CHOICE_EVENT_ID, VOCATIONAL_CHOICE_EVENT_ID, UNIVERSITY_CHOICE_EVENT_ID } from '../data/events-childhood';
@@ -39,6 +39,9 @@ export function useGameState() {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   const [diagnosisOnly, setDiagnosisOnly] = useState(false);
+  /** 直近の診断で確定した価値観・サブタイプ（結果画面で確実に参照するため） */
+  const [latestDiagnosisValues, setLatestDiagnosisValues] = useState<Record<ValueKey, number> | undefined>(undefined);
+  const [latestDiagnosisSecondaryStat, setLatestDiagnosisSecondaryStat] = useState<StatKey | undefined>(undefined);
   const [player, setPlayer] = useState<PlayerState>(createInitialPlayer());
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [highSchoolPath, setHighSchoolPath] = useState<HighSchoolPath | undefined>(undefined);
@@ -58,6 +61,11 @@ export function useGameState() {
     if (gameMode !== 'childhood') return getRandomWorkingEvents();
     // 高校未選択：中学までのイベント + 高校選択イベント
     if (!highSchoolPath) return preHSEvents;
+    // 中卒就職：高校イベントをスキップして就職ルートへ
+    if ((educationPath as string) === 'work-middle') {
+      const pathEvents = getPathEvents('work');
+      return [...preHSEvents, ...pathEvents];
+    }
     // 高校選択済み：+ 高校イベント + 進路選択イベント
     const hsEvents = getHighSchoolEvents(highSchoolPath);
     if (!educationPath) return [...preHSEvents, ...hsEvents];
@@ -138,6 +146,7 @@ export function useGameState() {
     values: Record<ValueKey, number>,
     primaryKey: StatKey,
     secondaryKey: StatKey,
+    choiceHistory?: ChoiceHistoryItem[],
   ) => {
     // 診断結果を保存
     const record: DiagnosisRecord = {
@@ -148,13 +157,20 @@ export function useGameState() {
       stats,
       values,
       gameMode,
+      choiceHistory,
     };
+    // 診断履歴をプレイヤーにもセット（ストーリー後のAI相談で使う）
+    if (choiceHistory?.length) {
+      setPlayer((p) => ({ ...p, choiceHistory: [...p.choiceHistory, ...choiceHistory] }));
+    }
     try {
       await saveDiagnosisRecord(record);
     } catch (e) {
       console.error('Failed to save diagnosis record:', e);
     }
     setDiagnosisRecords((prev) => [record, ...prev]);
+    setLatestDiagnosisValues(values);
+    setLatestDiagnosisSecondaryStat(secondaryKey);
 
     // diagnosisOnly の最新値を直接取得（useCallback のクロージャ問題を回避）
     setDiagnosisOnly((prev) => {
@@ -177,24 +193,32 @@ export function useGameState() {
       ...prev,
       primaryStat: record.primaryStat,
     }));
+    setLatestDiagnosisValues(record.values);
+    setLatestDiagnosisSecondaryStat(record.secondaryStat);
     setScreen('game');
   }, []);
 
   /** 選択肢を選んだ時の処理 */
   const selectChoice = useCallback(
-    (eventId: string, choice: Choice) => {
+    (eventId: string, choice: Choice, eventTitle?: string) => {
       // 高校選択イベントの分岐処理
       if (eventId === HIGHSCHOOL_CHOICE_EVENT_ID) {
-        const hsMap: Record<string, HighSchoolPath> = {
-          'hs-general': 'general',
-          'hs-technical': 'technical',
-          'hs-commercial': 'commercial',
-          'hs-agricultural': 'agricultural',
-          'hs-sports': 'sports',
-        };
-        const selectedHS = hsMap[choice.id];
-        if (selectedHS) {
-          setHighSchoolPath(selectedHS);
+        if (choice.id === 'hs-work') {
+          // 中卒で就職 → 高校をスキップして就職ルートへ
+          setHighSchoolPath('work' as HighSchoolPath);
+          setEducationPath('work-middle' as EducationPath);
+        } else {
+          const hsMap: Record<string, HighSchoolPath> = {
+            'hs-general': 'general',
+            'hs-technical': 'technical',
+            'hs-commercial': 'commercial',
+            'hs-agricultural': 'agricultural',
+            'hs-sports': 'sports',
+          };
+          const selectedHS = hsMap[choice.id];
+          if (selectedHS) {
+            setHighSchoolPath(selectedHS);
+          }
         }
       }
 
@@ -263,6 +287,10 @@ export function useGameState() {
             ...prev.selectedChoices,
             { eventId, choiceId: choice.id },
           ],
+          choiceHistory: [
+            ...prev.choiceHistory,
+            ...(eventTitle ? [{ question: eventTitle, chosen: choice.text }] : []),
+          ],
         };
       });
       setCurrentEventIndex((prev) => prev + 1);
@@ -294,6 +322,7 @@ export function useGameState() {
       stats: { ...player.stats },
       discoveredJobIds: [...player.discoveredJobIds],
       recommendedJobIds: recommended.map((j) => j.id),
+      choiceHistory: player.choiceHistory.length > 0 ? player.choiceHistory : undefined,
     };
     try {
       await saveGameResult(result);
@@ -440,6 +469,8 @@ export function useGameState() {
     gameResults,
     dataLoaded,
     diagnosisOnly,
+    latestDiagnosisValues,
+    latestDiagnosisSecondaryStat,
     highSchoolPath,
     educationPath,
     login,
@@ -475,6 +506,7 @@ function createInitialPlayer(): PlayerState {
     stats: { ...initialStats },
     discoveredJobIds: [],
     selectedChoices: [],
+    choiceHistory: [],
     primaryStat: 'communication',
   };
 }

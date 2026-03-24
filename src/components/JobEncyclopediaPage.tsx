@@ -7,6 +7,7 @@ import { statDefinitions } from '../data/stats';
 import { computeJobProfile } from './SkillRadarChart';
 import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
+import { BgImage } from './BgImage';
 
 interface JobEncyclopediaPageProps {
   /** 全プレイで発見した職種IDの集合 */
@@ -92,7 +93,7 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-amber-50">
+    <BgImage imageKey="encyclopedia" overlay={0.4} className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-amber-50">
       {/* ヘッダー */}
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-gray-100">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
@@ -448,6 +449,6 @@ export function JobEncyclopediaPage({ allDiscoveredJobIds, reflections, onBack, 
       {selectedJob && (
         <JobDetailModal job={selectedJob} onClose={() => setSelectedJob(null)} onReflectionSaved={onReflectionSaved} />
       )}
-    </div>
+    </BgImage>
   );
 }

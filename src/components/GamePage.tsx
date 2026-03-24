@@ -12,7 +12,7 @@ interface GamePageProps {
   player: PlayerState;
   events: GameEvent[];
   currentEventIndex: number;
-  onSelectChoice: (eventId: string, choice: Choice) => void;
+  onSelectChoice: (eventId: string, choice: Choice, eventTitle?: string) => void;
   onFinish: () => void;
 }
 
@@ -130,7 +130,7 @@ export function GamePage({
     // エフェクト表示後に次へ進む
     setTimeout(() => {
       setShowGains(false);
-      onSelectChoice(event!.id, choice);
+      onSelectChoice(event!.id, choice, event!.title);
       setIsChoiceAnimating(false);
       setSkillGains([]);
     }, 1800);

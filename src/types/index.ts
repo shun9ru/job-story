@@ -95,6 +95,14 @@ export interface DiagnosisType {
   famousPersonas: string[];
 }
 
+/** 選択履歴の1件 */
+export interface ChoiceHistoryItem {
+  /** 質問またはイベントのテキスト */
+  question: string;
+  /** 選んだ選択肢のテキスト */
+  chosen: string;
+}
+
 /** 診断結果の保存用 */
 export interface DiagnosisRecord {
   id: string;
@@ -104,6 +112,7 @@ export interface DiagnosisRecord {
   stats: Record<StatKey, number>;
   values: Record<ValueKey, number>;
   gameMode?: GameMode;
+  choiceHistory?: ChoiceHistoryItem[];
 }
 
 /** ゲームモード */
@@ -148,6 +157,7 @@ export interface PlayerState {
   stats: Record<StatKey, number>;
   discoveredJobIds: string[];
   selectedChoices: { eventId: string; choiceId: string }[];
+  choiceHistory: ChoiceHistoryItem[];
   primaryStat: StatKey;
 }
 

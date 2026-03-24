@@ -5733,8 +5733,8 @@ const highSchoolChoiceEvent: GameEvent = {
   id: HIGHSCHOOL_CHOICE_EVENT_ID,
   step: 5,
   stage: 'middle-school',
-  title: 'どんな高校に進学する？',
-  description: '中学3年の進路相談。先生や家族と話し合って、自分に合った高校を選ぼう。この選択が高校生活を大きく変える！',
+  title: '中学卒業後の進路、どうする？',
+  description: '中学3年の進路相談。先生や家族と話し合って、自分の進む道を選ぼう。高校に進学する？ それとも…？',
   relatedJobIds: [],
   choices: [
     {
@@ -5776,6 +5776,14 @@ const highSchoolChoiceEvent: GameEvent = {
       description: '競技力を磨きながら、スポーツの理論やトレーニングを学ぶ',
       effects: { communication: 6, teamwork: 6, grit: 3, action: 4, self_awareness: 4 },
       unlockJobIds: [],
+    },
+    {
+      id: 'hs-work',
+      text: '進学せずに働く',
+      emoji: '💪',
+      description: '学校ではなく社会で学ぶ道。早くから現場経験を積んで自分の力で生きていく',
+      effects: { action: 8, grit: 8, initiative: 6, resilience: 5, self_management: 4 },
+      unlockJobIds: ['chef', 'retail-sales', 'care-worker', 'hairdresser', 'construction-manager', 'farmer'],
     },
   ],
 };

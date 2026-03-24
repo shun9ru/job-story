@@ -1,6 +1,6 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import type { StatKey, ValueKey } from '../types';
-import { generateDiagnosisAIReview } from '../utils/personality';
+import { generateDiagnosisAIReview, generateLocalDiagnosisReview } from '../utils/personality';
 import type { DiagnosisAIReview } from '../utils/personality';
 import { getFromCache, saveToCache, getDailyRemaining, consumeDailyQuota, refundDailyQuota } from '../lib/ai-cache';
 
@@ -53,9 +53,13 @@ export function DiagnosisAIReviewSection({
       setStatus('done');
       saveToCache(CACHE_NS, cacheInput, result);
     } catch (e) {
-      console.error('AI診断レビューエラー:', e);
+      console.warn('AI診断レビューフォールバック（ローカル生成に切替）:', e);
       refundDailyQuota();
-      setStatus('error');
+      // API失敗時はローカルで診断レビュー風テキストを生成
+      const local = generateLocalDiagnosisReview(primaryStat, secondaryStat, values);
+      setReview(local);
+      setStatus('done');
+      saveToCache(CACHE_NS, cacheInput, local);
     }
   }, [primaryStat, secondaryStat, values, cacheInput, cooldown]);
 
@@ -103,20 +107,7 @@ export function DiagnosisAIReviewSection({
 
       {/* ローディング */}
       {status === 'loading' && (
-        <div className="py-4">
-          <p className="text-xs text-gray-400 mb-4">
-            AIがあなたの価値観を分析しています...
-          </p>
-          <div className="space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="animate-pulse">
-                <div className="h-4 bg-gray-100 rounded w-1/3 mb-2" />
-                <div className="h-3 bg-gray-50 rounded w-full mb-1" />
-                <div className="h-3 bg-gray-50 rounded w-4/5" />
-              </div>
-            ))}
-          </div>
-        </div>
+        <AILoadingCard />
       )}
 
       {/* レート制限 */}
@@ -191,6 +182,57 @@ export function DiagnosisAIReviewSection({
           生成に失敗しました。しばらく待ってから再生成をお試しください
         </p>
       )}
+    </div>
+  );
+}
+
+// ============================================================
+// AI分析中のローディングカード
+// ============================================================
+
+const AI_TRIVIA = [
+  { emoji: '🎓', text: '新卒の約3割が3年以内に転職しています。「自分に合う環境」を知ることが長く活躍する鍵です。' },
+  { emoji: '🔬', text: '自己分析で大切なのは「過去」より「感情」。嬉しかった・悔しかった瞬間の共通点にあなたの軸があります。' },
+  { emoji: '🏢', text: '福利厚生の充実度と社員の満足度は必ずしも比例しません。「仕事のやりがい」が満足度に最も影響します。' },
+  { emoji: '💬', text: '面接で「何か質問はありますか？」は最大のアピールチャンス。準備した逆質問が合否を分けることも。' },
+  { emoji: '📖', text: '業界研究は「業界地図」1冊読むだけで視野が一気に広がります。図書館で借りられます。' },
+  { emoji: '🌍', text: '日本には約400万社の企業があります。あなたに合う会社は必ずどこかにあります。' },
+];
+
+function AILoadingCard() {
+  const [index, setIndex] = useState(() => Math.floor(Math.random() * AI_TRIVIA.length));
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % AI_TRIVIA.length);
+        setVisible(true);
+      }, 300);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
+
+  const trivia = AI_TRIVIA[index];
+
+  return (
+    <div className="py-5 space-y-4">
+      {/* アニメーション付きスピナー */}
+      <div className="flex flex-col items-center gap-3">
+        <div className="relative w-12 h-12">
+          <div className="absolute inset-0 border-3 border-purple-200 rounded-full" />
+          <div className="absolute inset-0 border-3 border-transparent border-t-purple-500 rounded-full animate-spin" />
+          <span className="absolute inset-0 flex items-center justify-center text-lg">🤖</span>
+        </div>
+        <p className="text-xs text-indigo-500 font-medium animate-pulse">AIが分析しています...</p>
+      </div>
+
+      {/* 豆知識 */}
+      <div className={`bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-100 rounded-xl p-4 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+        <p className="text-[10px] font-bold text-violet-500 mb-1.5">{trivia.emoji} 就活ミニ知識</p>
+        <p className="text-[11px] text-gray-500 leading-relaxed">{trivia.body}</p>
+      </div>
     </div>
   );
 }
