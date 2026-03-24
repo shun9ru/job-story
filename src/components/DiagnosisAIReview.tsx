@@ -231,7 +231,7 @@ function AILoadingCard() {
       {/* 豆知識 */}
       <div className={`bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-100 rounded-xl p-4 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <p className="text-[10px] font-bold text-violet-500 mb-1.5">{trivia.emoji} 就活ミニ知識</p>
-        <p className="text-[11px] text-gray-500 leading-relaxed">{trivia.body}</p>
+        <p className="text-[11px] text-gray-500 leading-relaxed">{trivia.text}</p>
       </div>
     </div>
   );

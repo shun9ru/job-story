@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import type { PlayerState, Job, StatKey, ValueKey, GameMode, ChoiceHistoryItem } from '../types';
 import { getDiagnosisType } from '../data/diagnosis';
 import { getJobById } from '../data/jobs/index';
-import { JobCard } from './JobCard';
 import { JobDetailModal } from './JobDetailModal';
 import { SkillMapSection, computeJobProfile, calcMatchRate } from './SkillRadarChart';
 import { PersonalityAnalysis } from './PersonalityAnalysis';

@@ -331,7 +331,7 @@ export function generateLocalPersonality(stats: Record<StatKey, number>): Person
   const top2 = sorted[1];
   const top3 = sorted[2];
   const bottom1 = sorted[sorted.length - 1];
-  const bottom2 = sorted[sorted.length - 2];
+  const _bottom2 = sorted[sorted.length - 2];
 
   const maxVal = top1[1];
   const minVal = bottom1[1];
@@ -361,9 +361,9 @@ export function generateLocalPersonality(stats: Record<StatKey, number>): Person
   }).sort((a, b) => b.avg - a.avg);
 
   const strongCat = categoryScores[0].cat;
-  const weakCat = categoryScores[categoryScores.length - 1].cat;
+  const _weakCat = categoryScores[categoryScores.length - 1].cat;
 
-  const catLabel: Record<string, string> = {
+  const _catLabel: Record<string, string> = {
     thinking: '思考力',
     self_mgmt: '自己管理力',
     social: '対人能力',
@@ -443,7 +443,7 @@ function getArchetype(top1: StatKey, top2: StatKey, balance: string): { title: s
   return archetypes[top1] ?? { title: 'ユニーク・パーソナリティ', emoji: '🌟', tagline: `${STAT_LABEL_MAP[top1]}と${STAT_LABEL_MAP[top2]}の独自の組み合わせが輝く存在` };
 }
 
-function getUnconsciousBehavior(top1: StatKey, top2: StatKey): string {
+function getUnconsciousBehavior(top1: StatKey, _top2: StatKey): string {
   const behaviors: Partial<Record<StatKey, string>> = {
     logical_thinking: '会議やグループワークで、誰かの発言を聞きながら頭の中で自然と「要するにこういうこと」と整理しています。周囲が混乱している時にあなたが一言まとめると場が動くのは、この力のおかげ。',
     problem_solving: '何か問題が起きたとき、感情的になる前に「原因は何か」「どうすれば直るか」を考え始めています。トラブル対応の速さで周囲を驚かせることがあるはず。',
@@ -500,7 +500,7 @@ function getHiddenTalentAdvice(key: StatKey): string {
   return advice[key] ?? 'この力を意識的に使う場面を作ると、新しいキャリアの可能性が広がります。';
 }
 
-function getCategoryAdvice(strong: string, weak: string): string {
+function _getCategoryAdvice(strong: string, weak: string): string {
   const pairs: Record<string, string> = {
     'thinking+social': '頭で考える力は十分。次はそれを「人に伝える」経験を積むと、あなたのアイデアがもっと広がります。グループワークやプレゼンの機会を意識して増やしてみてください。',
     'thinking+execution': '分析力は申し分なし。あとは「やってみる」スピードを少し上げるだけ。完璧を目指しすぎず、7割の完成度で動く練習をしてみてください。',
@@ -518,7 +518,7 @@ function getCategoryAdvice(strong: string, weak: string): string {
   return pairs[key] ?? `「${strong === 'thinking' ? '思考力' : strong === 'social' ? '対人能力' : strong === 'execution' ? '実行力' : '自己管理力'}」をベースに、「${weak === 'thinking' ? '思考力' : weak === 'social' ? '対人能力' : weak === 'execution' ? '実行力' : '自己管理力'}」を少し意識するだけで、大きなレベルアップが期待できます。`;
 }
 
-function getWeaknessReframe(bottom: StatKey, top: StatKey): string {
+function _getWeaknessReframe(bottom: StatKey, top: StatKey): string {
   const reframes: Partial<Record<StatKey, string>> = {
     logical_thinking: `あなたは${STAT_LABEL_MAP[top]}で勝負するタイプ。論理に頼らなくても結果を出せるのは、それだけ他の力が強い証拠です。必要な時にロジカルシンキングの「フレームワーク」を1つだけ覚えておくと、苦手意識が和らぎます。`,
     communication: `一人で深く考え抜ける力は大きな武器。コミュニケーションは「スキル」なので、場数を踏めば必ず伸びます。まずは1対1の対話から始めてみてください。`,
@@ -599,7 +599,7 @@ function getFirstYearAdvantage(top1: StatKey, top2: StatKey, bottom: StatKey): s
   return `${adv}。\n\nまた${STAT_LABEL_MAP[top2]}との掛け合わせにより、単なる「○○が得意な新人」ではなく「${STAT_LABEL_MAP[top1]}も${STAT_LABEL_MAP[top2]}もできる希少な人材」としてポジションを確立できます。${STAT_LABEL_MAP[bottom]}は入社後にOJTで自然と鍛えられるので、今は気にしなくて大丈夫です。`;
 }
 
-function getGrowthStrategy(top: StatKey, bottom: StatKey, balance: string): string {
+function _getGrowthStrategy(top: StatKey, bottom: StatKey, balance: string): string {
   if (balance === 'allrounder') {
     return `あなたはバランス型なので、まず「一番好き・楽しい」と感じるスキルを1つ選んで集中的に伸ばすのがおすすめ。\n\n具体的には：\n• 3ヶ月間、${STAT_LABEL_MAP[top]}に関連する活動に集中する\n• その分野で「小さな実績」を1つ作る\n• 実績を軸に、他のスキルとの掛け合わせを考える\n\nオールラウンダーの最大の武器は「何にでも適応できる柔軟性」。その上に1本の柱を立てることで、替えのきかない存在になれます。`;
   }
@@ -716,12 +716,12 @@ export function generateLocalDiagnosisReview(
     },
   };
 
-  const topDesc = valDescMap[topVal[0]];
+  const _topDesc = valDescMap[topVal[0]];
   const secondDesc = valDescMap[secondVal[0]];
-  const lowDesc = valDescMap[lowVal[0]];
+  const _lowDesc = valDescMap[lowVal[0]];
 
   const primaryLabel = STAT_LABEL_MAP[primaryStat];
-  const secondaryLabel = STAT_LABEL_MAP[secondaryStat];
+  const _secondaryLabel = STAT_LABEL_MAP[secondaryStat];
   const headline = `${VALUE_LABEL_MAP[topVal[0]]}×${VALUE_LABEL_MAP[secondVal[0]]}のキャリア探求者`;
 
   // 価値観の深層心理を読み解く

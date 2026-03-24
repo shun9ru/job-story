@@ -368,7 +368,7 @@ export function CareerConsultation({
   const [result, setResult] = useState<ConsultationResult | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'rate-limited'>('idle');
   const [isAIGenerated, setIsAIGenerated] = useState(false);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [_openIndex, setOpenIndex] = useState<number | null>(null);
   const [cooldown, setCooldown] = useState(false);
 
   const placeholder = PLACEHOLDER_EXAMPLES[Math.floor(Date.now() / 60000) % PLACEHOLDER_EXAMPLES.length];
@@ -423,8 +423,8 @@ export function CareerConsultation({
     }).join('\n');
 
     // 上位・下位を明示
-    const top3 = sorted.slice(0, 3);
-    const bottom3 = sorted.slice(-3);
+    const _top3 = sorted.slice(0, 3);
+    const _bottom3 = sorted.slice(-3);
     const hidden = sorted.filter(([, v], i) => i >= 3 && v >= avg * 1.2).slice(0, 3);
     const strongSkills = sorted.filter(([, v]) => v >= avg * 1.3).map(([k, v]) => `${STAT_LABEL[k]}(${v}pt)`);
     const weakSkills = sorted.filter(([, v]) => v < avg * 0.7).map(([k, v]) => `${STAT_LABEL[k]}(${v}pt)`);
@@ -437,12 +437,12 @@ export function CareerConsultation({
 
     // スキルと職種の対応情報を構築
     const top5 = sorted.slice(0, 5);
-    const skillJobMap = top5.map(([k, v]) => `${STAT_LABEL[k]}(${v}pt) → ${getMatchingJobs(k)}`).join('\n');
+    const _skillJobMap = top5.map(([k, v]) => `${STAT_LABEL[k]}(${v}pt) → ${getMatchingJobs(k)}`).join('\n');
 
     // 価値観から合う企業タイプを導出
     const valSorted = ([...Object.entries(values)] as [ValueKey, number][]).sort((a, b) => b[1] - a[1]);
     const topValKey = valSorted[0][0];
-    const valContext = getValueContext(topValKey, valSorted[0][1]);
+    const _valContext = getValueContext(topValKey, valSorted[0][1]);
 
     const prompt = `あなたは就活生の隣に座っている先輩です。答えを教えるのではなく、一緒に考え、一緒に悩み、寄り添ってください。
 
@@ -648,7 +648,7 @@ JSON形式で出力(JSON以外は出力しないで):
 }
 
 /** AI失敗時のローカルフォールバック */
-function generateLocalAdvice(
+function _generateLocalAdvice(
   concern: string,
   primaryStat: StatKey,
   secondaryStat: StatKey,
@@ -825,7 +825,7 @@ function getIndustryHint(primary: StatKey, secondary: StatKey): string {
   return map[key] ?? `${STAT_LABEL[primary]}と${STAT_LABEL[secondary]}を求める業界`;
 }
 
-function getCompanySizeHint(stat: StatKey, val: ValueKey): string {
+function getCompanySizeHint(_stat: StatKey, val: ValueKey): string {
   if (val === 'stability_orientation') return '大手企業やインフラ系企業のように安定基盤のある会社';
   if (val === 'growth_orientation') return '急成長中のベンチャーや大手の新規事業部門';
   if (val === 'income_orientation') return '成果報酬型の外資系企業や実力主義の日系ベンチャー';
